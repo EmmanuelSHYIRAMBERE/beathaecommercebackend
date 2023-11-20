@@ -4,6 +4,10 @@ import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const logIn = catchAsyncError(async (req, res, next) => {
+  if (!email || !password) {
+    return next(new errorHandler("Please provide email and password", 400));
+  }
+
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {

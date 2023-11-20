@@ -23,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://smartparkingsystem.onrender.com",
+        url: "http://localhost:7000",
       },
     ],
   },

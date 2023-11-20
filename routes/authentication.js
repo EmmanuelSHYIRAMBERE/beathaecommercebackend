@@ -1,5 +1,9 @@
 import express from "express";
-import { changePwd, forgotPassword } from "../controllers/Authentication";
+import {
+  changePwd,
+  forgotPassword,
+  resetPassword,
+} from "../controllers/Authentication";
 
 const authenticate = express.Router();
 
@@ -57,6 +61,7 @@ const authenticate = express.Router();
  */
 
 authenticate.put("/changepassword/:id", changePwd);
-authenticate.patch("/forgotpassword/:token", forgotPassword);
+authenticate.patch("/forgotpassword", forgotPassword);
+authenticate.patch("/resetpassword/:token", resetPassword);
 
 export default authenticate;
