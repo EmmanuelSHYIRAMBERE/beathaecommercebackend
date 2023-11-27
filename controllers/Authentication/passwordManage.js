@@ -3,8 +3,6 @@ import { Admin, User } from "../../models";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const changePwd = catchAsyncError(async (req, res, next) => {
-  const { password, newPwd } = req.body;
-
   const { id } = req.params;
 
   let user;
@@ -20,13 +18,15 @@ export const changePwd = catchAsyncError(async (req, res, next) => {
     }
   }
 
+  const { password, newPassword } = req.body;
+
   let pwdCheck = await comparePwd(password, user.password);
 
   if (!pwdCheck) {
     return next(new errorHandler(`wrong email or password credentials!`, 401));
   }
 
-  let hashedPwd = await hashPwd(newPwd);
+  let hashedPwd = await hashPwd(newPassword);
 
   user.password = hashedPwd;
 

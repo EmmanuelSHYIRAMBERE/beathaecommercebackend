@@ -1,3 +1,4 @@
+export * from "./checkAvilableParkingsByUser";
 export * from "./addNewParking";
 export * from "./deleteParkingSlot";
 export * from "./getAllParkings";

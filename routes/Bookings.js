@@ -62,8 +62,8 @@ import { Booking } from "../models";
  * @swagger
  * /parking/reservations/bookParking/:
  *   post:
- *     summary: Reserved the available parking spot
- *     tags: [Resevations]
+ *     summary: Reserve one of the available parking spot
+ *     tags: [clientAccess]
  *     security:
  *       - BearerAuth: []
  *     requestBody:

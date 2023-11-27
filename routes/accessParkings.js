@@ -2,6 +2,7 @@ import express from "express";
 const parkingRouter = express.Router();
 
 import {
+  checkAvailableParkingsByUser,
   addNewParking,
   deleteParkingSlot,
   getOneParking,
@@ -50,9 +51,41 @@ import {
 /**
  * @swagger
  * tags:
+ *   name: clientAccess
+ *   description: The client accessibility managing API
+ */
+
+/**
+ * @swagger
+ * tags:
  *   name: parkings
  *   description: The parkings managing API
  */
+
+/**
+ * @swagger
+ * /parking/parkings/checkAvailableParkings:
+ *   get:
+ *     summary: Returns the list of the total available parking spots
+ *     tags: [clientAccess]
+ *     responses:
+ *       200:
+ *          description: The available parking spots found successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/parkings'
+ *       204:
+ *          description: No content found.
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/checkAvailableParkings", checkAvailableParkingsByUser);
 
 /**
  * @swagger
@@ -89,7 +122,7 @@ parkingRouter.post("/addNewParking", addNewParking);
  *     tags: [parkings]
  *     responses:
  *       200:
- *          description: The list of the tours found
+ *          description: The total parking spot successfully found
  *          content:
  *             application/json:
  *               schema:

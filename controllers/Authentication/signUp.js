@@ -27,8 +27,11 @@ export const signUp = catchAsyncError(async (req, res, next) => {
   res.status(201).json({
     message: "user registerd successfully.",
     data: {
+      userId: newUser._id,
       Names: newUser.fullNames,
       Email: newUser.email,
+      phoneNo: newUser.phoneNo,
+      location: newUser.location,
     },
   });
 });

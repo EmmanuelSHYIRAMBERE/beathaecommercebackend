@@ -9,16 +9,16 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  totalSlots: {
-    type: Number,
+  Capacity: {
+    type: String,
     required: false,
   },
-  availableSlots: {
-    type: Number,
+  availableSpots: {
+    type: String,
     required: false,
   },
   bookedSlots: {
-    type: Number,
+    type: String,
     required: false,
   },
 });

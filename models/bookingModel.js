@@ -14,7 +14,7 @@ const bookingSchema = mongoose.Schema({
     required: true,
   },
   payableAmount: {
-    type: String,
+    type: Number,
     required: false,
   },
   Status: {

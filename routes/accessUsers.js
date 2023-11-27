@@ -71,13 +71,6 @@ import { signUp, logIn } from "../controllers/Authentication";
 /**
  * @swagger
  * tags:
- *   name: Authentication
- *   description: The user authentication managing API
- */
-
-/**
- * @swagger
- * tags:
  *   name: Users
  *   description: The user authorization managing API
  */

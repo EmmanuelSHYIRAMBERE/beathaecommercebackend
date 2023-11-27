@@ -20,28 +20,22 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
       new errorHandler(`A user with ID: ${userID} is not found`, 404)
     );
   }
-
-  // Creating an instance of the Reservation model
   const bookingParkingSpot = new Reservations(req.body);
 
-  // Updating the availability of the parking spot
   parking.availability = "reserved";
   bookingParkingSpot.building = parking.building;
 
   bookingParkingSpot.payableAmount = parking.Amount;
 
-  // Saving changes to the parking spot
   const updatedParking = await parking.save();
 
-  // Saving the reservation
   await bookingParkingSpot.save();
 
-  // Sending booking email
   receiveBookingEmail(user.email, user.fullNames);
 
   res.status(201).json({
     message: `A parking spot with ID: ${parkingID} is successfully booked`,
-    bookingData: { bookingParkingSpot },
+    reservationData: { bookingParkingSpot },
     parkingData: { updatedParking },
     userData: { user },
   });

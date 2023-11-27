@@ -1,4 +1,6 @@
+import { Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
+import errorHandler from "../../utility/errorHandlerClass";
 
 const PaypackJs = require("paypack-js").default;
 require("dotenv").config();
@@ -8,14 +10,25 @@ const paypack = PaypackJs.config({
   client_secret: process.env.packScret,
 });
 export const cashIn = catchAsyncError(async (req, res) => {
+  const id = req.params.id;
+
+  const reservation = await Reservations.findById({ _id: id });
+
+  if (!reservation) {
+    return new errorHandler(`Reservation with id: ${id} not found.`, 404);
+  }
+
+  const payableAmount = reservation.payableAmount;
+
   const response = await paypack.cashin({
     number: req.body.number,
-    amount: req.body.amount,
+    amount: payableAmount,
     environment: "production",
   });
   res.status(200).json({
-    status: "paid successful",
+    status: "payment request sent to your phone number, please confirm it.",
     data: response.data,
+    reserveDetails: reservation,
   });
 });
 export const cashOut = catchAsyncError(async (req, res) => {

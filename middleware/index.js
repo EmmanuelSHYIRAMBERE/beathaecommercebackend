@@ -6,3 +6,4 @@ export * from "./sendEmail";
 export * from "./contactEmail";
 export * from "./bookingEmail";
 export * from "./pagination";
+export * from "./resetPasswordEmail";
