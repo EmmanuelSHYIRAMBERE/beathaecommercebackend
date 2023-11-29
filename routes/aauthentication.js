@@ -4,6 +4,7 @@ import {
   forgotPassword,
   resetPassword,
 } from "../controllers/Authentication";
+import { verifyToken } from "../middleware";
 
 const authenticate = express.Router();
 
@@ -101,7 +102,7 @@ const authenticate = express.Router();
  *          description: Internal Server Error
  */
 
-authenticate.patch("/changepassword/:id", changePwd);
+authenticate.patch("/changepassword/:id", verifyToken, changePwd);
 
 /**
  * @swagger

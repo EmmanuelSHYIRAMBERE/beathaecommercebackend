@@ -10,6 +10,7 @@ import {
   modifyParking,
   updateParking,
 } from "../controllers/Parking";
+import { admin, verifyToken } from "../middleware";
 
 /**
  * @swagger
@@ -23,29 +24,19 @@ import {
  *     parkings:
  *       type: object
  *       required:
- *         - parkingNo
+ *         - parkingID
  *         - Amount
- *         - Address
- *         - building
  *       properties:
- *         parkingNo:
+ *         parkingID:
  *           type: string
  *           description: The serial number of the parking spot
  *         Amount:
  *           type: string
  *           format: binary
  *           description: The amount for a single hour in the parking spot
- *         Address:
- *           type: string
- *           description: The location of the parking
- *         building:
- *           type: string
- *           description: A building a parking located
  *       example:
- *         parkingNo: "P123"
- *         Amount: "$5.00"
- *         Address: "123 Main Street"
- *         building: "Parking Garage A"
+ *         parkingID: "P123"
+ *         Amount: 500
  */
 
 /**
@@ -112,7 +103,7 @@ parkingRouter.get("/checkAvailableParkings", checkAvailableParkingsByUser);
  *          description: Internal Server Error
  */
 
-parkingRouter.post("/addNewParking", addNewParking);
+parkingRouter.post("/addNewParking", verifyToken, addNewParking);
 
 /**
  * @swagger
@@ -137,7 +128,7 @@ parkingRouter.post("/addNewParking", addNewParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getTotalParking", getTotalParking);
+parkingRouter.get("/getTotalParking", verifyToken, admin, getTotalParking);
 
 /**
  * @swagger
@@ -201,7 +192,7 @@ parkingRouter.get("/getOneParking/:id", getOneParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.delete("/deleteParkingSpot/:id", deleteParkingSlot);
+parkingRouter.delete("/deleteParkingSpot/:id", verifyToken, deleteParkingSlot);
 
 /**
  * @swagger
@@ -241,8 +232,6 @@ parkingRouter.delete("/deleteParkingSpot/:id", deleteParkingSlot);
  *          description: Internal Server Error
  */
 
-parkingRouter.put("/updateParking/:id", updateParking);
-
-parkingRouter.patch("/modifyParking/:id", modifyParking);
+parkingRouter.put("/updateParking/:id", verifyToken, updateParking);
 
 export default parkingRouter;

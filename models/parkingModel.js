@@ -1,23 +1,27 @@
 import mongoose from "mongoose";
 
 const parkingSchema = mongoose.Schema({
-  parkingNo: {
+  parkingID: {
     type: String,
     required: true,
   },
   Amount: {
-    type: String,
+    type: Number,
     required: true,
   },
   Address: {
     type: String,
-    required: true,
+    required: false,
   },
   building: {
     type: String,
-    required: true,
+    required: false,
   },
-  availability: {
+  timebooked: {
+    type: String,
+    required: false,
+  },
+  status: {
     type: String,
     default: "available",
   },

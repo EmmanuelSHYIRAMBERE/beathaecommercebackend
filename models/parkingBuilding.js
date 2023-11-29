@@ -10,16 +10,20 @@ const buildingSchema = mongoose.Schema({
     required: true,
   },
   Capacity: {
-    type: String,
-    required: false,
+    type: Number,
+    required: true,
   },
   availableSpots: {
-    type: String,
+    type: Number,
     required: false,
   },
   bookedSlots: {
-    type: String,
+    type: Number,
     required: false,
+  },
+  managerId: {
+    type: String,
+    required: true,
   },
 });
 

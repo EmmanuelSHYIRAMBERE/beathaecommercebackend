@@ -85,7 +85,7 @@ import { Booking } from "../models";
  *          description: Internal Server Error
  */
 
-bookingsRouter.post("/bookParking", bookParkingSpot);
+bookingsRouter.post("/bookParking", verifyToken, bookParkingSpot);
 
 /**
  * @swagger
@@ -112,7 +112,7 @@ bookingsRouter.post("/bookParking", bookParkingSpot);
  *          description: Internal Server Error
  */
 
-bookingsRouter.get("/getreservations", getBookings);
+bookingsRouter.get("/getreservations", verifyToken, getBookings);
 
 bookingsRouter.get("/getbooking/:id", getBooking);
 

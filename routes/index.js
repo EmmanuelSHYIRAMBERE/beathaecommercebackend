@@ -9,14 +9,17 @@ import errorHandler from "../utility/errorHandlerClass";
 import { globalErrorController } from "../controllers/Errors";
 import stripeRoute from "./payRoute";
 import packRouter from "./payPack";
+import buildingRouter from "./Buildings";
+import { admin, verifyToken } from "../middleware";
 
 const systemRouter = express.Router();
 
 systemRouter.use("/parkings", parkingRouter);
+systemRouter.use("/buildings", verifyToken, admin, buildingRouter);
 systemRouter.use("/users", usersRouter);
 // systemRouter.use("/contacts", contactsRouter);
 // systemRouter.use("/testimonies", testimoniesRouter);
-systemRouter.use("/reservations", bookingsRouter);
+systemRouter.use("/reservations", verifyToken, bookingsRouter);
 systemRouter.use("/password", authenticate);
 systemRouter.use("/payment", stripeRoute);
 systemRouter.use("/momo", packRouter);

@@ -33,6 +33,14 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "user",
   },
+  buildingManaged: {
+    type: String,
+    default: null,
+  },
+  buildingAddress: {
+    type: String,
+    default: null,
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetTokenExpirers: Date,

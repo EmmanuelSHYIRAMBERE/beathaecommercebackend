@@ -1,27 +1,27 @@
-import express from "express";
-import { verifyToken, admin, paginatedResults } from "../middleware";
+// import express from "express";
+// import { verifyToken, admin, paginatedResults } from "../middleware";
 
-const testimoniesRouter = express.Router();
+// const testimoniesRouter = express.Router();
 
-import {
-  addTestimony,
-  deleteTestimony,
-  updateTestimony,
-  getTestimonies,
-} from "../controllers/Testmonies";
-import { Testimony } from "../models";
+// import {
+//   addTestimony,
+//   deleteTestimony,
+//   updateTestimony,
+//   getTestimonies,
+// } from "../controllers/Testmonies";
+// import { Testimony } from "../models";
 
-testimoniesRouter.post("/addtestimony", addTestimony);
+// testimoniesRouter.post("/addtestimony", addTestimony);
 
-testimoniesRouter.get(
-  "/gettestimonies",
-  verifyToken,
-  paginatedResults(Testimony),
-  getTestimonies
-);
+// testimoniesRouter.get(
+//   "/gettestimonies",
+//   verifyToken,
+//   paginatedResults(Testimony),
+//   getTestimonies
+// );
 
-testimoniesRouter.delete("/deletetestimony/:id", verifyToken, deleteTestimony);
+// testimoniesRouter.delete("/deletetestimony/:id", verifyToken, deleteTestimony);
 
-testimoniesRouter.put("/updatetestimony/:id", verifyToken, updateTestimony);
+// testimoniesRouter.put("/updatetestimony/:id", verifyToken, updateTestimony);
 
-export default testimoniesRouter;
+// export default testimoniesRouter;
