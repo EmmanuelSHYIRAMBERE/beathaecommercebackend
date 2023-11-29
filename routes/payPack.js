@@ -34,7 +34,7 @@ import { admin, verifyToken } from "../middleware";
 
 /**
  * @swagger
- * /parking/momo/cashin/{id}:
+ * /parking/momo/pay/{id}:
  *   post:
  *     summary: Make payment for the reversed parking spot
  *     tags: [clientAccess]
@@ -66,9 +66,9 @@ import { admin, verifyToken } from "../middleware";
  *          description: Internal Server Error
  */
 
-packRouter.post("/cashin/:id", cashIn);
+packRouter.post("/pay/:id", cashIn);
 
-packRouter.get("/cashout", verifyToken, admin, cashOut);
+packRouter.get("/withdraw", verifyToken, admin, cashOut);
 
 packRouter.get("/transactions", verifyToken, admin, acountTransactions);
 
