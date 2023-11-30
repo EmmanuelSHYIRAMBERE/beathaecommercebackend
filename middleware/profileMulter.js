@@ -22,6 +22,6 @@ const upload = multer({
   },
 });
 
-const profileImagesUpload = upload.single("image");
+const profileImagesUpload = upload.single("profilePicture");
 
 export default profileImagesUpload;

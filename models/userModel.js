@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 
@@ -41,24 +40,26 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null,
   },
+  otp: {
+    type: String,
+    required: false,
+  },
+  otpExpiry: {
+    type: Date,
+  },
   passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetTokenExpirers: Date,
 });
 
-userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
+userSchema.methods.createOTPToken = function () {
+  const otp = crypto.randomInt();
 
-  this.passwordResetToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
+  this.otp = bcrypt.hashSync(otp, 10);
 
-  console.log({ resetToken }, this.passwordResetToken);
+  this.otpExpiry = Date.now() + 10 * 60 * 1000;
 
-  this.passwordResetTokenExpirers = Date.now() + 10 * 60 * 1000;
+  console.log({ otp });
 
-  return resetToken;
+  return otp;
 };
 
 export const User = mongoose.model("User", userSchema);

@@ -10,9 +10,7 @@ export const globalErrorController = (err, req, res, next) => {
   if (err.code === 11000) err = handleDuplicateFieldsDB(err);
 
   res.status(err.statusCode).json({
-    status: err.status,
+    statusCode: err.statusCode,
     message: err.message,
-    err: err,
-    stack: err.stack,
   });
 };

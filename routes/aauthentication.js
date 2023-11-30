@@ -20,18 +20,18 @@ const authenticate = express.Router();
  *     changePassword:
  *       type: object
  *       required:
+ *         - existingPassword
  *         - newPassword
- *         - confirmPassword
  *       properties:
+ *         existingPassword:
+ *           type: string
+ *           description: The current password of the user
  *         newPassword:
  *           type: string
- *           description: The new password of the user
- *         confirmPassword:
- *           type: string
- *           description: Confirm a new password of the user
+ *           description: A new password of the user
  *       example:
+ *         existingPassword: 1234@2Password
  *         newPassword: 1234@!myPassword
- *         confirmPassword: 1234@!myPassword
  *     forgotPassord:
  *       type: object
  *       required:

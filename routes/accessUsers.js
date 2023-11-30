@@ -212,7 +212,7 @@ usersRouter.post("/login", logIn);
 /**
  * @swagger
  * /parking/users/userupdate:
- *   patch:
+ *   put:
  *     summary: Update the user data
  *     tags: [Users]
  *     security:
@@ -241,7 +241,7 @@ usersRouter.post("/login", logIn);
  *          description: Internal Server Error
  */
 
-usersRouter.patch("/userupdate", verifyToken, updateUser);
+usersRouter.put("/userupdate", verifyToken, profileImagesUpload, updateUser);
 
 /**
  * @swagger
