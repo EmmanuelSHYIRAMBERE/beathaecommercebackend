@@ -20,18 +20,18 @@ const authenticate = express.Router();
  *     changePassword:
  *       type: object
  *       required:
- *         - password
  *         - newPassword
+ *         - confirmPassword
  *       properties:
- *         password:
- *           type: string
- *           description: The current password of the user
  *         newPassword:
  *           type: string
  *           description: The new password of the user
+ *         confirmPassword:
+ *           type: string
+ *           description: Confirm a new password of the user
  *       example:
- *         password: myPassword1@1234
  *         newPassword: 1234@!myPassword
+ *         confirmPassword: 1234@!myPassword
  *     forgotPassord:
  *       type: object
  *       required:
@@ -68,19 +68,12 @@ const authenticate = express.Router();
 
 /**
  * @swagger
- * /parking/password/changepassword/{id}:
+ * /parking/password/changepassword:
  *   patch:
  *     summary: Change current password
  *     tags: [Authentication]
  *     security:
  *       - BearerAuth: []
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The user id
  *     requestBody:
  *          required: true
  *          content:
@@ -102,7 +95,7 @@ const authenticate = express.Router();
  *          description: Internal Server Error
  */
 
-authenticate.patch("/changepassword/:id", verifyToken, changePwd);
+authenticate.patch("/changepassword", verifyToken, changePwd);
 
 /**
  * @swagger

@@ -3,36 +3,27 @@ import { Admin, User } from "../../models";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const changePwd = catchAsyncError(async (req, res, next) => {
-  const { id } = req.params;
+  const user = req.user;
+  const { newPassword, confirmPassword } = req.body;
 
-  let user;
+  console.log("====================================");
+  console.log(user, "***", newPassword, "uyuy", confirmPassword);
+  console.log("====================================");
 
-  user = await User.findOne({ _id: id });
-
-  if (!user) {
-    user = await Admin.findOne({ _id: id });
-    if (!user) {
-      return next(
-        new errorHandler(`user with this ${id} not found, try others`, 404)
-      );
-    }
+  if (newPassword !== confirmPassword) {
+    return next(new errorHandler(`Passwords do not match!`, 400));
   }
 
-  const { password, newPassword } = req.body;
+  try {
+    let hashedPwd = await hashPwd(newPassword);
+    user.password = hashedPwd;
 
-  let pwdCheck = await comparePwd(password, user.password);
+    await user.save();
 
-  if (!pwdCheck) {
-    return next(new errorHandler(`wrong email or password credentials!`, 401));
+    res.status(200).json({
+      message: "Password changed successfully!",
+    });
+  } catch (error) {
+    return next(new errorHandler("Failed to change password, try again!", 500));
   }
-
-  let hashedPwd = await hashPwd(newPassword);
-
-  user.password = hashedPwd;
-
-  user.save();
-
-  res.status(200).json({
-    message: "password changed succesfully!",
-  });
 });
