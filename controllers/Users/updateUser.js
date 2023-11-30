@@ -24,15 +24,18 @@ export const updateUser = catchAsyncError(async (req, res, next) => {
 
   await user.save();
 
-  console.log(req.file);
-  console.log(user.profilePicture);
-
-  const updatedUser = {
-    user,
+  const filteredUser = {
+    _id: user._id,
+    email: user.email,
+    fullNames: user.fullNames,
+    phoneNo: user.phoneNo,
+    location: user.location,
+    profilePicture: user.profilePicture,
+    role: user.role,
   };
 
   res.status(200).json({
     message: "User updated successfully",
-    user: updatedUser,
+    user: filteredUser,
   });
 });

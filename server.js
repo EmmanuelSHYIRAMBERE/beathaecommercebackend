@@ -23,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:7000",
+        url: "https://smart-parking-api-3g3e.onrender.com/",
       },
     ],
   },
