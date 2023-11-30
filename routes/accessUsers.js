@@ -66,6 +66,27 @@ import { signUp, logIn } from "../controllers/Authentication";
  *       example:
  *         email: email@example.com
  *         password: myPassword!
+ *     userUpdate:
+ *       type: object
+ *       properties:
+ *         fullNames:
+ *           type: string
+ *           description: The updated full names of the user
+ *         profilePicture:
+ *           type: string
+ *           format: binary
+ *           description: The updated profile picture file of the user (upload from local user files)
+ *         phoneNo:
+ *           type: string
+ *           description: The updated phone number of the user
+ *         location:
+ *           type: string
+ *           description: The updated address of the user
+ *       example:
+ *         fullNames: Updated User Names
+ *         profilePicture: https://example.com/new-profile-picture.jpg
+ *         phoneNo: "+25070000001"
+ *         location: Updated Address
  */
 
 /**
@@ -190,9 +211,9 @@ usersRouter.post("/login", logIn);
 
 /**
  * @swagger
- * /parking/users/userupdate/{id}:
- *   put:
- *     summary: Update the user data by id
+ * /parking/users/userupdate:
+ *   patch:
+ *     summary: Update the user data
  *     tags: [Users]
  *     security:
  *       - BearerAuth: []
@@ -201,21 +222,15 @@ usersRouter.post("/login", logIn);
  *          content:
  *            multipart/form-data:
  *               schema:
- *                   $ref: '#/components/schemas/signUp'
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The user id
+ *                   $ref: '#/components/schemas/userUpdate'
+ *
  *     responses:
  *       200:
  *          description: The user was modified successfully
  *          content:
  *             multipart/form-data:
  *               schema:
- *                   $ref: '#/components/schemas/signUp'
+ *                   $ref: '#/components/schemas/userUpdate'
  *       204:
  *          description: No any user in the database
  *       401:
@@ -226,12 +241,7 @@ usersRouter.post("/login", logIn);
  *          description: Internal Server Error
  */
 
-usersRouter.put(
-  "/userupdate/:id",
-  verifyToken,
-  profileImagesUpload,
-  updateUser
-);
+usersRouter.patch("/userupdate", verifyToken, updateUser);
 
 /**
  * @swagger

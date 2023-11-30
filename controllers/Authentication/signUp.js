@@ -32,6 +32,7 @@ export const signUp = catchAsyncError(async (req, res, next) => {
       Email: newUser.email,
       phoneNo: newUser.phoneNo,
       location: newUser.location,
+      role: newUser.role,
     },
   });
 });

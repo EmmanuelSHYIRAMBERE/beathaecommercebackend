@@ -11,15 +11,15 @@ const buildingSchema = mongoose.Schema({
   },
   Capacity: {
     type: Number,
-    required: true,
+    default: 0,
   },
   availableSpots: {
     type: Number,
-    required: false,
+    default: 0,
   },
   bookedSlots: {
     type: Number,
-    required: false,
+    default: 0,
   },
   managerId: {
     type: String,

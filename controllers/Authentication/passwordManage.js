@@ -1,29 +1,34 @@
-import { catchAsyncError, comparePwd, hashPwd } from "../../utility";
-import { Admin, User } from "../../models";
+import { catchAsyncError, hashPwd } from "../../utility";
+import { User } from "../../models";
 import errorHandler from "../../utility/errorHandlerClass";
 
+// Middleware to change user password
 export const changePwd = catchAsyncError(async (req, res, next) => {
+  // Extract user and password information from the request
   const user = req.user;
   const { newPassword, confirmPassword } = req.body;
 
-  console.log("====================================");
-  console.log(user, "***", newPassword, "uyuy", confirmPassword);
-  console.log("====================================");
-
+  // Validate if new password and confirmation match
   if (newPassword !== confirmPassword) {
     return next(new errorHandler(`Passwords do not match!`, 400));
   }
 
   try {
-    let hashedPwd = await hashPwd(newPassword);
-    user.password = hashedPwd;
+    // Hash the new password
+    const hashedPwd = await hashPwd(newPassword);
 
+    // Update user's password in the database
+    user.password = hashedPwd;
     await user.save();
 
+    // Send success response
     res.status(200).json({
       message: "Password changed successfully!",
     });
   } catch (error) {
-    return next(new errorHandler("Failed to change password, try again!", 500));
+    // Handle any errors that occur during the password change process
+    return next(
+      new errorHandler(`Error changing password: ${error.message}`, 500)
+    );
   }
 });
