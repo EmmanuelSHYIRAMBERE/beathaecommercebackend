@@ -50,16 +50,4 @@ const userSchema = mongoose.Schema({
   passwordChangedAt: Date,
 });
 
-userSchema.methods.createOTPToken = function () {
-  const otp = crypto.randomInt();
-
-  this.otp = bcrypt.hashSync(otp, 10);
-
-  this.otpExpiry = Date.now() + 10 * 60 * 1000;
-
-  console.log({ otp });
-
-  return otp;
-};
-
 export const User = mongoose.model("User", userSchema);

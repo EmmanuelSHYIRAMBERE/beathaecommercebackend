@@ -132,13 +132,8 @@ export const sendEmail = (userEmail, userNames) => {
         journey where finding a parking spot is just a click away.
         <br /><br />Reserve your parking spot today and experience the
         convenience!
-      </p>
-      <div class="button-container">
-        <a href="https://smart-parking-system.com/reserve" class="button"
-          >Reserve Parking</a
-        >
-      </div>
-    </div>
+      </p><br />
+    </div><br />
     <div class="footer">
       Thank you for choosing Smart Parking System to simplify your parking
       experience. We look forward to providing you with seamless parking
@@ -157,5 +152,4 @@ export const sendEmail = (userEmail, userNames) => {
   };
 
   transporter.sendMail(message);
-  console.log("sent");
 };

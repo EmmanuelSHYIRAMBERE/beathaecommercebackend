@@ -25,7 +25,7 @@ systemRouter.use("/payment", stripeRoute);
 systemRouter.use("/momo", packRouter);
 
 systemRouter.all("*", (req, res, next) => {
-  next(new errorHandler(`Can't find ${req.originalUrl} on this server!`, 404));
+  next(new errorHandler(`Failure connecting to the server!`, 404));
 });
 
 systemRouter.use(globalErrorController);

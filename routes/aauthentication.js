@@ -96,5 +96,7 @@ const authenticate = express.Router();
  */
 
 authenticate.patch("/changepassword", verifyToken, changePwd);
+authenticate.post("/forgotpassword", forgotPassword);
+authenticate.patch("/resetpassword", resetPassword);
 
 export default authenticate;
