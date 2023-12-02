@@ -57,6 +57,8 @@ const buildingRouter = express.Router();
  *   get:
  *     summary: Returns the details of all the buildings
  *     tags: [Buildings]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *          description: The buildings found successfully
@@ -101,7 +103,7 @@ buildingRouter.get("/getAllBuildingData", verifyToken, admin, getAllBuildings);
  *          description: Internal Server Error
  */
 
-buildingRouter.post("/addNewBuilding", addNewBuilding);
+buildingRouter.post("/addNewBuilding", verifyToken, admin, addNewBuilding);
 
 /**
  * @swagger
@@ -163,7 +165,12 @@ buildingRouter.post("/addNewBuilding", addNewBuilding);
  *          description: Internal Server Error
  */
 
-buildingRouter.delete("/deleteBuilding/:id", deleteBuilding);
+buildingRouter.delete(
+  "/deleteBuilding/:id",
+  verifyToken,
+  admin,
+  deleteBuilding
+);
 
 /**
  * @swagger
@@ -201,6 +208,6 @@ buildingRouter.delete("/deleteBuilding/:id", deleteBuilding);
  *          description: Internal Server Error
  */
 
-buildingRouter.put("/updateBuilding/:id", updateBuilding);
+buildingRouter.put("/updateBuilding/:id", verifyToken, admin, updateBuilding);
 
 export default buildingRouter;

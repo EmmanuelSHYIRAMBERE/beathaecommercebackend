@@ -15,11 +15,11 @@ import { admin, verifyToken } from "../middleware";
 const systemRouter = express.Router();
 
 systemRouter.use("/parkings", parkingRouter);
-systemRouter.use("/buildings", verifyToken, admin, buildingRouter);
+systemRouter.use("/buildings", buildingRouter);
 systemRouter.use("/users", usersRouter);
 // systemRouter.use("/contacts", contactsRouter);
 // systemRouter.use("/testimonies", testimoniesRouter);
-systemRouter.use("/reservations", verifyToken, bookingsRouter);
+systemRouter.use("/reservations", bookingsRouter);
 systemRouter.use("/password", authenticate);
 systemRouter.use("/payment", stripeRoute);
 systemRouter.use("/momo", packRouter);
