@@ -5,7 +5,7 @@ import { catchAsyncError } from "../../utility/catchSync.js";
 export const addNewParking = catchAsyncError(async (req, res, next) => {
   const managerID = req.user._id;
 
-  const building = await Building.findOne({ managerId: managerID });
+  const building = await Building.find({ managerId: managerID });
 
   if (!building) {
     return res.status(400).json({
@@ -14,8 +14,8 @@ export const addNewParking = catchAsyncError(async (req, res, next) => {
     });
   }
 
-  req.body.Address = building.buildingName;
-  req.body.building = building.Address;
+  req.body.Address = building.Address;
+  req.body.building = building.buildingName;
 
   const newParkingSlot = await Parkings.create(req.body);
 
