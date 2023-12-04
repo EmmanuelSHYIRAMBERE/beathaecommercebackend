@@ -34,21 +34,21 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`User not found!`, 404));
   }
 
-  const parking = await Parkings.findOne();
+  const parking = await Parkings.find();
 
   const parkings = parking.filter(
     (parking) => parking.building === user.buildingManaged
   );
 
-  console.log(parking);
+  console.log(parkings);
 
-  if (parkings) {
-    if (parkings.status === "reserved") {
-      const latestTime = calculateTimeAgo(parkings.timebooked);
+  if (parkings.length > 0) {
+    if (parkings[0].status === "reserved") {
+      const latestTime = calculateTimeAgo(parkings[0].timebooked);
 
-      parkings.timebooked = latestTime;
+      parkings[0].timebooked = latestTime;
 
-      parkings.save;
+      await parkings[0].save(); // Corrected line
     }
   }
 
