@@ -7,7 +7,6 @@ import {
   deleteParkingSlot,
   getOneParking,
   getTotalParking,
-  modifyParking,
   updateParking,
 } from "../controllers/Parking";
 import { admin, verifyToken } from "../middleware";
@@ -111,6 +110,8 @@ parkingRouter.post("/addNewParking", verifyToken, addNewParking);
  *   get:
  *     summary: Returns the list of the total parking spots
  *     tags: [parkings]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *          description: The total parking spot successfully found
@@ -128,7 +129,7 @@ parkingRouter.post("/addNewParking", verifyToken, addNewParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getTotalParking", verifyToken, admin, getTotalParking);
+parkingRouter.get("/getTotalParking", verifyToken, getTotalParking);
 
 /**
  * @swagger
