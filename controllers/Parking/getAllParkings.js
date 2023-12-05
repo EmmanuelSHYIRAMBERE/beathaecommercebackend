@@ -28,31 +28,29 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
 
   const user = await User.findById(userId);
 
-  console.log(user);
-
   if (!user) {
     return next(new errorHandler(`User not found!`, 404));
   }
 
   const parking = await Parkings.find();
 
-  const parkings = parking.filter(
-    (parking) => parking.building === user.buildingManaged
-  );
-
-  console.log(parkings);
-
-  if (parkings.length > 0) {
-    if (parkings[0].status === "reserved") {
-      const latestTime = calculateTimeAgo(parkings[0].timebooked);
-
-      parkings[0].timebooked = latestTime;
-
-      await parkings[0].save(); // Corrected line
+  for (const park of parking) {
+    if (park.status === "reserved") {
+      const lastTime = calculateTimeAgo(park.timebooked);
+      pack.latestTime = lastTime;
+      await pack.save();
     }
   }
 
+  const formattedParkings = parking.map((park) => ({
+    Amount: park.Amount,
+    latestTime: pack.latestTime,
+    status: park.status,
+  }));
+
+  console.log(formattedParkings);
+
   res.status(200).json({
-    data: parkings,
+    data: formattedParkings,
   });
 });

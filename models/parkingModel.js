@@ -21,6 +21,10 @@ const parkingSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  latestTime: {
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     default: "available",

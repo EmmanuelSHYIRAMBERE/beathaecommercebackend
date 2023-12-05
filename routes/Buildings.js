@@ -28,14 +28,32 @@ const buildingRouter = express.Router();
  *           description: The name of the building containing parkings
  *         Address:
  *           type: string
- *           format: binary
  *           description: The location of the building
  *         Capacity:
  *           type: number
  *           description: The total parking sports it can occupy
  *         managerId:
  *           type: string
- *           format: binary
+ *           description: The manager who will control its operations
+ *       example:
+ *         buildingName: "MAKUZA"
+ *         Address: "Kn 121 st 344"
+ *         Capacity: 45
+ *         managerId: "7328e7721767u61"
+ *     updateBuildings:
+ *       type: object
+ *       properties:
+ *         buildingName:
+ *           type: string
+ *           description: The name of the building containing parkings
+ *         Address:
+ *           type: string
+ *           description: The location of the building
+ *         Capacity:
+ *           type: number
+ *           description: The total parking sports it can occupy
+ *         managerId:
+ *           type: string
  *           description: The manager who will control its operations
  *       example:
  *         buildingName: "MAKUZA"
@@ -183,9 +201,9 @@ buildingRouter.delete(
  *     requestBody:
  *          required: true
  *          content:
- *            application/json:
+ *            multipart/form-data:
  *               schema:
- *                   $ref: '#/components/schemas/Buildings'
+ *                   $ref: '#/components/schemas/updateBuildings'
  *     parameters:
  *        - in: path
  *          name: id
@@ -197,9 +215,9 @@ buildingRouter.delete(
  *       200:
  *          description: The building's data modified successfully
  *          content:
- *             application/json:
+ *             multipart/form-data:
  *               schema:
- *                   $ref: '#/components/schemas/Buildings'
+ *                   $ref: '#/components/schemas/updateBuildings'
  *       401:
  *          description: The user not authorised
  *       404:
