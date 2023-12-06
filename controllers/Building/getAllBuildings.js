@@ -12,7 +12,7 @@ export const getAllBuildings = catchAsyncError(async (req, res, next) => {
         buildingID: building._id,
         buildingName: building.buildingName,
         Location: building.Address,
-        buildingManager: user.fullNames ? user.fullNames : null,
+        buildingManager: building.managerEmail,
       };
     })
   );
