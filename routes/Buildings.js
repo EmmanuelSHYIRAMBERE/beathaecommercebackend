@@ -20,8 +20,7 @@ const buildingRouter = express.Router();
  *       required:
  *         - buildingName
  *         - Address
- *         - Capacity
- *         - managerId
+ *         - managerEmail
  *       properties:
  *         buildingName:
  *           type: string
@@ -29,17 +28,13 @@ const buildingRouter = express.Router();
  *         Address:
  *           type: string
  *           description: The location of the building
- *         Capacity:
- *           type: number
- *           description: The total parking sports it can occupy
- *         managerId:
+ *         managerEmail:
  *           type: string
- *           description: The manager who will control its operations
+ *           description: The manager's email
  *       example:
- *         buildingName: "MAKUZA"
+ *         buildingName: "BuildingName"
  *         Address: "Kn 121 st 344"
- *         Capacity: 45
- *         managerId: "7328e7721767u61"
+ *         managerEmail: "email@example.com"
  *     updateBuildings:
  *       type: object
  *       properties:
@@ -49,17 +44,13 @@ const buildingRouter = express.Router();
  *         Address:
  *           type: string
  *           description: The location of the building
- *         Capacity:
- *           type: number
- *           description: The total parking sports it can occupy
- *         managerId:
+ *         managerEmail:
  *           type: string
- *           description: The manager who will control its operations
+ *           description: The manager's email
  *       example:
- *         buildingName: "MAKUZA"
+ *         buildingName: "BuildingName"
  *         Address: "Kn 121 st 344"
- *         Capacity: 45
- *         managerId: "7328e7721767u61"
+ *         managerEmail: "email@example.com"
  */
 
 /**
@@ -115,8 +106,8 @@ buildingRouter.get("/getAllBuildingData", verifyToken, admin, getAllBuildings);
  *             application/json:
  *               schema:
  *                   $ref: '#/components/schemas/Buildings'
- *       404:
- *          description: A user not found
+ *       409:
+ *          description: A user already exists
  *       500:
  *          description: Internal Server Error
  */

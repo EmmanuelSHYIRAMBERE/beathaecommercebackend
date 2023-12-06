@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   },
   fullNames: {
     type: String,
-    required: true,
+    required: false,
   },
   profilePicture: {
     type: String,
@@ -18,11 +18,11 @@ const userSchema = mongoose.Schema({
   },
   phoneNo: {
     type: String,
-    required: true,
+    required: false,
   },
   location: {
     type: String,
-    required: true,
+    required: false,
   },
   password: {
     type: String,

@@ -5,7 +5,10 @@ import errorHandler from "../../utility/errorHandlerClass";
 
 export const updateBuilding = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
-  const { managerId: newManagerId } = req.body;
+
+  console.log("Building ID:", id);
+
+  const { managerId: newManagerId, buildingName, Address, Capacity } = req.body;
 
   const building = await Building.findById({ _id: id });
 
@@ -15,7 +18,9 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
 
   const oldManagerId = building.managerId;
 
-  if (newManagerId !== oldManagerId) {
+  console.log("newManagerId", newManagerId);
+
+  if (newManagerId && newManagerId !== oldManagerId) {
     const newManager = await User.findById({ _id: newManagerId });
 
     if (!newManager) {
@@ -45,16 +50,25 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
     newManager.buildingAddress = building.Address;
     await newManager.save();
 
-    building.managerId = newManagerId;
-    await building.save();
+    req.body.buildingName = req.body.buildingName || building.buildingName;
+    req.body.Address = req.body.Address || building.Address;
+    req.body.Capacity = req.body.Capacity || building.Capacity;
+    req.body.managerId = req.body.managerId || newManagerId;
+
+    const updatedBuilding = await Building.findByIdAndUpdate(
+      id,
+      { $set: { buildingName, Address, Capacity } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: `A building with ID: ${id}, updated successfully.`,
+      updatedBuilding,
+    });
+  } else {
+    res.status(200).json({
+      message: "No updates were made to the building.",
+      building,
+    });
   }
-
-  const updatedBuilding = await Building.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
-
-  res.status(200).json({
-    message: `A building with ID: ${id}, updated successfully.`,
-    updatedBuilding,
-  });
 });

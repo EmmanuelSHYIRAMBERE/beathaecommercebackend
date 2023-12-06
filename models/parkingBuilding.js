@@ -9,10 +9,6 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  Capacity: {
-    type: Number,
-    default: 0,
-  },
   availableSpots: {
     type: Number,
     default: 0,
@@ -21,7 +17,7 @@ const buildingSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  managerId: {
+  managerEmail: {
     type: String,
     required: true,
   },
