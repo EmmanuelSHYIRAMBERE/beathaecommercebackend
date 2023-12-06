@@ -37,18 +37,16 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   for (const park of parking) {
     if (park.status === "reserved") {
       const lastTime = calculateTimeAgo(park.timebooked);
-      pack.latestTime = lastTime;
-      await pack.save();
+      park.latestTime = lastTime;
+      await park.save();
     }
   }
 
   const formattedParkings = parking.map((park) => ({
     Amount: park.Amount,
-    latestTime: pack.latestTime,
+    latestTime: park.latestTime,
     status: park.status,
   }));
-
-  console.log(formattedParkings);
 
   res.status(200).json({
     data: formattedParkings,

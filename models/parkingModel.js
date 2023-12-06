@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const parkingSchema = mongoose.Schema({
-  parkingID: {
+  parkingName: {
     type: String,
     required: true,
   },

@@ -23,18 +23,18 @@ import { admin, verifyToken } from "../middleware";
  *     parkings:
  *       type: object
  *       required:
- *         - parkingID
+ *         - parkingName
  *         - Amount
  *       properties:
- *         parkingID:
+ *         parkingName:
  *           type: string
- *           description: The serial number of the parking spot
+ *           description: The name of the parking spot
  *         Amount:
  *           type: string
  *           format: binary
  *           description: The amount for a single hour in the parking spot
  *       example:
- *         parkingID: "P123"
+ *         parkingName: "P123"
  *         Amount: 500
  */
 
