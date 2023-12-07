@@ -4,61 +4,22 @@ import errorHandler from "../../utility/errorHandlerClass";
 
 export const checkAvailableParkingsByUser = catchAsyncError(
   async (req, res, next) => {
-    const availableParkingSpots = await Parkings.find({});
+    const parkings = await Parkings.find();
 
-    if (!availableParkingSpots) {
-      return next(new errorHandler(`No any parking spot found!`, 404));
-    }
+    const formattedParkings = parkings
+      .filter((park) => park.status === "available")
+      .map((park) => ({
+        _id: park._id,
+        Name: park.parkingName,
+        Amount: park.Amount,
+        Building: park.building,
+        Location: park.Address,
+        latestTime: park.latestTime,
+        status: park.status,
+      }));
 
-    // Group parking spots by building name
-    const parkingSpotsByBuilding = availableParkingSpots.reduce(
-      (acc, parkingSpot) => {
-        const buildingName = parkingSpot.building;
-
-        if (!acc[buildingName]) {
-          acc[buildingName] = [];
-        }
-
-        acc[buildingName].push(parkingSpot);
-        return acc;
-      },
-      {}
-    );
-
-    // Calculate totals for each building
-    const buildingTotals = Object.entries(parkingSpotsByBuilding).map(
-      ([buildingName, buildingSpots]) => {
-        const totalSpots = buildingSpots.length;
-        const totalReserved = buildingSpots.filter(
-          (parkingSpot) => parkingSpot.availability === "reserved"
-        ).length;
-        const totalAvailable = buildingSpots.filter(
-          (parkingSpot) => parkingSpot.availability === "available"
-        ).length;
-
-        return {
-          buildingName,
-          totalSpots,
-          totalReserved,
-          totalAvailable,
-          buildingSpots,
-        };
-      }
-    );
-
-    const totalBuilding = buildingTotals.length;
-    const totalSpots = availableParkingSpots.length;
-    const totalReserved = availableParkingSpots.filter(
-      (parkingSpot) => parkingSpot.availability === "reserved"
-    ).length;
-    const totalAvailable = availableParkingSpots.filter(
-      (parkingSpot) => parkingSpot.availability === "available"
-    );
-
-    res.status(200).json(totalAvailable);
+    res.status(200).json({
+      data: formattedParkings,
+    });
   }
 );
-
-// export const getTours = (req, res) => {
-//   res.status(200).json(res.paginatedResults);
-// };
