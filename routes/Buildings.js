@@ -48,9 +48,9 @@ const buildingRouter = express.Router();
  *           type: string
  *           description: The manager's email
  *       example:
- *         buildingName: "BuildingName"
- *         Address: "Kn 121 st 344"
- *         managerEmail: "email@example.com"
+ *         buildingName: ""
+ *         Address: ""
+ *         managerEmail: ""
  */
 
 /**
@@ -192,7 +192,7 @@ buildingRouter.delete(
  *     requestBody:
  *          required: true
  *          content:
- *            multipart/form-data:
+ *             application/json:
  *               schema:
  *                   $ref: '#/components/schemas/updateBuildings'
  *     parameters:
@@ -206,7 +206,7 @@ buildingRouter.delete(
  *       200:
  *          description: The building's data modified successfully
  *          content:
- *             multipart/form-data:
+ *             application/json:
  *               schema:
  *                   $ref: '#/components/schemas/updateBuildings'
  *       401:

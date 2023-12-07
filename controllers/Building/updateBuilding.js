@@ -41,13 +41,12 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
       managerEmail: building.managerEmail,
     };
 
-    console.log("updatedBuildingData", req.body);
-    console.log("newManager", newManager);
+    console.log("body", req.body);
+    // console.log("newManager", req.body.managerEmail);
 
     res.status(200).json({
       message: `Building with ID: ${id} updated successfully.`,
       filteredData,
-      newManager,
     });
   } catch (error) {
     next(new errorHandler("Internal Server Error", 500));
