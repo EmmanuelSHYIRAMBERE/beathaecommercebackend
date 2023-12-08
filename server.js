@@ -23,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://smart-parking-api-3g3e.onrender.com/",
+        url: "https://smart-parking-api-3g3e.onrender.com",
       },
     ],
   },

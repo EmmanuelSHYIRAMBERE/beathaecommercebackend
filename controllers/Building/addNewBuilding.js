@@ -1,10 +1,25 @@
-import { Building } from "../../models";
-import { User } from "../../models";
+import { Building, User } from "../../models";
 import { catchAsyncError, hashPwd } from "../../utility";
+import cloudinary from "../../utility/cloudinary";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const addNewBuilding = catchAsyncError(async (req, res, next) => {
-  const { buildingName, Address, managerEmail } = req.body;
+  const {
+    buildingName,
+    District,
+    Sector,
+    Street,
+    Longitude,
+    Latitude,
+    Price,
+    Floors,
+    Description,
+    managerEmail,
+  } = req.body;
+
+  if (!managerEmail) {
+    return next(new errorHandler("Manager's email is required.", 400));
+  }
 
   const existingUser = await User.findOne({ email: managerEmail });
 
@@ -24,19 +39,37 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     email: managerEmail,
     password: hashedPassword,
     role: "manager",
-    location: Address,
+    location: District,
     buildingManaged: buildingName,
-    buildingAddress: Address,
+    buildingAddress: Street,
   });
+
+  let profilePicture = "";
+
+  if (req.file) {
+    const buildingImage = await cloudinary.uploader.upload(req.file.path);
+    profilePicture = buildingImage.secure_url;
+  }
 
   const newBuilding = await Building.create({
     buildingName,
-    Address,
+    District,
+    Sector,
+    Street,
+    Longitude,
+    Latitude,
+    Price,
+    profilePicture,
+    Floors,
+    Description,
     managerEmail,
   });
 
+  const { availableSpots, bookedSlots, ...buildingData } =
+    newBuilding.toObject();
+
   res.status(201).json({
     message: "The new building data was successfully created",
-    buildingData: { building: newBuilding },
+    buildingData: { building: buildingData },
   });
 });

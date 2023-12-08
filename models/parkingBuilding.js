@@ -5,7 +5,39 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  Address: {
+  District: {
+    type: String,
+    required: true,
+  },
+  Sector: {
+    type: String,
+    required: true,
+  },
+  Street: {
+    type: String,
+    required: true,
+  },
+  Longitude: {
+    type: String,
+    required: true,
+  },
+  Latitude: {
+    type: String,
+    required: true,
+  },
+  Price: {
+    type: String,
+    required: true,
+  },
+  profilePicture: {
+    type: String,
+    required: true,
+  },
+  Floors: {
+    type: String,
+    required: true,
+  },
+  Description: {
     type: String,
     required: true,
   },

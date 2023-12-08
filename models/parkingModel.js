@@ -1,15 +1,23 @@
 import mongoose from "mongoose";
 
 const parkingSchema = mongoose.Schema({
-  parkingName: {
+  Slot: {
     type: String,
     required: true,
   },
-  Amount: {
-    type: Number,
-    required: true,
+  District: {
+    type: String,
+    required: false,
   },
-  Address: {
+  Sector: {
+    type: String,
+    required: false,
+  },
+  Longitude: {
+    type: String,
+    required: false,
+  },
+  Latitude: {
     type: String,
     required: false,
   },
@@ -26,8 +34,8 @@ const parkingSchema = mongoose.Schema({
     required: false,
   },
   status: {
-    type: String,
-    default: "available",
+    type: Boolean,
+    default: false,
   },
 });
 

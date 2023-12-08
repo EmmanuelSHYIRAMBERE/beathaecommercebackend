@@ -4,6 +4,7 @@ import { admin, verifyToken } from "../middleware";
 import { deleteBuilding } from "../controllers/Building/deleteBuilding";
 import { getAllBuildings } from "../controllers/Building/getAllBuildings";
 import { updateBuilding } from "../controllers/Building/updateBuilding";
+import profileImagesUpload from "../middleware/profileMulter";
 const buildingRouter = express.Router();
 
 /**
@@ -19,38 +20,112 @@ const buildingRouter = express.Router();
  *       type: object
  *       required:
  *         - buildingName
- *         - Address
+ *         - District
+ *         - Sector
+ *         - Street
+ *         - Longitude
+ *         - Latitude
+ *         - Price
+ *         - profilePicture
+ *         - Floors
+ *         - Description
  *         - managerEmail
  *       properties:
  *         buildingName:
  *           type: string
  *           description: The name of the building containing parkings
- *         Address:
+ *         District:
  *           type: string
- *           description: The location of the building
+ *           description: The district of the building
+ *         Sector:
+ *           type: string
+ *           description: The sector of the building
+ *         Street:
+ *           type: string
+ *           description: The street number of the building
+ *         Longitude:
+ *           type: string
+ *           description: The longitude of the building
+ *         Latitude:
+ *           type: string
+ *           description: The latitude of the building
+ *         Price:
+ *           type: string
+ *           description: The price per hour of one slot
+ *         profilePicture:
+ *           type: string
+ *           format: binary
+ *           description: The profile image of the building
+ *         Floors:
+ *           type: string
+ *           description: The number of floors of the building
+ *         Description:
+ *           type: string
+ *           description: The description of the building
  *         managerEmail:
  *           type: string
  *           description: The manager's email
  *       example:
- *         buildingName: "BuildingName"
- *         Address: "Kn 121 st 344"
- *         managerEmail: "email@example.com"
+ *         buildingName: "Kigali Tower"
+ *         District: "Kicukiro"
+ *         Sector: "Gahanga"
+ *         Street: "KK 095 St"
+ *         Longitude: "30.0474° E"
+ *         Latitude: "-1.9706° S"
+ *         Price: "800"
+ *         profilePicture: "kigali_tower_image.jpg"
+ *         Floors: "15"
+ *         Description: "Kigali Tower is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
+ *         managerEmail: "manager@kigalitower.com"
  *     updateBuildings:
  *       type: object
  *       properties:
  *         buildingName:
  *           type: string
  *           description: The name of the building containing parkings
- *         Address:
+ *         District:
  *           type: string
- *           description: The location of the building
+ *           description: The district of the building
+ *         Sector:
+ *           type: string
+ *           description: The sector of the building
+ *         Street:
+ *           type: string
+ *           description: The street number of the building
+ *         Longitude:
+ *           type: string
+ *           description: The longitude of the building
+ *         Latitude:
+ *           type: string
+ *           description: The latitude of the building
+ *         Price:
+ *           type: string
+ *           description: The price per hour of one slot
+ *         profilePicture:
+ *           type: string
+ *           format: binary
+ *           description: The profile image of the building
+ *         Floors:
+ *           type: string
+ *           description: The number of floors of the building
+ *         Description:
+ *           type: string
+ *           description: The description of the building
  *         managerEmail:
  *           type: string
  *           description: The manager's email
  *       example:
- *         buildingName: ""
- *         Address: ""
- *         managerEmail: ""
+ *         buildingName: "Kigali Tower"
+ *         District: "Kicukiro"
+ *         Sector: "Gahanga"
+ *         Street: "KK 095 St"
+ *         Longitude: "30.0474° E"
+ *         Latitude: "-1.9706° S"
+ *         Price: "800"
+ *         profilePicture: "kigali_tower_image.jpg"
+ *         Floors: "15"
+ *         Description: "Kigali Tower is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
+ *         managerEmail: "manager@kigalitower.com"
  */
 
 /**
@@ -96,14 +171,14 @@ buildingRouter.get("/getAllBuildingData", verifyToken, admin, getAllBuildings);
  *     requestBody:
  *          required: true
  *          content:
- *            application/json:
+ *            multipart/form-data:
  *               schema:
  *                   $ref: '#/components/schemas/Buildings'
  *     responses:
  *       201:
  *          description: The new building data was successfully created
  *          content:
- *             application/json:
+ *             multipart/form-data:
  *               schema:
  *                   $ref: '#/components/schemas/Buildings'
  *       409:
@@ -112,7 +187,13 @@ buildingRouter.get("/getAllBuildingData", verifyToken, admin, getAllBuildings);
  *          description: Internal Server Error
  */
 
-buildingRouter.post("/addNewBuilding", verifyToken, admin, addNewBuilding);
+buildingRouter.post(
+  "/addNewBuilding",
+  profileImagesUpload,
+  verifyToken,
+  admin,
+  addNewBuilding
+);
 
 /**
  * @swagger
@@ -192,7 +273,7 @@ buildingRouter.delete(
  *     requestBody:
  *          required: true
  *          content:
- *             application/json:
+ *             multipart/form-data:
  *               schema:
  *                   $ref: '#/components/schemas/updateBuildings'
  *     parameters:
@@ -206,7 +287,7 @@ buildingRouter.delete(
  *       200:
  *          description: The building's data modified successfully
  *          content:
- *             application/json:
+ *             multipart/form-data:
  *               schema:
  *                   $ref: '#/components/schemas/updateBuildings'
  *       401:
@@ -217,6 +298,12 @@ buildingRouter.delete(
  *          description: Internal Server Error
  */
 
-buildingRouter.put("/updateBuilding/:id", verifyToken, admin, updateBuilding);
+buildingRouter.put(
+  "/updateBuilding/:id",
+  profileImagesUpload,
+  verifyToken,
+  admin,
+  updateBuilding
+);
 
 export default buildingRouter;
