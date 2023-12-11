@@ -4,3 +4,4 @@ export * from "./testimonyModel";
 export * from "./parkingModel";
 export * from "./parkingBuilding";
 export * from "./userModel";
+export * from "./floorModel";

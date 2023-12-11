@@ -4,7 +4,7 @@ import { Parkings } from "../../models/parkingModel.js";
 import { catchAsyncError } from "../../utility/catchSync.js";
 import errorHandler from "../../utility/errorHandlerClass.js";
 
-export const addNewParking = catchAsyncError(async (req, res, next) => {
+export const addNewFloor = catchAsyncError(async (req, res, next) => {
   const managerEmail = req.user.email;
 
   const building = await Building.findOne({ managerEmail: managerEmail });
@@ -15,24 +15,13 @@ export const addNewParking = catchAsyncError(async (req, res, next) => {
     });
   }
 
-  const { id } = req.params;
+  req.body.buildingId = building._id;
 
-  const floor = await Floors.findById(id);
 
-  if (!floor) {
-    return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
-  }
-
-  req.body.floorID = floor._id;
-
-  const slot = await Parkings.create(req.body);
-
-  building.availableSpots = parseInt(building.availableSpots) + 1;
-
-  await building.save();
+  const floor = await Floors.create(req.body);
 
   return res.status(201).json({
-    status: "A new slot added successfully",
-    slot,
+    status: "A new floor added successfully",
+    floor,
   });
 });

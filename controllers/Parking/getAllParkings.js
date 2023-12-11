@@ -24,35 +24,15 @@ const calculateTimeAgo = (timebooked) => {
 };
 
 export const getTotalParking = catchAsyncError(async (req, res, next) => {
-  const userId = req.user._id;
+  const { id } = req.params;
 
-  const user = await User.findById(userId);
+  const Parking = await Parkings.findById({ floorID: id });
 
-  if (!user) {
-    return next(new errorHandler(`User not found!`, 404));
+  if (!Parking) {
+    return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
   }
-
-  const parking = await Parkings.find({ building: user.buildingManaged });
-
-  for (const park of parking) {
-    if (park.status === "reserved" && park.timebooked) {
-      const lastTime = calculateTimeAgo(park.timebooked);
-      park.latestTime = lastTime;
-      await park.save();
-    }
-  }
-
-  const formattedParkings = parking.map((park) => ({
-    _id: park._id,
-    Name: park.parkingName,
-    Amount: park.Amount,
-    Building: park.building,
-    Location: park.Address,
-    latestTime: park.latestTime,
-    status: park.status,
-  }));
 
   res.status(200).json({
-    data: formattedParkings,
+    Parking,
   });
 });

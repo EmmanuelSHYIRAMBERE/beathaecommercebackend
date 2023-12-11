@@ -23,19 +23,13 @@ import { admin, verifyToken } from "../middleware";
  *     parkings:
  *       type: object
  *       required:
- *         - parkingName
- *         - Amount
+ *         - Slot
  *       properties:
- *         parkingName:
+ *         Slot:
  *           type: string
- *           description: The name of the parking spot
- *         Amount:
- *           type: string
- *           format: binary
- *           description: The amount for a single hour in the parking spot
+ *           description: The name of the parking slot
  *       example:
- *         parkingName: "P123"
- *         Amount: 500
+ *         Slot: "P123"
  */
 
 /**
@@ -48,19 +42,28 @@ import { admin, verifyToken } from "../middleware";
 /**
  * @swagger
  * tags:
- *   name: parkings
- *   description: The parkings managing API
+ *   name: Slots
+ *   description: The Slots managing API
  */
 
 /**
  * @swagger
- * /parking/parkings/checkAvailableParkings:
+ * /parking/slots/checkAvailableSlots/{id}:
  *   get:
- *     summary: Returns the list of the total available parking spots
- *     tags: [clientAccess]
+ *     summary: Returns the list of the available parking slots
+ *     tags: [Slots]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
  *     responses:
  *       200:
- *          description: The available parking spots found successfully
+ *          description: The available slots found successfully
  *          content:
  *             application/json:
  *               schema:
@@ -75,16 +78,23 @@ import { admin, verifyToken } from "../middleware";
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/checkAvailableParkings", checkAvailableParkingsByUser);
+parkingRouter.get("/checkAvailableSlots/:id", checkAvailableParkingsByUser);
 
 /**
  * @swagger
- * /parking/parkings/addNewParking:
+ * /parking/slots/addNewSlot/{id}:
  *   post:
- *     summary: Create a new parking spot's data
- *     tags: [parkings]
+ *     summary: Add a new parking slot
+ *     tags: [Slots]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
  *     requestBody:
  *          required: true
  *          content:
@@ -93,7 +103,7 @@ parkingRouter.get("/checkAvailableParkings", checkAvailableParkingsByUser);
  *                   $ref: '#/components/schemas/parkings'
  *     responses:
  *       201:
- *          description: The new parking spot data was successfully created
+ *          description: The new slot successfully created
  *          content:
  *             application/json:
  *               schema:
@@ -102,19 +112,19 @@ parkingRouter.get("/checkAvailableParkings", checkAvailableParkingsByUser);
  *          description: Internal Server Error
  */
 
-parkingRouter.post("/addNewParking", verifyToken, addNewParking);
+parkingRouter.post("/addNewSlot/:id", verifyToken, addNewParking);
 
 /**
  * @swagger
- * /parking/parkings/getTotalParking:
+ * /parking/slots/getAllParking:
  *   get:
- *     summary: Returns the list of the total parking spots
- *     tags: [parkings]
+ *     summary: Returns the list of the total parking slots
+ *     tags: [Slots]
  *     security:
  *       - BearerAuth: []
  *     responses:
  *       200:
- *          description: The total parking spot successfully found
+ *          description: The parking slots found successfully
  *          content:
  *             application/json:
  *               schema:
@@ -129,14 +139,14 @@ parkingRouter.post("/addNewParking", verifyToken, addNewParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getTotalParking", verifyToken, getTotalParking);
+parkingRouter.get("/getAllParking", verifyToken, getTotalParking);
 
 /**
  * @swagger
- * /parking/parkings/getOneParking/{id}:
+ * /parking/slots/getOneSlot/{id}:
  *   get:
- *     summary: Get a single parking spot by id
- *     tags: [parkings]
+ *     summary: Get a single parking slot by id
+ *     tags: [Slots]
  *     parameters:
  *        - in: path
  *          name: id
@@ -159,14 +169,14 @@ parkingRouter.get("/getTotalParking", verifyToken, getTotalParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getOneParking/:id", getOneParking);
+parkingRouter.get("/getOneSlot/:id", getOneParking);
 
 /**
  * @swagger
- * /parking/parkings/deleteParkingSpot/{id}:
+ * /parking/slots/deleteSlot/{id}:
  *   delete:
- *     summary: Delete the parking spot's data by id
- *     tags: [parkings]
+ *     summary: Delete a slot
+ *     tags: [Slots]
  *     security:
  *       - BearerAuth: []
  *     parameters:
@@ -175,10 +185,10 @@ parkingRouter.get("/getOneParking/:id", getOneParking);
  *          schema:
  *             type: string
  *          required: true
- *          description: The parking spot id
+ *          description: The slot id
  *     responses:
  *       200:
- *          description: The parking spot was deleted successfully
+ *          description: The slot deleted successfully
  *          content:
  *             application/json:
  *               schema:
@@ -193,14 +203,14 @@ parkingRouter.get("/getOneParking/:id", getOneParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.delete("/deleteParkingSpot/:id", verifyToken, deleteParkingSlot);
+parkingRouter.delete("/deleteSlot/:id", verifyToken, deleteParkingSlot);
 
 /**
  * @swagger
- * /parking/parkings/updateParking/{id}:
+ * /parking/slots/updateSlot/{id}:
  *   put:
- *     summary: Update the parking spot's data by id
- *     tags: [parkings]
+ *     summary: Update the parking slot's data by id
+ *     tags: [Slots]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -215,10 +225,10 @@ parkingRouter.delete("/deleteParkingSpot/:id", verifyToken, deleteParkingSlot);
  *          schema:
  *             type: string
  *          required: true
- *          description: The parking spot's id
+ *          description: The parking slot's id
  *     responses:
  *       200:
- *          description: The parking spot's data was modified successfully
+ *          description: The parking slot updated successfully
  *          content:
  *             application/json:
  *               schema:
@@ -233,6 +243,6 @@ parkingRouter.delete("/deleteParkingSpot/:id", verifyToken, deleteParkingSlot);
  *          description: Internal Server Error
  */
 
-parkingRouter.put("/updateParking/:id", verifyToken, updateParking);
+parkingRouter.put("/updateSlot/:id", verifyToken, updateParking);
 
 export default parkingRouter;

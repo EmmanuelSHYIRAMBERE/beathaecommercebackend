@@ -4,22 +4,27 @@ import errorHandler from "../../utility/errorHandlerClass";
 
 export const checkAvailableParkingsByUser = catchAsyncError(
   async (req, res, next) => {
-    const parkings = await Parkings.find();
+    // const { id } = req.params;
+    let id = req.params.id;
+    console.log(
+      "---------------------------------------------------------",
+      id
+    );
 
-    const formattedParkings = parkings
-      .filter((park) => park.status === "available")
-      .map((park) => ({
-        _id: park._id,
-        Name: park.parkingName,
-        Amount: park.Amount,
-        Building: park.building,
-        Location: park.Address,
-        latestTime: park.latestTime,
-        status: park.status,
-      }));
+    const Parking = await Parkings.find({ floorID: id });
 
+    if (!Parking) {
+      return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
+    }
+
+    let availableSlots = {};
+
+    if (Parking.status == false) {
+      availableSlots = Parking;
+      console.log("--------------------", availableSlots);
+    }
     res.status(200).json({
-      data: formattedParkings,
+      availableSlots,
     });
   }
 );

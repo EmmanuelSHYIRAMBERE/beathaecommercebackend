@@ -140,7 +140,7 @@ const buildingRouter = express.Router();
  * /parking/buildings/getAllBuildingData:
  *   get:
  *     summary: Returns the details of all the buildings
- *     tags: [Buildings]
+ *     tags: [clientAccess]
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -158,7 +158,7 @@ const buildingRouter = express.Router();
  *          description: Internal Server Error
  */
 
-buildingRouter.get("/getAllBuildingData", verifyToken, admin, getAllBuildings);
+buildingRouter.get("/getAllBuildingData", getAllBuildings);
 
 /**
  * @swagger
@@ -194,36 +194,6 @@ buildingRouter.post(
   admin,
   addNewBuilding
 );
-
-/**
- * @swagger
- * /parking/parkings/getOneParking/{id}:
- *   get:
- *     summary: Get a single parking spot by id
- *     tags: [parkings]
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The parking spot id
- *     responses:
- *       200:
- *          description: The parking spot found by id
- *          content:
- *             application/json:
- *               schema:
- *                   $ref: '#/components/schemas/parkings'
- *       204:
- *          description: No content found
- *       404:
- *          description: Not found
- *       500:
- *          description: Internal Server Error
- */
-
-// buildingRouter.get("/getOneParking/:id", getOneParking);
 
 /**
  * @swagger

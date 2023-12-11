@@ -11,12 +11,14 @@ import stripeRoute from "./payRoute";
 import packRouter from "./payPack";
 import buildingRouter from "./Buildings";
 import { admin, verifyToken } from "../middleware";
+import floor from "./floors";
 
 const systemRouter = express.Router();
 
-systemRouter.use("/parkings", parkingRouter);
+systemRouter.use("/slots", parkingRouter);
 systemRouter.use("/buildings", buildingRouter);
 systemRouter.use("/users", usersRouter);
+systemRouter.use("/floor", floor);
 // systemRouter.use("/contacts", contactsRouter);
 // systemRouter.use("/testimonies", testimoniesRouter);
 systemRouter.use("/reservations", bookingsRouter);

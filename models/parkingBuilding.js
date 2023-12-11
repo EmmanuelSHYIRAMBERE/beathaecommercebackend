@@ -34,7 +34,7 @@ const buildingSchema = mongoose.Schema({
     required: true,
   },
   Floors: {
-    type: String,
+    type: Number,
     required: true,
   },
   Description: {
