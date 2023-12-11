@@ -51,7 +51,7 @@ import { admin, verifyToken } from "../middleware";
  * /parking/slots/checkAvailableSlots/{id}:
  *   get:
  *     summary: Returns the list of the available parking slots
- *     tags: [Slots]
+ *     tags: [clientAccess]
  *     security:
  *       - BearerAuth: []
  *     parameters:

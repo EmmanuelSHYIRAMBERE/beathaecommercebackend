@@ -4,25 +4,20 @@ import errorHandler from "../../utility/errorHandlerClass";
 
 export const checkAvailableParkingsByUser = catchAsyncError(
   async (req, res, next) => {
-    // const { id } = req.params;
     let id = req.params.id;
-    console.log(
-      "---------------------------------------------------------",
-      id
+
+    const parkingList = await Parkings.find({ floorID: id });
+
+    if (!parkingList || parkingList.length === 0) {
+      return next(
+        new errorHandler(`No parking found for floor ID: ${id}`, 404)
+      );
+    }
+
+    let availableSlots = parkingList.filter(
+      (parking) => parking.status === false
     );
 
-    const Parking = await Parkings.find({ floorID: id });
-
-    if (!Parking) {
-      return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
-    }
-
-    let availableSlots = {};
-
-    if (Parking.status == false) {
-      availableSlots = Parking;
-      console.log("--------------------", availableSlots);
-    }
     res.status(200).json({
       availableSlots,
     });
