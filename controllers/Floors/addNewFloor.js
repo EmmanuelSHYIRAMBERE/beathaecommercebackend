@@ -17,7 +17,6 @@ export const addNewFloor = catchAsyncError(async (req, res, next) => {
 
   req.body.buildingId = building._id;
 
-
   const floor = await Floors.create(req.body);
 
   return res.status(201).json({

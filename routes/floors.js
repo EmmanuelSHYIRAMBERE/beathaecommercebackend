@@ -1,12 +1,11 @@
 import express from "express";
-import {
-  changePwd,
-  forgotPassword,
-  resetPassword,
-} from "../controllers/Authentication";
 import { verifyToken } from "../middleware";
-import { addNewFloor } from "../controllers/Floors/addNewFloor";
-import { getAllFloors } from "../controllers/Floors";
+import {
+  addNewFloor,
+  deleteFloor,
+  getAllFloors,
+  updateFloor,
+} from "../controllers/Floors";
 
 const floor = express.Router();
 
@@ -23,6 +22,14 @@ const floor = express.Router();
  *       type: object
  *       required:
  *         - Name
+ *       properties:
+ *         Name:
+ *           type: string
+ *           description: The name of the floor
+ *       example:
+ *         Name: "Ground"
+ *     updateFloor:
+ *       type: object
  *       properties:
  *         Name:
  *           type: string
@@ -96,5 +103,75 @@ floor.post("/addnewfloor", verifyToken, addNewFloor);
  */
 
 floor.get("/getFloors/:id", getAllFloors);
+
+/**
+ * @swagger
+ * /parking/floor/deletefloor/{id}:
+ *   delete:
+ *     summary: Delete a  building floor
+ *     tags: [Floor]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
+ *     responses:
+ *       200:
+ *          description: A floor deleted successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Floor'
+ *       401:
+ *          description: A user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+floor.delete("/deletefloor/:id", verifyToken, deleteFloor);
+
+/**
+ * @swagger
+ * /parking/floor/updatefloor/{id}:
+ *   put:
+ *     summary: Update a building floor
+ *     tags: [Floor]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
+ *     requestBody:
+ *          required: true
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Floor'
+ *     responses:
+ *       200:
+ *          description: The floor's data updated successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Floor'
+ *       401:
+ *          description: The user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+floor.put("/updatefloor/:id", verifyToken, updateFloor);
 
 export default floor;

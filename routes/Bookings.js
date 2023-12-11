@@ -55,15 +55,15 @@ import { Booking } from "../models";
  * @swagger
  * tags:
  *   name: Resevations
- *   description: The system's reservations managing API
+ *   description: The reservations managing API
  */
 
 /**
  * @swagger
  * /parking/reservations/bookParking/:
  *   post:
- *     summary: Reserve one of the available parking spot
- *     tags: [clientAccess]
+ *     summary: Reserve one of the available parking slot
+ *     tags: [Resevations]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -74,7 +74,7 @@ import { Booking } from "../models";
  *                   $ref: '#/components/schemas/reservations'
  *     responses:
  *       200:
- *          description: The user successfully reserved the parking spot
+ *          description: The parking slot reserved successfully
  *          content:
  *             application/json:
  *               schema:
@@ -91,13 +91,13 @@ bookingsRouter.post("/bookParking", verifyToken, bookParkingSpot);
  * @swagger
  * /parking/reservations/getreservations:
  *   get:
- *     summary: Returns the list of all the reserved parking spot
+ *     summary: Returns the list of all the reserved parking slot
  *     tags: [Resevations]
  *     security:
  *       - BearerAuth: []
  *     responses:
  *       200:
- *          description: Successfully returns the list of all the reserved parking spot
+ *          description: Success
  *          content:
  *             application/json:
  *               schema:

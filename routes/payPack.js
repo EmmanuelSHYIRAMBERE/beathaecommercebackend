@@ -34,10 +34,17 @@ import { admin, verifyToken } from "../middleware";
 
 /**
  * @swagger
+ * tags:
+ *   name: Payment
+ *   description: The Payment managing API
+ */
+
+/**
+ * @swagger
  * /parking/momo/pay/{id}:
  *   post:
- *     summary: Make payment for the reversed parking spot
- *     tags: [clientAccess]
+ *     summary: Make payment for the reversed parking slot
+ *     tags: [Payment]
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -52,16 +59,16 @@ import { admin, verifyToken } from "../middleware";
  *          schema:
  *             type: string
  *          required: true
- *          description: The reserved parking spot id
+ *          description: The id of a parking slot
  *     responses:
  *       200:
- *          description: The reserved parking spot is successfully paid
+ *          description: The reserved parking slot paid successfully
  *          content:
  *             application/json:
  *               schema:
  *                   $ref: '#/components/schemas/makePayment'
  *       404:
- *          description: The requested reserved parking spot not found
+ *          description: The parking slot not found
  *       500:
  *          description: Internal Server Error
  */
