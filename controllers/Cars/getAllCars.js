@@ -7,8 +7,8 @@ export const getAllCars = catchAsyncError(async (req, res, next) => {
 
   const cars = await Cars.find({ ownerID: ownerID });
 
-  if (!cars) {
-    return next(new errorHandler(`You don't have a car`, 404));
+  if (!cars || cars.length === 0) {
+    return next(new errorHandler(`You don't have any cars registered`, 404));
   }
 
   res.status(200).json(cars);
