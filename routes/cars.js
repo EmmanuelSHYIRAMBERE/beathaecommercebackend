@@ -2,7 +2,12 @@ import express from "express";
 const carRouter = express.Router();
 
 import { verifyToken } from "../middleware";
-import { addNewCar, deleteCar, getAllCars } from "../controllers/Cars";
+import {
+  addNewCar,
+  deleteCar,
+  getAllCars,
+  updateCar,
+} from "../controllers/Cars";
 
 /**
  * @swagger
@@ -18,6 +23,18 @@ import { addNewCar, deleteCar, getAllCars } from "../controllers/Cars";
  *       required:
  *         - carModel
  *         - platNumber
+ *       properties:
+ *         carModel:
+ *           type: string
+ *           description: The model of the car
+ *         platNumber:
+ *           type: string
+ *           description: The plate number of the car
+ *       example:
+ *         carModel: "Toyota"
+ *         platNumber: "v6-8392z"
+ *     updateCars:
+ *       type: object
  *       properties:
  *         carModel:
  *           type: string
@@ -120,5 +137,41 @@ carRouter.get("/getYourCars", verifyToken, getAllCars);
  */
 
 carRouter.delete("/deleteCar/:id", verifyToken, deleteCar);
+
+/**
+ * @swagger
+ * /parking/cars/updateCar/{id}:
+ *   put:
+ *     summary: Update a car
+ *     tags: [Cars]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The car id
+ *     requestBody:
+ *          required: true
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/updateCars'
+ *     responses:
+ *       200:
+ *          description: The car's data updated successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/updateCars'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+carRouter.put("/updateCar/:id", verifyToken, updateCar);
 
 export default carRouter;
