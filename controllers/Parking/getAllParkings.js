@@ -40,7 +40,12 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
 
   const totalFloors = floors.length;
 
-  const slots = await Parkings.find({ floorID: floors._id });
+  const slots = await Promise.all(
+    floors.map(async (floor) => {
+      const floorSlots = await Parkings.find({ floorID: floor._id });
+      return { floorName: floor.Name, slots: floorSlots };
+    })
+  );
 
   if (!slots || slots.length === 0) {
     return next(new errorHandler(`No slots found!`, 401));
