@@ -26,29 +26,29 @@ import { Booking } from "../models";
  *     reservations:
  *       type: object
  *       required:
- *         - parkingID
- *         - userID
- *         - plateNo
- *         - paymentMethod
+ *         - carID
+ *         - bookedDate
+ *         - startHour
+ *         - endHour
  *       properties:
- *         parkingID:
+ *         carID:
  *           type: string
- *           description: The id of the parking spot
- *         userID:
+ *           description: The id of the user's car
+ *         bookedDate:
  *           type: string
- *           description: The id of the user
- *         plateNo:
+ *           description: The date to reserve a slot
+ *         startHour:
  *           type: string
  *           format: binary
- *           description: The plate number of a car
- *         paymentMethod:
+ *           description: A starting hour
+ *         endHour:
  *           type: string
- *           description: The favourable payment method for the user
+ *           description: An ending hour
  *       example:
- *         parkingID: "P-12345"
- *         userID: "U-56789"
- *         plateNo: "ABC-123"
- *         paymentMethod: "Credit Card"
+ *         carID: "P-12345"
+ *         bookedDate: "2023-12-13"
+ *         startHour: 8
+ *         endHour: 11
  */
 
 /**
@@ -60,12 +60,19 @@ import { Booking } from "../models";
 
 /**
  * @swagger
- * /parking/reservations/bookParking/:
+ * /parking/reservations/bookParkingSlot/{id}:
  *   post:
- *     summary: Reserve one of the available parking slot
+ *     summary: Reserve a parking slot
  *     tags: [Resevations]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The slot id
  *     requestBody:
  *          required: true
  *          content:
@@ -85,7 +92,7 @@ import { Booking } from "../models";
  *          description: Internal Server Error
  */
 
-bookingsRouter.post("/bookParking", verifyToken, bookParkingSpot);
+bookingsRouter.post("/bookParkingSlot/:id", verifyToken, bookParkingSpot);
 
 /**
  * @swagger

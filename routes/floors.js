@@ -76,20 +76,15 @@ floor.post("/addnewfloor", verifyToken, addNewFloor);
 
 /**
  * @swagger
- * /parking/floor/getFloors/{id}:
+ * /parking/floor/getFloors:
  *   get:
  *     summary: Returns floors of the buildings
- *     tags: [clientAccess]
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The building id
+ *     tags: [Floor]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *          description: The buildings found successfully
+ *          description: The floors found successfully
  *          content:
  *             application/json:
  *               schema:
@@ -102,7 +97,7 @@ floor.post("/addnewfloor", verifyToken, addNewFloor);
  *          description: Internal Server Error
  */
 
-floor.get("/getFloors/:id", getAllFloors);
+floor.get("/getFloors", verifyToken, getAllFloors);
 
 /**
  * @swagger

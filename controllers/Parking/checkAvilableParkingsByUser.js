@@ -1,25 +1,33 @@
-import { Parkings } from "../../models";
+import { Building, Floors, Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const checkAvailableParkingsByUser = catchAsyncError(
   async (req, res, next) => {
-    let id = req.params.id;
+    const { id } = req.params;
 
-    const parkingList = await Parkings.find({ floorID: id });
+    const floors = await Floors.find({ buildingId: id });
 
-    if (!parkingList || parkingList.length === 0) {
-      return next(
-        new errorHandler(`No parking found for floor ID: ${id}`, 404)
-      );
+    if (!floors || floors.length === 0) {
+      return next(new errorHandler(`No floors found!`, 401));
     }
 
-    let availableSlots = parkingList.filter(
-      (parking) => parking.status === false
+    const totalFloors = floors.length;
+
+    const slots = await Promise.all(
+      floors.map(async (floor) => {
+        const floorSlots = await Parkings.find({ floorID: floor._id });
+        return { floorName: floor.Name, slots: floorSlots };
+      })
     );
 
+    if (!slots || slots.length === 0) {
+      return next(new errorHandler(`No slots found!`, 401));
+    }
+
     res.status(200).json({
-      availableSlots,
+      Floors: totalFloors,
+      slots,
     });
   }
 );

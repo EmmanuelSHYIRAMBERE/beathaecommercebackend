@@ -1,33 +1,33 @@
 import mongoose from "mongoose";
 
 const bookingSchema = mongoose.Schema({
-  parkingID: {
+  slotID: {
     type: String,
-    required: true,
+    required: false,
   },
   userID: {
     type: String,
-    required: true,
+    required: false,
   },
-  plateNo: {
+  carID: {
+    type: String,
+    required: false,
+  },
+  bookedDate: {
     type: String,
     required: true,
   },
-  payableAmount: {
+  startHour: {
+    type: Number,
+    required: false,
+  },
+  endHour: {
     type: Number,
     required: false,
   },
   Status: {
     type: String,
     default: "pending",
-  },
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
-  building: {
-    type: String,
-    required: false,
   },
   dateSent: {
     type: Date,
@@ -40,3 +40,45 @@ const bookingSchema = mongoose.Schema({
 });
 
 export const Reservations = mongoose.model("Reservations", bookingSchema);
+
+function validateParkingAccessForDate(date, startHour, endHour) {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+
+  const userDate = new Date(date);
+
+  const isBefore = userDate < currentDate;
+  const isSame = userDate.getTime() === currentDate.getTime();
+  const isAfter = userDate > currentDate;
+
+  const isWithinRange =
+    (isSame && currentHour >= startHour && currentHour < endHour) ||
+    (isAfter && isBefore);
+
+  return isWithinRange;
+}
+
+function isAccessAllowed(userDate, startHour, endHour) {
+  const accessDate = new Date(userDate);
+
+  const currentTime = new Date();
+
+  if (currentTime.toDateString() === accessDate.toDateString()) {
+    const currentHour = currentTime.getHours();
+    if (currentHour >= startHour && currentHour < endHour) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// const userDate = "2023-12-13";
+// const startHour = 9;
+// const endHour = 17;
+
+// if (!validateParkingAccessForDate(userDate, startHour, endHour)) {
+//   console.log("Access is allowed.");
+// } else {
+//   console.log("Access is not allowed.");
+// }

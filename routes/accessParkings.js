@@ -48,19 +48,17 @@ import { admin, verifyToken } from "../middleware";
 
 /**
  * @swagger
- * /parking/slots/checkAvailableSlots/{id}:
+ * /parking/slots/checkSlotsByUser/{id}:
  *   get:
- *     summary: Returns the list of the available parking slots
+ *     summary: Returns all slots in a building
  *     tags: [clientAccess]
- *     security:
- *       - BearerAuth: []
  *     parameters:
  *        - in: path
  *          name: id
  *          schema:
  *             type: string
  *          required: true
- *          description: The floor id
+ *          description: The building id
  *     responses:
  *       200:
  *          description: The available slots found successfully
@@ -78,7 +76,7 @@ import { admin, verifyToken } from "../middleware";
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/checkAvailableSlots/:id", checkAvailableParkingsByUser);
+parkingRouter.get("/checkSlotsByUser/:id", checkAvailableParkingsByUser);
 
 /**
  * @swagger

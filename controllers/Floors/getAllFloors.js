@@ -3,12 +3,12 @@ import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const getAllFloors = catchAsyncError(async (req, res, next) => {
-  const { id } = req.params;
+  const { manager } = req.user.email;
 
-  const building = await Building.findById(id);
+  const building = await Building.findOne({ managerEmail: manager });
 
   if (!building) {
-    return next(new errorHandler(`A building with ID: ${id} not found!`, 404));
+    return next(new errorHandler(`No floors found!`, 404));
   }
 
   const floors = await Floors.find({ buildingId: id });
