@@ -141,8 +141,6 @@ const buildingRouter = express.Router();
  *   get:
  *     summary: Returns the details of all the buildings
  *     tags: [clientAccess]
- *     security:
- *       - BearerAuth: []
  *     responses:
  *       200:
  *          description: The buildings found successfully

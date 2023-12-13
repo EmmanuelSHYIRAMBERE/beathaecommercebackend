@@ -116,7 +116,7 @@ parkingRouter.post("/addNewSlot/:id", verifyToken, addNewParking);
 
 /**
  * @swagger
- * /parking/slots/getAllParking:
+ * /parking/slots/getAllSlots:
  *   get:
  *     summary: Returns the list of the total parking slots
  *     tags: [Slots]
@@ -139,7 +139,7 @@ parkingRouter.post("/addNewSlot/:id", verifyToken, addNewParking);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getAllParking", verifyToken, getTotalParking);
+parkingRouter.get("/getAllSlots", verifyToken, getTotalParking);
 
 /**
  * @swagger

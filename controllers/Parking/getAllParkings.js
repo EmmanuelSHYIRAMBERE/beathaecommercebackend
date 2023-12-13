@@ -1,5 +1,5 @@
 import { use } from "passport";
-import { Parkings, User } from "../../models";
+import { Building, Floors, Parkings, User } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
@@ -24,15 +24,30 @@ const calculateTimeAgo = (timebooked) => {
 };
 
 export const getTotalParking = catchAsyncError(async (req, res, next) => {
-  const { id } = req.params;
+  const email = req.user.email;
 
-  const Parking = await Parkings.findById({ floorID: id });
+  const building = await Building.findOne({ managerEmail: email });
 
-  if (!Parking) {
-    return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
+  if (!building) {
+    return next(new errorHandler(`You are not authorized!`, 401));
+  }
+
+  const floors = await Floors.find({ buildingId: building._id });
+
+  if (!floors || floors.length === 0) {
+    return next(new errorHandler(`No floors found!`, 401));
+  }
+
+  const totalFloors = floors.length;
+
+  const slots = await Parkings.find({ floorID: floors._id });
+
+  if (!slots || slots.length === 0) {
+    return next(new errorHandler(`No slots found!`, 401));
   }
 
   res.status(200).json({
-    Parking,
+    Floors: totalFloors,
+    slots,
   });
 });

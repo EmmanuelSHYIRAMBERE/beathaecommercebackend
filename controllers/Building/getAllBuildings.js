@@ -6,7 +6,6 @@ export const getAllBuildings = catchAsyncError(async (req, res, next) => {
     Floors: 0,
     availableSpots: 0,
     bookedSlots: 0,
-    managerEmail: 0,
   });
 
   const totalBuilding = allBuildings.length;
