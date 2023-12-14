@@ -18,11 +18,11 @@ const bookingSchema = mongoose.Schema({
     required: true,
   },
   startHour: {
-    type: Number,
+    type: String,
     required: false,
   },
   endHour: {
-    type: Number,
+    type: String,
     required: false,
   },
   Status: {
@@ -41,44 +41,23 @@ const bookingSchema = mongoose.Schema({
 
 export const Reservations = mongoose.model("Reservations", bookingSchema);
 
-function validateParkingAccessForDate(date, startHour, endHour) {
-  const currentDate = new Date();
-  const currentHour = currentDate.getHours();
+function validateParkingAccessForDate(userDate, startHour, endHour) {
+  const accessDate = Date.parse(userDate + "T" + startHour);
+  const endDate = Date.parse(userDate + "T" + endHour);
 
-  const userDate = new Date(date);
+  console.log("Access date", accessDate);
 
-  const isBefore = userDate < currentDate;
-  const isSame = userDate.getTime() === currentDate.getTime();
-  const isAfter = userDate > currentDate;
+  const currentTime = Date.now();
 
-  const isWithinRange =
-    (isSame && currentHour >= startHour && currentHour < endHour) ||
-    (isAfter && isBefore);
+  console.log(currentTime);
 
-  return isWithinRange;
-}
-
-function isAccessAllowed(userDate, startHour, endHour) {
-  const accessDate = new Date(userDate);
-
-  const currentTime = new Date();
-
-  if (currentTime.toDateString() === accessDate.toDateString()) {
-    const currentHour = currentTime.getHours();
-    if (currentHour >= startHour && currentHour < endHour) {
-      return false;
-    }
+  if (
+    isNaN(accessDate) ||
+    isNaN(endDate) ||
+    currentTime >= accessDate ||
+    accessDate > endDate
+  ) {
+    return false;
   }
-
   return true;
 }
-
-// const userDate = "2023-12-13";
-// const startHour = 9;
-// const endHour = 17;
-
-// if (!validateParkingAccessForDate(userDate, startHour, endHour)) {
-//   console.log("Access is allowed.");
-// } else {
-//   console.log("Access is not allowed.");
-// }

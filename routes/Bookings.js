@@ -46,9 +46,9 @@ import { Booking } from "../models";
  *           description: An ending hour
  *       example:
  *         carID: "P-12345"
- *         bookedDate: "2023-12-13"
- *         startHour: 8
- *         endHour: 11
+ *         bookedDate: "2023-12-08"
+ *         startHour: "15:30"
+ *         endHour: "17:12"
  */
 
 /**

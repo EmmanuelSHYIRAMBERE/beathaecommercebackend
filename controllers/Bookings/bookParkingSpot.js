@@ -2,21 +2,25 @@ import { Cars, Parkings, Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
-export function validateParkingAccessForDate(date, startHour, endHour) {
-  const currentDate = new Date();
-  const currentHour = currentDate.getHours();
+export function validateParkingAccessForDate(userDate, startHour, endHour) {
+  const accessDate = Date.parse(userDate + "T" + startHour);
+  const endDate = Date.parse(userDate + "T" + endHour);
 
-  const userDate = new Date(date);
+  console.log("Access date", accessDate);
 
-  const isBefore = userDate < currentDate;
-  const isSame = userDate.getTime() === currentDate.getTime();
-  const isAfter = userDate > currentDate;
+  const currentTime = Date.now();
 
-  const isWithinRange =
-    (isSame && currentHour >= startHour && currentHour < endHour) ||
-    (isAfter && isBefore);
+  console.log(currentTime);
 
-  return isWithinRange;
+  if (
+    isNaN(accessDate) ||
+    isNaN(endDate) ||
+    currentTime >= accessDate ||
+    accessDate > endDate
+  ) {
+    return false;
+  }
+  return true;
 }
 
 export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
@@ -31,8 +35,6 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     );
   }
 
-  console.log(parkingID);
-
   const carID = req.body.carID;
   const car = await Cars.findById({ _id: carID });
   if (!car) {
@@ -44,20 +46,8 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   req.body.slotID = parkingID;
   req.body.userID = userID;
 
-  // if (startHour < 0 || startHour > 24 || endHour < 0 || endHour > 24) {
-  //   return next(new errorHandler(`Invalid time!`, 400));
-  // } else if (startHour > endHour) {
-  //   return next(
-  //     new errorHandler(`Starting time must be less than Ending time!`, 400)
-  //   );
-  // } else if (!(bookedDate < Date.now)) {
-  //   return next(new errorHandler(`Date entered no longer exists!`, 400));
-  // }
-
-  log;
-
   if (!validateParkingAccessForDate(bookedDate, startHour, endHour)) {
-    return next(new errorHandler(`Invalid time entered!`, 401));
+    return next(new errorHandler(`Time entered not valid!`, 400));
   }
 
   const reserved = await Reservations.create(req.body);
