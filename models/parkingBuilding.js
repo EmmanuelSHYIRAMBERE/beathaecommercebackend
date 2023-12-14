@@ -25,16 +25,8 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  Price: {
-    type: String,
-    required: true,
-  },
   profilePicture: {
     type: String,
-    required: true,
-  },
-  Floors: {
-    type: Number,
     required: true,
   },
   Description: {

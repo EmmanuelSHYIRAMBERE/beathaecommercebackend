@@ -21,8 +21,6 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
     building.Street = req.body.Street || building.Street;
     building.Longitude = req.body.Longitude || building.Longitude;
     building.Latitude = req.body.Latitude || building.Latitude;
-    building.Price = req.body.Price || building.Price;
-    building.Floors = req.body.Floors || building.Floors;
     building.Description = req.body.Description || building.Description;
     building.managerEmail = req.body.managerEmail || building.managerEmail;
 
@@ -56,9 +54,7 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
       Street: building.Street,
       Longitude: building.Longitude,
       Latitude: building.Latitude,
-      Price: building.Price,
       profilePicture: profilePicture,
-      Floors: building.Floors,
       Description: building.Description,
       managerEmail: building.managerEmail,
     };

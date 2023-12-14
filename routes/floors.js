@@ -22,20 +22,29 @@ const floor = express.Router();
  *       type: object
  *       required:
  *         - Name
+ *         - Price
  *       properties:
  *         Name:
  *           type: string
  *           description: The name of the floor
+ *         Price:
+ *           type: string
+ *           description: The price per hour of one slot
  *       example:
  *         Name: "Ground"
+ *         Price: 1000
  *     updateFloor:
  *       type: object
  *       properties:
  *         Name:
  *           type: string
  *           description: The name of the floor
+ *         Price:
+ *           type: string
+ *           description: The price per hour of one slot
  *       example:
  *         Name: "Ground"
+ *         Price: 1000
  */
 
 /**

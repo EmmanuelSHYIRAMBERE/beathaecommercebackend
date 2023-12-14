@@ -3,7 +3,6 @@ import { catchAsyncError } from "../../utility";
 
 export const getAllBuildings = catchAsyncError(async (req, res, next) => {
   const allBuildings = await Building.find({}).select({
-    Floors: 0,
     availableSpots: 0,
     bookedSlots: 0,
   });

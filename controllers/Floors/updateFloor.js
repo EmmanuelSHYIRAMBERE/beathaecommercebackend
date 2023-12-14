@@ -15,17 +15,27 @@ export const updateFloor = catchAsyncError(async (req, res, next) => {
 
   const { id } = req.params;
 
-  const floor = await Floors.findByIdAndUpdate({ _id: id }, req.body, {
-    new: true,
-  });
+  const floor = await Floors.findById(id);
 
   if (!floor) {
     return next(new errorHandler(`A floor with ID: ${id}, not found`, 404));
   }
 
-  const updatedFloor = await Floors.findById(id);
+  floor.Name = req.body.Name || floor.Name;
+  floor.Price = req.body.Price || floor.Price;
+  floor.buildingId = floor.buildingId;
+
+  await floor.save();
+
+  const filteredData = {
+    _id: floor._id,
+    Name: floor.Name,
+    Price: floor.Price,
+    buildingID: floor.buildingId,
+  };
+
   res.status(200).json({
     message: `A floor with ID: ${id}, updated successfully`,
-    updatedFloor,
+    filteredData,
   });
 });

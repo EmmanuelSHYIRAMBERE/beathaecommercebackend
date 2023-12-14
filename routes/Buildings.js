@@ -25,9 +25,7 @@ const buildingRouter = express.Router();
  *         - Street
  *         - Longitude
  *         - Latitude
- *         - Price
  *         - profilePicture
- *         - Floors
  *         - Description
  *         - managerEmail
  *       properties:
@@ -49,16 +47,10 @@ const buildingRouter = express.Router();
  *         Latitude:
  *           type: string
  *           description: The latitude of the building
- *         Price:
- *           type: string
- *           description: The price per hour of one slot
  *         profilePicture:
  *           type: string
  *           format: binary
  *           description: The profile image of the building
- *         Floors:
- *           type: string
- *           description: The number of floors of the building
  *         Description:
  *           type: string
  *           description: The description of the building
@@ -72,9 +64,7 @@ const buildingRouter = express.Router();
  *         Street: "KK 095 St"
  *         Longitude: "30.0474° E"
  *         Latitude: "-1.9706° S"
- *         Price: "800"
  *         profilePicture: "kigali_tower_image.jpg"
- *         Floors: "15"
  *         Description: "Kigali Tower is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
  *         managerEmail: "manager@kigalitower.com"
  *     updateBuildings:
@@ -98,16 +88,10 @@ const buildingRouter = express.Router();
  *         Latitude:
  *           type: string
  *           description: The latitude of the building
- *         Price:
- *           type: string
- *           description: The price per hour of one slot
  *         profilePicture:
  *           type: string
  *           format: binary
  *           description: The profile image of the building
- *         Floors:
- *           type: string
- *           description: The number of floors of the building
  *         Description:
  *           type: string
  *           description: The description of the building

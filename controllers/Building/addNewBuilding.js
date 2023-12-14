@@ -11,8 +11,6 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     Street,
     Longitude,
     Latitude,
-    Price,
-    Floors,
     Description,
     managerEmail,
   } = req.body;
@@ -58,9 +56,7 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     Street,
     Longitude,
     Latitude,
-    Price,
     profilePicture,
-    Floors,
     Description,
     managerEmail,
   });
