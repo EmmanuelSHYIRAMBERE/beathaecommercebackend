@@ -13,6 +13,18 @@ const floorSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  totalSlots: {
+    type: Number,
+    default: 0,
+  },
+  remainingSlots: {
+    type: Number,
+    default: 0,
+  },
+  bookedSlots: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const Floors = mongoose.model("Floors", floorSchema);

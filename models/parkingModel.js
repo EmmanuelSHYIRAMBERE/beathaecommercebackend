@@ -5,6 +5,10 @@ const parkingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  Price: {
+    type: String,
+    required: true,
+  },
   status: {
     type: Boolean,
     default: false,

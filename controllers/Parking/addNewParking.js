@@ -23,13 +23,15 @@ export const addNewParking = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`A floor with ID: ${id} not found!`, 404));
   }
 
+  req.body.Price = floor.Price;
   req.body.floorID = floor._id;
 
   const slot = await Parkings.create(req.body);
 
-  building.availableSpots = parseInt(building.availableSpots) + 1;
+  floor.totalSlots = parseInt(floor.totalSlots) + 1;
+  floor.remainingSlots = parseInt(floor.remainingSlots) + 1;
 
-  await building.save();
+  await floor.save();
 
   return res.status(201).json({
     status: "A new slot added successfully",

@@ -1,11 +1,8 @@
-import { Building, User } from "../../models";
+import { Building } from "../../models";
 import { catchAsyncError } from "../../utility";
 
 export const getAllBuildings = catchAsyncError(async (req, res, next) => {
-  const allBuildings = await Building.find({}).select({
-    availableSpots: 0,
-    bookedSlots: 0,
-  });
+  const allBuildings = await Building.find({});
 
   const totalBuilding = allBuildings.length;
 

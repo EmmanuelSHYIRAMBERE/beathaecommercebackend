@@ -33,14 +33,6 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  availableSpots: {
-    type: Number,
-    default: 0,
-  },
-  bookedSlots: {
-    type: Number,
-    default: 0,
-  },
   managerEmail: {
     type: String,
     required: true,

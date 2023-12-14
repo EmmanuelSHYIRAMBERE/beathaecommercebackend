@@ -1,4 +1,4 @@
-import { Building, Parkings } from "../../models";
+import { Building, Floors, Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
@@ -9,7 +9,8 @@ export const deleteParkingSlot = catchAsyncError(async (req, res, next) => {
 
   if (!building) {
     return res.status(400).json({
-      message: "You are not authorised!",
+      message:
+        "You are not authorized to perform this action. Building not found.",
     });
   }
 
@@ -21,9 +22,21 @@ export const deleteParkingSlot = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`A slot with ID: ${id}, not found`, 404));
   }
 
-  building.availableSpots = parseInt(building.availableSpots) - 1;
+  const floor = await Floors.find({ _id: parkingSlot.floorID });
 
-  await building.save();
+  if (!floor) {
+    return next(
+      new errorHandler(
+        `Floor associated with parking slot ${id} not found.`,
+        404
+      )
+    );
+  }
+
+  floor.totalSlots = parseInt(floor.totalSlots) - 1;
+  floor.remainingSlots = parseInt(floor.remainingSlots) - 1;
+
+  await floor.save();
 
   res.status(200).json({
     message: `A parking slot with ID: ${id}, deleted successfully!`,

@@ -29,13 +29,18 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   const building = await Building.findOne({ managerEmail: email });
 
   if (!building) {
-    return next(new errorHandler(`You are not authorized!`, 401));
+    return next(
+      new errorHandler(
+        `You are not authorized to perform this action. Building not found.`,
+        401
+      )
+    );
   }
 
   const floors = await Floors.find({ buildingId: building._id });
 
   if (!floors || floors.length === 0) {
-    return next(new errorHandler(`No floors found!`, 401));
+    return next(new errorHandler(`No floor found!`, 401));
   }
 
   const totalFloors = floors.length;
@@ -48,7 +53,7 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   );
 
   if (!slots || slots.length === 0) {
-    return next(new errorHandler(`No slots found!`, 401));
+    return next(new errorHandler(`No slot found!`, 401));
   }
 
   res.status(200).json({
