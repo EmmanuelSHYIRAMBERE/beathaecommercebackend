@@ -1,4 +1,4 @@
-import { Building, Floors, Parkings } from "../../models";
+import { Floors, Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 

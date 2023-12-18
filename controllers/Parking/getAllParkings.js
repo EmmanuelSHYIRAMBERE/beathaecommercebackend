@@ -37,7 +37,9 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
     );
   }
 
-  const floors = await Floors.find({ buildingId: building._id });
+  const { id } = req.params;
+
+  const floors = await Floors.find({ _id: id });
 
   if (!floors || floors.length === 0) {
     return next(new errorHandler(`No floor found!`, 401));
@@ -48,7 +50,7 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   const slots = await Promise.all(
     floors.map(async (floor) => {
       const floorSlots = await Parkings.find({ floorID: floor._id });
-      return { floorName: floor.Name, slots: floorSlots };
+      return { _id: floor._id, floorName: floor.Name, slots: floorSlots };
     })
   );
 
@@ -57,7 +59,6 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   }
 
   res.status(200).json({
-    Floors: totalFloors,
     slots,
   });
 });
