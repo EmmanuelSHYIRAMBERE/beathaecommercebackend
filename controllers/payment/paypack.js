@@ -18,7 +18,7 @@ export const cashIn = catchAsyncError(async (req, res) => {
     return new errorHandler(`Reservation with id: ${id} not found.`, 404);
   }
 
-  const payableAmount = req.body.totalPrice;
+  const payableAmount = reservation.totalPrice;
 
   const response = await paypack.cashin({
     number: req.body.number,

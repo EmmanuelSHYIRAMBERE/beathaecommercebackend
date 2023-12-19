@@ -30,6 +30,8 @@ import { Booking } from "../models";
  *         - bookedDate
  *         - startHour
  *         - endHour
+ *         - totalPrice
+ *         - Duration
  *       properties:
  *         carID:
  *           type: string
@@ -39,16 +41,23 @@ import { Booking } from "../models";
  *           description: The date to reserve a slot
  *         startHour:
  *           type: string
- *           format: binary
  *           description: A starting hour
  *         endHour:
  *           type: string
  *           description: An ending hour
+ *         totalPrice:
+ *           type: string
+ *           description: The total Price
+ *         Duration:
+ *           type: string
+ *           description: The duration time
  *       example:
  *         carID: "P-12345"
  *         bookedDate: "2023-12-08"
  *         startHour: "15:30"
  *         endHour: "17:12"
+ *         totalPrice: 100
+ *         Duration: 3 hours
  */
 
 /**

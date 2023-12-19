@@ -23,17 +23,12 @@ import { admin, verifyToken } from "../middleware";
  *     makePayment:
  *       type: object
  *       required:
- *         - totalPrice
  *         - number
  *       properties:
- *         totalPrice:
- *           type: string
- *           description: The total amount to pay
  *         number:
  *           type: string
  *           description: The phone number of the user
  *       example:
- *         totalPrice: 100
  *         number: 07xxxxxxxx
  */
 

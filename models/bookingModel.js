@@ -13,10 +13,6 @@ const bookingSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-  totalPrice: {
-    type: Number,
-    required: false,
-  },
   bookedDate: {
     type: String,
     required: true,
@@ -28,6 +24,14 @@ const bookingSchema = mongoose.Schema({
   endHour: {
     type: String,
     required: false,
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  Duration: {
+    type: String,
+    required: true,
   },
   Status: {
     type: String,
