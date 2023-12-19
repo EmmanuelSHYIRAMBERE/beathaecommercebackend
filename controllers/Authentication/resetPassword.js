@@ -39,7 +39,8 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "Password reset OTP sent to the user email",
+    message: "Password reset OTP sent to your email",
+    OTP: resetPasswordOTP,
   });
 });
 

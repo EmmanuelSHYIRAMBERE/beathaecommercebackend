@@ -6,11 +6,7 @@ export function validateParkingAccessForDate(userDate, startHour, endHour) {
   const accessDate = Date.parse(userDate + "T" + startHour);
   const endDate = Date.parse(userDate + "T" + endHour);
 
-  console.log("Access date", accessDate);
-
   const currentTime = Date.now();
-
-  console.log(currentTime);
 
   if (
     isNaN(accessDate) ||
@@ -28,12 +24,13 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
 
   const parkingID = req.params.id;
 
-  const parking = await Parkings.findById(parkingID);
+  const parking = await Parkings.findById(parkingID).lean();
   if (!parking) {
     return next(
       new errorHandler(`A parking slot with ID: ${parkingID} not found`, 404)
     );
   }
+  console.log(parking);
 
   const carID = req.body.carID;
   const car = await Cars.findById({ _id: carID });
@@ -49,6 +46,19 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   if (!validateParkingAccessForDate(bookedDate, startHour, endHour)) {
     return next(new errorHandler(`Time entered not valid!`, 400));
   }
+
+  const [startHourNumeric, startMinuteNumeric] = startHour
+    .split(":")
+    .map(Number);
+  const [endHourNumeric, endMinuteNumeric] = endHour.split(":").map(Number);
+
+  const time_diff_minutes =
+    endHourNumeric * 60 +
+    endMinuteNumeric -
+    (startHourNumeric * 60 + startMinuteNumeric);
+
+  const hours = Math.floor(time_diff_minutes / 60);
+  const minutes = time_diff_minutes % 60;
 
   const reserved = await Reservations.create(req.body);
 

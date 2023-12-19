@@ -23,12 +23,17 @@ import { admin, verifyToken } from "../middleware";
  *     makePayment:
  *       type: object
  *       required:
+ *         - totalPrice
  *         - number
  *       properties:
+ *         totalPrice:
+ *           type: string
+ *           description: The total amount to pay
  *         number:
  *           type: string
  *           description: The phone number of the user
  *       example:
+ *         totalPrice: 100
  *         number: 07xxxxxxxx
  */
 
@@ -43,7 +48,7 @@ import { admin, verifyToken } from "../middleware";
  * @swagger
  * /parking/momo/pay/{id}:
  *   post:
- *     summary: Make payment for the reversed parking slot
+ *     summary: Make payment for the reversed slot
  *     tags: [Payment]
  *     security:
  *       - BearerAuth: []
@@ -59,10 +64,10 @@ import { admin, verifyToken } from "../middleware";
  *          schema:
  *             type: string
  *          required: true
- *          description: The id of a parking slot
+ *          description: The id of a reservation
  *     responses:
  *       200:
- *          description: The reserved parking slot paid successfully
+ *          description: The reserved slot paid successfully
  *          content:
  *             application/json:
  *               schema:

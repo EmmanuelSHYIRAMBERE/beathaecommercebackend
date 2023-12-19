@@ -45,18 +45,23 @@ const authenticate = express.Router();
  *     resetPassword:
  *       type: object
  *       required:
+ *         - email
+ *         - OTP
  *         - password
- *         - passwordConfirm
  *       properties:
- *         password:
+ *         email:
  *           type: string
- *           description: The new password of the user
- *         passwordConfirm:
+ *           description: The email of the user
+ *         OTP:
+ *           type: string
+ *           description: The email of the user
+ *         password:
  *           type: string
  *           description: The confirmation password of the user
  *       example:
+ *         email: email@example.com
+ *         OTP: 123412
  *         password: 1234@!myNewPassword
- *         passwordConfirm: 1234@!myNewPassword
  */
 
 /**
@@ -72,8 +77,6 @@ const authenticate = express.Router();
  *   patch:
  *     summary: Change current password
  *     tags: [Authentication]
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *          required: true
  *          content:
@@ -96,7 +99,60 @@ const authenticate = express.Router();
  */
 
 authenticate.patch("/changepassword", verifyToken, changePwd);
+
+/**
+ * @swagger
+ * /parking/password/forgotpassword:
+ *   post:
+ *     summary: Forgot password
+ *     tags: [Authentication]
+ *     requestBody:
+ *          required: true
+ *          content:
+ *            application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/forgotPassord'
+ *     responses:
+ *       200:
+ *          description: Password reset OTP sent to your email
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/forgotPassord'
+ *       404:
+ *          description: User not found
+ *       500:
+ *          description: Internal Server Error
+ */
 authenticate.post("/forgotpassword", forgotPassword);
+
+/**
+ * @swagger
+ * /parking/password/resetpassword:
+ *   patch:
+ *     summary: Reset password
+ *     tags: [Authentication]
+ *     requestBody:
+ *          required: true
+ *          content:
+ *            application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/resetPassword'
+ *     responses:
+ *       201:
+ *          description: The new password was successfully created
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/resetPassword'
+ *       401:
+ *          description: Invalid OTP!
+ *       404:
+ *          description: User not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
 authenticate.patch("/resetpassword", resetPassword);
 
 export default authenticate;

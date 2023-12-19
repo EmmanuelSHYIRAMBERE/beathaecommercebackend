@@ -13,6 +13,10 @@ const bookingSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  totalPrice: {
+    type: Number,
+    required: false,
+  },
   bookedDate: {
     type: String,
     required: true,
