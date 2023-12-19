@@ -1,4 +1,4 @@
-import { User } from "../../models";
+import { Building, User } from "../../models";
 import { comparePwd, getToken } from "../../utility";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
@@ -16,6 +16,20 @@ export const logIn = catchAsyncError(async (req, res, next) => {
     );
   }
 
+  let buildingName = "";
+  let image = "";
+
+  if (user?.role === "manager") {
+    const building = await Building.findOne({ managerEmail: req.body.email });
+
+    buildingName = building.buildingName;
+    image = building.profilePicture;
+  } else {
+    buildingName = undefined;
+    image = undefined;
+  }
+
+  console.log(buildingName, ",,,,,,,", image);
   let isPwdMatch = await comparePwd(req.body.password, user.password);
 
   if (!isPwdMatch) {
@@ -34,6 +48,8 @@ export const logIn = catchAsyncError(async (req, res, next) => {
       phoneNo: user.phoneNo,
       location: user.location,
       role: user.role,
+      buildingName,
+      image,
     },
   });
 });

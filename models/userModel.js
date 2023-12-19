@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
-import bcrypt from "bcrypt";
 
 const userSchema = mongoose.Schema({
   email: {
