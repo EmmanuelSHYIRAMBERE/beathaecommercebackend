@@ -7,7 +7,7 @@ const parkingSchema = mongoose.Schema({
   },
   Price: {
     type: String,
-    required: true,
+    required: false,
   },
   status: {
     type: Boolean,

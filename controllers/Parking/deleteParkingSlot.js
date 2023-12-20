@@ -22,7 +22,7 @@ export const deleteParkingSlot = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`A slot with ID: ${id}, not found`, 404));
   }
 
-  const floor = await Floors.find({ _id: parkingSlot.floorID });
+  const floor = await Floors.findOne({ _id: parkingSlot.floorID });
 
   if (!floor) {
     return next(

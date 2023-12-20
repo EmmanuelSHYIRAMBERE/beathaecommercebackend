@@ -22,8 +22,10 @@ export const updateParking = catchAsyncError(async (req, res, next) => {
   }
 
   parkingSlot.Slot = req.body.Slot || floor.Slot;
-  parkingSlot.Price = parkingSlot.Price;
-  parkingSlot.floorID = parkingSlot.floorID;
+  parkingSlot.Price = req.body.Price ?? parkingSlot.Price;
+  parkingSlot.floorID = req.body.floorID ?? parkingSlot.floorID;
+
+  console.log(parkingSlot.floorID, "-----", parkingSlot.Price);
 
   await parkingSlot.save();
 

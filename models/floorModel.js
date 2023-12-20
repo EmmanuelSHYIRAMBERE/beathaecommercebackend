@@ -7,7 +7,7 @@ const floorSchema = mongoose.Schema({
   },
   Price: {
     type: String,
-    required: true,
+    required: false,
   },
   buildingId: {
     type: String,
