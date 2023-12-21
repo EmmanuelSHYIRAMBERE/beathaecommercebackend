@@ -11,6 +11,7 @@ export const getAllFloors = catchAsyncError(async (req, res, next) => {
     if (!building) {
       return next(new errorHandler(`No floors found!`, 404));
     }
+    z;
 
     const floors = await Floors.find({ buildingId: building._id });
 

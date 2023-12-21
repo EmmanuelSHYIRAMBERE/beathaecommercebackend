@@ -11,8 +11,7 @@ import {
   modifyBooking,
   getCheckOutSession,
 } from "../controllers/Bookings";
-import { admin, paginatedResults, verifyToken } from "../middleware";
-import { Booking } from "../models";
+import { verifyToken } from "../middleware";
 
 /**
  * @swagger

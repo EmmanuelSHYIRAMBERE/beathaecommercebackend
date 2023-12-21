@@ -8,6 +8,7 @@ import {
   getOneParking,
   getTotalParking,
   updateParking,
+  getReservedSlots,
 } from "../controllers/Parking";
 import { admin, verifyToken } from "../middleware";
 
@@ -145,6 +146,40 @@ parkingRouter.post("/addNewSlot/:id", verifyToken, addNewParking);
  */
 
 parkingRouter.get("/getAllSlots/:id", verifyToken, getTotalParking);
+
+/**
+ * @swagger
+ * /parking/slots/getReservedSlots/{id}:
+ *   get:
+ *     summary: Returns reserved slots of a floor
+ *     tags: [Resevations]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
+ *     responses:
+ *       200:
+ *          description: The reserved slots found successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/parkings'
+ *       204:
+ *          description: No content found.
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/getReservedSlots/:id", verifyToken, getReservedSlots);
 
 /**
  * @swagger

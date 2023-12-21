@@ -1,4 +1,4 @@
-import { Reservations } from "../../models";
+import { Parkings, Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
@@ -25,6 +25,19 @@ export const cashIn = catchAsyncError(async (req, res) => {
     amount: payableAmount,
     environment: "production",
   });
+
+  const slot = await Parkings.findOne({ _id: reservation.slotID });
+
+  if (!slot) {
+    return new errorHandler(`There's no slot found.`, 404);
+  }
+
+  console.log(slot);
+
+  slot.status = true;
+
+  slot.save();
+
   res.status(200).json({
     status: "payment request sent to your phone number, please confirm it.",
     data: response.data,
