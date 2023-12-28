@@ -7,7 +7,9 @@ export const receiveBookingEmail = (userEmail, userNames) => {
       user: process.env.Email,
       pass: process.env.Password,
     },
-    debug: true,
+    tls: {
+      rejectUnauthorized: false,
+    },
   };
   let transporter = nodemailer.createTransport(config);
 
@@ -15,7 +17,7 @@ export const receiveBookingEmail = (userEmail, userNames) => {
     from: process.env.Email,
     to: userEmail,
     subject:
-      "Park with Confidence: Your Spot is Secured with Smart Parking System!",
+      "Park with Confidence: Your Spot is Reserved Securely with Smart Parking System!",
     html: `<!DOCTYPE html>
 
 <html lang="en">
@@ -24,7 +26,7 @@ export const receiveBookingEmail = (userEmail, userNames) => {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Welcome to Smart Parking System</title>
+    <title>Thank you for partner with Smart Parking System</title>
 
     <style>
       body {

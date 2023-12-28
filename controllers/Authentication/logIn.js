@@ -29,7 +29,6 @@ export const logIn = catchAsyncError(async (req, res, next) => {
     image = undefined;
   }
 
-  console.log(buildingName, ",,,,,,,", image);
   let isPwdMatch = await comparePwd(req.body.password, user.password);
 
   if (!isPwdMatch) {

@@ -7,19 +7,23 @@ export const receiveContactEmail = (userEmail, userNames) => {
       user: process.env.Email,
       pass: process.env.Password,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   };
   let transporter = nodemailer.createTransport(config);
 
   let message = {
     from: process.env.Email,
     to: userEmail,
-    subject: "Welcome to Holidays Planners - Your Journey Begins Here",
+    subject:
+      "Thank you for connect with Holidays Planners - Your request Has Been Received",
     html: `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Holidays Planners</title>
+    <title>Your request Has Been Received to Smart Parking System</title>
 
     <style>
       body {

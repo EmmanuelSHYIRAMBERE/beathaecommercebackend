@@ -10,6 +10,7 @@ import {
   getBooking,
   modifyBooking,
   getCheckOutSession,
+  getAllBookingOfUser,
 } from "../controllers/Bookings";
 import { verifyToken } from "../middleware";
 
@@ -128,6 +129,36 @@ bookingsRouter.post("/bookParkingSlot/:id", verifyToken, bookParkingSpot);
  */
 
 bookingsRouter.get("/getreservations", verifyToken, getBookings);
+/**
+ * @swagger
+ * /parking/reservations/getAllReservedSlotOfUser:
+ *   get:
+ *     summary: Returns the all the parking slot reserved by user
+ *     tags: [clientAccess]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/reservations'
+ *       403:
+ *          description: The user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+bookingsRouter.get(
+  "/getAllReservedSlotOfUser",
+  verifyToken,
+  getAllBookingOfUser
+);
 
 bookingsRouter.get("/getbooking/:id", getBooking);
 

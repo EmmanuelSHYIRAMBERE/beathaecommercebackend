@@ -7,6 +7,9 @@ export const sendEmail = (userEmail, userNames) => {
       user: process.env.Email,
       pass: process.env.Password,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   };
   let transporter = nodemailer.createTransport(config);
 

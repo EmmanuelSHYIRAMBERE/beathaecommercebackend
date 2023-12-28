@@ -1,6 +1,6 @@
 import { resetPasswordEmail } from "../../middleware";
 import { User } from "../../models";
-import { catchAsyncError, getToken } from "../../utility";
+import { catchAsyncError, getToken, hashPwd } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 import crypto from "crypto";
@@ -69,7 +69,9 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
     );
   }
 
-  user.password = req.body.password;
+  let hashedPwd = await hashPwd(req.body.password);
+
+  user.password = hashedPwd;
   user.otp = undefined;
   user.otpExpiry = undefined;
   user.passwordChangedAt = Date.now();

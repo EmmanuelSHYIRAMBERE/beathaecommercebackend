@@ -59,9 +59,9 @@ const authenticate = express.Router();
  *           type: string
  *           description: The confirmation password of the user
  *       example:
- *         email: email@example.com
- *         OTP: 123412
- *         password: 1234@!myNewPassword
+ *         email: "email@example.com"
+ *         OTP: "123412"
+ *         password: "1234@!myNewPassword"
  */
 
 /**
