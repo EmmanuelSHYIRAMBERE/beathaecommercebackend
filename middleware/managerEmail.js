@@ -1,4 +1,25 @@
-<!DOCTYPE html>
+import nodemailer from "nodemailer";
+
+export const managerEmailMessage = (managerEmail, managerPassword) => {
+  let config = {
+    service: "gmail",
+    auth: {
+      user: "smartparkingsystem7@gmail.com",
+      pass: "wake fhej dzvb aoxm",
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  };
+  let transporter = nodemailer.createTransport(config);
+
+  let message = {
+    from: "smartparkingsystem7@gmail.com",
+    to: managerEmail,
+    subject:
+      "Welcome to Smart Parking System - Your Gateway to Effortless Parking Management Partner.",
+
+    html: `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -130,3 +151,11 @@
     </div>
   </body>
 </html>
+
+
+
+`,
+  };
+
+  transporter.sendMail(message);
+};

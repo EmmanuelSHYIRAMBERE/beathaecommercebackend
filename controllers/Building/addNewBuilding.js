@@ -1,3 +1,4 @@
+import { managerEmailMessage } from "../../middleware";
 import { Building, User } from "../../models";
 import { catchAsyncError, hashPwd } from "../../utility";
 import cloudinary from "../../utility/cloudinary";
@@ -60,6 +61,8 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     Description,
     managerEmail,
   });
+
+  managerEmailMessage(managerEmail, defaultPassword);
 
   const { availableSpots, bookedSlots, ...buildingData } =
     newBuilding.toObject();
