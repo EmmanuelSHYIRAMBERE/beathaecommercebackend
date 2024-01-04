@@ -42,7 +42,7 @@ export const getTotalParking = catchAsyncError(async (req, res, next) => {
   const floors = await Floors.find({ _id: id });
 
   if (!floors || floors.length === 0) {
-    return next(new errorHandler(`No floor found!`, 401));
+    return next(new errorHandler(`Floor with this ID: ${id} not found!`, 401));
   }
 
   const totalFloors = floors.length;

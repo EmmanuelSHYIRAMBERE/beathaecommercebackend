@@ -10,18 +10,95 @@ import {
   updateContact,
   replyContacted,
 } from "../controllers/Contacts";
-import { admin, paginatedResults, verifyToken } from "../middleware";
-import { Contact } from "../models";
+import { admin, verifyToken } from "../middleware";
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     contacts:
+ *       type: object
+ *       required:
+ *         - fullNames
+ *         - email
+ *         - message
+ *       properties:
+ *         fullNames:
+ *           type: string
+ *           description: The full names of the user
+ *         email:
+ *           type: string
+ *           description: The email of the user
+ *         message:
+ *           type: string
+ *           description: The message to be communicated
+ *       example:
+ *         fullNames: "example names"
+ *         email: email@example.com
+ *         message: "Hello, this is my comment."
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Contacts
+ *   description: The contacts managing API
+ */
+
+/**
+ * @swagger
+ * /parking/contacts/makecontact:
+ *   post:
+ *     summary: Write a contact message
+ *     tags: [Contacts]
+ *     requestBody:
+ *          required: true
+ *          content:
+ *            application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/contacts'
+ *     responses:
+ *       201:
+ *          description: You message sent successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/contacts'
+ *       500:
+ *          description: Internal Server Error
+ */
 
 contactsRouter.post("/makecontact", makeContact);
 
-contactsRouter.get(
-  "/getcontacts",
-  verifyToken,
-  admin,
-  paginatedResults(Contact),
-  getContacts
-);
+/**
+ * @swagger
+ * /parking/contacts/getcontacts:
+ *   get:
+ *     summary: Returns the all contacts data
+ *     tags: [Contacts]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: The success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/contacts'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+contactsRouter.get("/getcontacts", verifyToken, admin, getContacts);
 
 contactsRouter.get("/getcontact/:id", verifyToken, admin, getContact);
 

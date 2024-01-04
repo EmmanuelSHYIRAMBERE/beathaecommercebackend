@@ -193,10 +193,10 @@ parkingRouter.get("/getReservedSlots/:id", verifyToken, getReservedSlots);
  *          schema:
  *             type: string
  *          required: true
- *          description: The parking spot id
+ *          description: The parking slot id
  *     responses:
  *       200:
- *          description: The parking spot found by id
+ *          description: The parking slot found by id
  *          content:
  *             application/json:
  *               schema:

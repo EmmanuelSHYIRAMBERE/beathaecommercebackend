@@ -5,10 +5,8 @@ import errorHandler from "../../utility/errorHandlerClass";
 export const getSingleUser = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
 
-  // Check in the User database
   const user = await User.findOne({ _id: id });
 
-  // Check in the Admin database if not found in the User database
   if (!user) {
     const admin = await Admin.findOne({ _id: id });
 

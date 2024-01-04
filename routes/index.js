@@ -1,20 +1,22 @@
 import express from "express";
-import parkingRouter from "./accessParkings";
-import usersRouter from "./accessUsers";
-import bookingsRouter from "./Bookings";
 import authenticate from "./aauthentication";
-import errorHandler from "../utility/errorHandlerClass";
-import { globalErrorController } from "../controllers/Errors";
-import stripeRoute from "./payRoute";
-import packRouter from "./payPack";
+import bookingsRouter from "./Bookings";
 import buildingRouter from "./Buildings";
-import floorRouter from "./floors";
 import carRouter from "./cars";
+import contactsRouter from "./Contacts";
+import errorHandler from "../utility/errorHandlerClass";
+import floorRouter from "./floors";
+import { globalErrorController } from "../controllers/Errors";
+import packRouter from "./payPack";
+import parkingRouter from "./accessParkings";
+import stripeRoute from "./payRoute";
+import usersRouter from "./accessUsers";
 
 const systemRouter = express.Router();
 
 systemRouter.use("/slots", parkingRouter);
 systemRouter.use("/buildings", buildingRouter);
+systemRouter.use("/contacts", contactsRouter);
 systemRouter.use("/users", usersRouter);
 systemRouter.use("/floor", floorRouter);
 systemRouter.use("/cars", carRouter);

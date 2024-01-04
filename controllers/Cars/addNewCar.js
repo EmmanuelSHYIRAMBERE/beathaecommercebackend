@@ -1,10 +1,6 @@
 import { Cars } from "../../models/carModel.js";
-import { Floors } from "../../models/floorModel.js";
-import { Building } from "../../models/parkingBuilding.js";
-import { Parkings } from "../../models/parkingModel.js";
 import { User } from "../../models/userModel.js";
 import { catchAsyncError } from "../../utility/catchSync.js";
-import errorHandler from "../../utility/errorHandlerClass.js";
 
 export const addNewCar = catchAsyncError(async (req, res, next) => {
   const userId = req.user._id;
