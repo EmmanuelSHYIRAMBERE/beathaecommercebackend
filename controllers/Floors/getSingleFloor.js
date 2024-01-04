@@ -29,6 +29,7 @@ export const getSingleFloor = catchAsyncError(async (req, res, next) => {
   const slots = {
     _id: floor._id,
     floorName: floor.Name,
+    floorPrice: floor.Price,
     slots: floorSlots,
   };
 

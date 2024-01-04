@@ -39,6 +39,7 @@ export const getAllFloors = catchAsyncError(async (req, res, next) => {
       floorDetails.push({
         _id: floor._id,
         Name: floor.Name,
+        Price: floor.Price,
         buildingId: floor.buildingId,
         totalSlots,
         remainingSlots,
