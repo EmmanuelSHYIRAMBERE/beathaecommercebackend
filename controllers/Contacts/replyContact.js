@@ -27,7 +27,7 @@ export const replyContacted = catchAsyncError(async (req, res, next) => {
 
   let repliedData = await replyContact.create(req.body);
 
-  const formatedRepliedData = {
+  const repliedMessageData = {
     _id: repliedData._id,
     replyEmail: repliedData.replyEmail,
     repliedMessage: repliedData.replyMessage,
@@ -38,6 +38,6 @@ export const replyContacted = catchAsyncError(async (req, res, next) => {
 
   res.status(201).json({
     message: "Your reply message sent successfully",
-    formatedRepliedData,
+    repliedMessageData,
   });
 });

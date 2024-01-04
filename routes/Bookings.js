@@ -7,10 +7,10 @@ import {
   getBookings,
   deleteBooking,
   updateBooking,
-  getBooking,
   modifyBooking,
   getCheckOutSession,
   getAllBookingOfUser,
+  getOneBooking,
 } from "../controllers/Bookings";
 import { verifyToken } from "../middleware";
 
@@ -160,9 +160,69 @@ bookingsRouter.get(
   getAllBookingOfUser
 );
 
-bookingsRouter.get("/getbooking/:id", getBooking);
+/**
+ * @swagger
+ * /parking/reservations/getOneReservedData/{id}:
+ *   get:
+ *     summary: Get the reservation details
+ *     tags: [Resevations]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The reservation id
+ *     responses:
+ *       200:
+ *          description: The success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/reservations'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
 
-bookingsRouter.delete("/deletebooking/:id", deleteBooking);
+bookingsRouter.get("/getOneReservedData/:id", getOneBooking);
+
+/**
+ * @swagger
+ * /parking/reservations/deleteReservationData/{id}:
+ *   delete:
+ *     summary: Delete the booked data by id
+ *     tags: [Resevations]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The booked data id
+ *     responses:
+ *       200:
+ *          description: The current booked data was deleted successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/bookings'
+ *       204:
+ *          description: No any booking data in the database
+ *       401:
+ *          description: The user not authorised
+ *       404:
+ *          description: The booking data was not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+bookingsRouter.delete("/deleteReservationData/:id", deleteBooking);
 
 bookingsRouter.put("/updatebooking/:id", updateBooking);
 

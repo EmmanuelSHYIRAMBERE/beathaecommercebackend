@@ -49,10 +49,22 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
 
   const reserved = await Reservations.create(req.body);
 
+  const reservedData = {
+    _id: reserved._id,
+    bookedDate: reserved.bookedDate,
+    startHour: reserved.replyMessage,
+    endHour: reserved.endHour,
+    totalPrice: reserved.totalPrice,
+    Status: reserved.Status,
+    Duration: reserved.Duration,
+    userID: reserved.userID,
+    slotID: reserved.slotID,
+    carID: reserved.carID,
+    dateSent: reserved.dateSent,
+  };
+
   res.status(201).json({
     message: `A parking slot with ID: ${parkingID} booked successfully`,
-    reservationData: { reserved },
-    Slot: { parking },
-    Car: { car },
+    reservedData,
   });
 });
