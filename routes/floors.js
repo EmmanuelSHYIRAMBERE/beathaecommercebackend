@@ -4,6 +4,7 @@ import {
   addNewFloor,
   deleteFloor,
   getAllFloors,
+  getSingleFloor,
   updateFloor,
 } from "../controllers/Floors";
 
@@ -107,6 +108,38 @@ floor.post("/addnewfloor", verifyToken, addNewFloor);
  */
 
 floor.get("/getFloors", verifyToken, getAllFloors);
+
+/**
+ * @swagger
+ * /parking/floor/getSingleFloor/{id}:
+ *   get:
+ *     summary: Returns details of a floor
+ *     tags: [Floor]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The floor id
+ *     responses:
+ *       200:
+ *          description: The success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Floor'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/getSingleFloor/:id", verifyToken, getSingleFloor);
 
 /**
  * @swagger
