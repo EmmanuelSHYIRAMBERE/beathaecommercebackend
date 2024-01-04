@@ -139,7 +139,7 @@ floor.get("/getFloors", verifyToken, getAllFloors);
  *          description: Internal Server Error
  */
 
-parkingRouter.get("/getSingleFloor/:id", verifyToken, getSingleFloor);
+floor.get("/getSingleFloor/:id", verifyToken, getSingleFloor);
 
 /**
  * @swagger

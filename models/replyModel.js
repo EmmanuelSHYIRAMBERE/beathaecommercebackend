@@ -9,10 +9,6 @@ const replyContactSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  subject: {
-    type: String,
-    required: true,
-  },
   replyMessage: {
     type: String,
     required: true,

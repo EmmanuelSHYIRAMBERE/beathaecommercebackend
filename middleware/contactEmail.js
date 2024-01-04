@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const receiveContactEmail = (userEmail, userNames) => {
+export const replyEmail = (userEmail, replyMessage) => {
   let config = {
     service: "gmail",
     auth: {
@@ -98,39 +98,29 @@ export const receiveContactEmail = (userEmail, userNames) => {
   <body>
     <div class="header">
       <a
-        href="https://holiday-planer-project.onrender.com/holidays/tours/gettours"
+        href="#"
         ><img
-          src="https://html.geekcodelab.com/holiday-planners/assets/images/logo.png"
-          alt="HolidaysPlanners logo"
-      /></a>
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWtvKgAkMj_gzrRKUkaonxClNNp3evQwwdmPox9nDg&s"
+          alt="Smart Parking System logo"
+        /></a>
     </div>
     <div class="content">
-      <h1>Thank you for contacting Holidays Planners!</h1>
+      <h1>Thank you for contacting Smart Parking System!</h1>
       <p>
-        Dear ${userNames?.split(" ")[0]},
-        <br /><br />
-        We sincerely appreciate your contact with Holidays Planners. Your valuable feedback has been received, and we are excited to engage with you to plan unforgettable travel experiences.<br /><br /><br />
-        Your journey with Holidays Planners commences now. We invite you to explore our website, discover exciting destinations, and initiate the planning of your next remarkable getaway.
+        ${replyMessage},<br /><br />
       </p>
-      <div class="button-container">
-        <a
-          href="https://holiday-planer-project.onrender.com/holidays/tours/gettours"
-          class="button"
-          >Discover Tours</a
-        >
-      </div>
     </div>
     <div class="footer">
-      Thank you for choosing Holidays Planners. We are enthusiastic to have the opportunity to assist you in creating memorable travel experiences that will last a lifetime.<br /><br />
-
-      If you have any questions or need assistance, please feel free to contact our dedicated support team at holidaysplanners30@gmail.com.
-<br /><br /><br />
-
-      Your adventure starts here!<br /><br />
-      <br />
+      Thank you for choosing Smart Parking System to simplify your parking
+      experience. We look forward to providing you with seamless parking
+      solutions that enhance your daily commute. Explore the features and
+      functionalities of our platform. If you have any questions or need
+      assistance, feel free to reach out. We are here to make your parking
+      experience as efficient and enjoyable as possible.<br /><br />
 
       Best regards,
     </div>
+    <div></div>
   </body>
 </html>
 `,

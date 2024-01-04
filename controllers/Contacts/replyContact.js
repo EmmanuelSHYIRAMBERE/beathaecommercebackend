@@ -1,5 +1,5 @@
 import { Contact } from "../../models";
-import { receiveContactEmail } from "../../middleware";
+import { replyEmail } from "../../middleware";
 import { replyContact } from "../../models/replyModel";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
@@ -23,12 +23,21 @@ export const replyContacted = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`Can't send an empty response message`, 404));
   }
 
+  replyEmail(emailRepliedTo, req.body.replyMessage);
+
   let repliedData = await replyContact.create(req.body);
 
-  // receiveContactEmail(contact.email, contact.names);
+  const formatedRepliedData = {
+    _id: repliedData._id,
+    replyEmail: repliedData.replyEmail,
+    repliedMessage: repliedData.replyMessage,
+    dateSent: repliedData.dateSent,
+    emailSentTo: emailRepliedTo,
+    messageRepliedTo: contact.message,
+  };
 
   res.status(201).json({
-    message: "Your reply sent successfully",
-    data: { repliedData },
+    message: "Your reply message sent successfully",
+    formatedRepliedData,
   });
 });

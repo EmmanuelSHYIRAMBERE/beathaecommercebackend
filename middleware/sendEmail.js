@@ -114,7 +114,7 @@ export const sendEmail = (userEmail, userNames) => {
   </head>
   <body>
     <div class="header">
-      <a href="https://smart-parking-system.com">
+      <a href="#">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWtvKgAkMj_gzrRKUkaonxClNNp3evQwwdmPox9nDg&s"
           alt="Smart Parking System logo"
