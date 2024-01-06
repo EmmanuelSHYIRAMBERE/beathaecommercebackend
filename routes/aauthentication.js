@@ -77,6 +77,8 @@ const authenticate = express.Router();
  *   patch:
  *     summary: Change current password
  *     tags: [Authentication]
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *          required: true
  *          content:

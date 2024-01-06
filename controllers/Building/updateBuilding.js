@@ -22,7 +22,11 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
     building.Longitude = req.body.Longitude || building.Longitude;
     building.Latitude = req.body.Latitude || building.Latitude;
     building.Description = req.body.Description || building.Description;
+    building.managerNames = req.body.managerNames || building.managerNames;
     building.managerEmail = req.body.managerEmail || building.managerEmail;
+    building.managerPhone = req.body.managerPhone || building.managerPhone;
+    building.managerAddress =
+      req.body.managerAddress || building.managerAddress;
 
     let profilePicture = building.profilePicture;
 

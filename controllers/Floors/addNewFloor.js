@@ -1,18 +1,19 @@
 import { Floors } from "../../models/floorModel.js";
 import { Building } from "../../models/parkingBuilding.js";
-import { Parkings } from "../../models/parkingModel.js";
 import { catchAsyncError } from "../../utility/catchSync.js";
 import errorHandler from "../../utility/errorHandlerClass.js";
 
 export const addNewFloor = catchAsyncError(async (req, res, next) => {
   const managerEmail = req.user.email;
 
+  console.log(req.user);
+
   const building = await Building.findOne({ managerEmail: managerEmail });
 
   if (!building) {
-    return res.status(400).json({
-      message: "You are not authorised!",
-    });
+    return next(
+      new errorHandler(`Access Denied. You are not authorized.`, 400)
+    );
   }
 
   req.body.buildingId = building._id;

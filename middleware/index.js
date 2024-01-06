@@ -8,3 +8,4 @@ export * from "./bookingEmail";
 export * from "./pagination";
 export * from "./resetPasswordEmail";
 export * from "./managerEmail";
+export * from "./contactReceivedEmail";

@@ -16,8 +16,7 @@ export const replyEmail = (userEmail, replyMessage) => {
   let message = {
     from: process.env.Email,
     to: userEmail,
-    subject:
-      "Thank you for connect with Holidays Planners - Your request Has Been Received",
+    subject: "Smart Parking Response ",
     html: `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -105,7 +104,6 @@ export const replyEmail = (userEmail, replyMessage) => {
         /></a>
     </div>
     <div class="content">
-      <h1>Thank you for contacting Smart Parking System!</h1>
       <p>
         ${replyMessage},<br /><br />
       </p>

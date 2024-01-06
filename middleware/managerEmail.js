@@ -126,14 +126,12 @@ export const managerEmailMessage = (managerEmail, managerPassword) => {
       <h1>Smart Parking System</h1>
     </div>
     <div class="content">
-      <h2>Login Credentials</h2>
       <p>
-        Dear valued partner,
+        Dear esteemed partner,
         <br /><br />
-        Welcome to Smart Parking System! We're delighted to have you on board,
-        and we're confident that your journey with us will redefine your parking experience.
+        We are honored to welcome you aboard, and we are confident that your association with us will redefine your parking experience.
         <br /><br />
-        To access your account, please use the following login credentials:
+        To access your account, please utilize the following login credentials:
       </p>
       <br /><br />
       <div class="otp-container">
@@ -142,8 +140,11 @@ export const managerEmailMessage = (managerEmail, managerPassword) => {
         <strong>Password:</strong> ${managerPassword}
         <br /><br />
       </div>
-      <p>Should you have any questions or require assistance, our support team is
-        ready to help you.
+      <div class="otp-container">
+        <p>You have the flexibility to modify these credentials at your convenience to enhance your accessibility.</p>
+        <br /><br />
+      </div>
+      <p>If you have any inquiries or require assistance, our dedicated support team is readily available to assist you.
         </p><br /><br />
         <p>Best regards,</p>
         <br /><br />

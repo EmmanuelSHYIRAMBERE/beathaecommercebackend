@@ -32,7 +32,7 @@ export const logIn = catchAsyncError(async (req, res, next) => {
   let isPwdMatch = await comparePwd(req.body.password, user.password);
 
   if (!isPwdMatch) {
-    return next(new errorHandler(`wrong password!`, 401));
+    return next(new errorHandler(`Incorrect password. Please try again.`, 401));
   }
 
   let token = getToken({ _id: user._id, email: user.email });

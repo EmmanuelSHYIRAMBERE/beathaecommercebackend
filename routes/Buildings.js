@@ -5,6 +5,8 @@ import { deleteBuilding } from "../controllers/Building/deleteBuilding";
 import { getAllBuildings } from "../controllers/Building/getAllBuildings";
 import { updateBuilding } from "../controllers/Building/updateBuilding";
 import profileImagesUpload from "../middleware/profileMulter";
+import { getManagerData } from "../controllers/Building";
+import { buildingStatistics } from "../controllers/Statistics";
 const buildingRouter = express.Router();
 
 /**
@@ -27,7 +29,10 @@ const buildingRouter = express.Router();
  *         - Latitude
  *         - profilePicture
  *         - Description
+ *         - managerNames
  *         - managerEmail
+ *         - managerPhone
+ *         - managerAddress
  *       properties:
  *         buildingName:
  *           type: string
@@ -54,19 +59,31 @@ const buildingRouter = express.Router();
  *         Description:
  *           type: string
  *           description: The description of the building
+ *         managerNames:
+ *           type: string
+ *           description: The manager's full names
  *         managerEmail:
  *           type: string
  *           description: The manager's email
+ *         managerPhone:
+ *           type: string
+ *           description: The manager's phone number
+ *         managerAddress:
+ *           type: string
+ *           description: The manager's address
  *       example:
- *         buildingName: "Kigali Tower"
+ *         buildingName: "Park Zone"
  *         District: "Kicukiro"
  *         Sector: "Gahanga"
  *         Street: "KK 095 St"
  *         Longitude: "30.0474° E"
  *         Latitude: "-1.9706° S"
- *         profilePicture: "kigali_tower_image.jpg"
- *         Description: "Kigali Tower is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
- *         managerEmail: "manager@kigalitower.com"
+ *         profilePicture: "park_zone.jpg"
+ *         Description: "Park Zone is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
+ *         managerNames: "manager names"
+ *         managerEmail: "manager@building_park_zone.com"
+ *         managerPhone: "+123 456 7890"
+ *         managerAddress: "KN 231 St"
  *     updateBuildings:
  *       type: object
  *       properties:
@@ -95,11 +112,20 @@ const buildingRouter = express.Router();
  *         Description:
  *           type: string
  *           description: The description of the building
- *         managerEmail:
+ *         managerNames:
  *           type: string
  *           description: The manager's email
+ *         managerEmail:
+ *           type: string
+ *           description: The manager's full names
+ *         managerPhone:
+ *           type: string
+ *           description: The manager's phone number
+ *         managerAddress:
+ *           type: string
+ *           description: The manager's address
  *       example:
- *         buildingName: "Kigali Tower"
+ *         buildingName: "Park Zone"
  *         District: "Kicukiro"
  *         Sector: "Gahanga"
  *         Street: "KK 095 St"
@@ -108,8 +134,11 @@ const buildingRouter = express.Router();
  *         Price: "800"
  *         profilePicture: "kigali_tower_image.jpg"
  *         Floors: "15"
- *         Description: "Kigali Tower is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
- *         managerEmail: "manager@kigalitower.com"
+ *         Description: "Park Zone is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
+ *         managerNames: "manager names"
+ *         managerEmail: "manager@building_park_zone.com"
+ *         managerPhone: "+123 456 7890"
+ *         managerAddress: "KN 231 St"
  */
 
 /**
@@ -117,6 +146,13 @@ const buildingRouter = express.Router();
  * tags:
  *   name: Buildings
  *   description: The buildings managing API
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Statistics
+ *   description: The statistics managing API
  */
 
 /**
@@ -213,6 +249,8 @@ buildingRouter.delete(
   admin,
   deleteBuilding
 );
+
+buildingRouter.get("/getManagerData/:id", verifyToken, admin, getManagerData);
 
 /**
  * @swagger

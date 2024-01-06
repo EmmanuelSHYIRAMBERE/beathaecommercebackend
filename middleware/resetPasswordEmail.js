@@ -16,7 +16,7 @@ export const resetPasswordEmail = (userEmail, userNames, otpCode) => {
   let message = {
     from: process.env.Email,
     to: userEmail,
-    subject: "Password reset OTP",
+    subject: "Smart Parking System - Password reset request",
 
     html: `<!DOCTYPE html>
 <html lang="en">
@@ -125,7 +125,6 @@ export const resetPasswordEmail = (userEmail, userNames, otpCode) => {
       <h1>Smart Parking System</h1>
     </div>
     <div class="content">
-      <h2>Password Reset Request</h2>
       <p>
         Dear ${userNames ? userNames.split(" ")[0] : "Valued Customer"},
         <br /><br />

@@ -123,10 +123,6 @@ export const sendEmail = (userEmail, userNames) => {
       <h1>Smart Parking System</h1>
     </div>
     <div class="content">
-      <h2>
-        Your Parking Experience Begins,<br />
-        Welcome to Smart Parking System!
-      </h2>
       <p>
         Dear ${userNames ? userNames.split(" ")[0] : "Valued Customer"},
         <br /><br />

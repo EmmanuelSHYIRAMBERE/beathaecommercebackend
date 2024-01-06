@@ -32,8 +32,6 @@ export const cashIn = catchAsyncError(async (req, res) => {
     return new errorHandler(`There's no slot found.`, 404);
   }
 
-  console.log(slot);
-
   slot.status = true;
 
   slot.save();

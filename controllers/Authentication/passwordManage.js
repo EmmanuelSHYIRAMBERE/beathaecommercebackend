@@ -8,7 +8,7 @@ export const changePwd = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ email: req.user.email });
 
   if (!user) {
-    return next(new errorHandler.NotFoundError("Please log in first!"));
+    return next(new errorHandler("Please log in first!"));
   }
 
   let pwdCheck = await comparePwd(existingPassword, user.password);

@@ -11,6 +11,7 @@ import {
   getReservedSlots,
 } from "../controllers/Parking";
 import { admin, verifyToken } from "../middleware";
+import { buildingStatistics, sytemStatistics } from "../controllers/Statistics";
 
 /**
  * @swagger
@@ -45,6 +46,13 @@ import { admin, verifyToken } from "../middleware";
  * tags:
  *   name: Slots
  *   description: The Slots managing API
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Statistics
+ *   description: The statistics managing API
  */
 
 /**
@@ -284,5 +292,71 @@ parkingRouter.delete("/deleteSlot/:id", verifyToken, deleteParkingSlot);
  */
 
 parkingRouter.put("/updateSlot/:id", verifyToken, updateParking);
+
+/**
+ * @swagger
+ * /parking/slots/buildingStatistics:
+ *   get:
+ *     summary: Returns the current statistics of the building's slots
+ *     tags: [Statistics]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     description: A success message
+ *                   totalAvailableSlots:
+ *                     type: number
+ *                     description: The total number of available slots
+ *                   totalReservedSlots:
+ *                     type: number
+ *                     description: The total number of reserved slots
+ *       204:
+ *          description: Not found.
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/buildingStatistics", verifyToken, buildingStatistics);
+
+/**
+ * @swagger
+ * /parking/slots/sytemStatistics:
+ *   get:
+ *     summary: Returns the current statistics of the system's slots
+ *     tags: [Statistics]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     description: A success message
+ *                   totalAvailableSlots:
+ *                     type: number
+ *                     description: The total number of available slots
+ *                   totalReservedSlots:
+ *                     type: number
+ *                     description: The total number of reserved slots
+ *       204:
+ *          description: Not found.
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/sytemStatistics", verifyToken, admin, sytemStatistics);
 
 export default parkingRouter;
