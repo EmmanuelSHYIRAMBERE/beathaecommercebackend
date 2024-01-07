@@ -21,9 +21,9 @@ export const updateParking = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`A slot with ID: ${id}, not found`, 404));
   }
 
-  parkingSlot.Slot = req.body.Slot || floor.Slot;
-  parkingSlot.Price = req.body.Price ?? parkingSlot.Price;
-  parkingSlot.floorID = req.body.floorID ?? parkingSlot.floorID;
+  parkingSlot.Slot = req.body.Slot || parkingSlot.Slot;
+  req.body.Price = parkingSlot.Price;
+  req.body.floorID = parkingSlot.floorID;
 
   await parkingSlot.save();
 

@@ -1,16 +1,24 @@
+import { managerEmailMessage } from "../../middleware";
 import { Building, User } from "../../models";
-import { catchAsyncError } from "../../utility";
+import {
+  catchAsyncError,
+  generateRandomPassword,
+  hashPwd,
+} from "../../utility";
 import cloudinary from "../../utility/cloudinary";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const updateBuilding = catchAsyncError(async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const managerEmail = req.user.email;
 
-    const building = await Building.findById(id);
+    const building = await Building.findOne({ managerEmail: managerEmail });
+    console.log(building);
 
     if (!building) {
-      return next(new errorHandler(`Building with ID: ${id} not found`, 404));
+      return next(
+        new errorHandler(`Access Denied. You are not authorized.`, 400)
+      );
     }
 
     const oldManagerEmail = building.managerEmail;
@@ -37,16 +45,42 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
 
     await building.save();
 
+    const manager = await User.findOne({ email: req.body.managerEmail });
+
+    if (manager) {
+      manager.fullNames = req.body.managerNames || building.managerNames;
+      manager.email = req.body.managerEmail || building.managerEmail;
+      manager.phoneNo = req.body.managerPhone || building.managerPhone;
+      manager.location = req.body.managerAddress || building.managerAddress;
+      manager.buildingManaged = req.body.buildingName;
+      manager.buildingAddress = req.body.Street;
+      manager.password = req.body.managerPassword || building.managerPassword;
+      await manager.save();
+    }
+
     let newManager;
 
     if (req.body.managerEmail && req.body.managerEmail !== oldManagerEmail) {
       newManager = await User.findOne({ email: req.body.managerEmail });
 
       if (newManager) {
-        newManager.email = req.body.managerEmail;
+        newManager.fullNames = req.body.managerNames || building.managerNames;
+        newManager.email = req.body.managerEmail || building.managerEmail;
+        newManager.phoneNo = req.body.managerPhone || building.managerPhone;
+        newManager.location =
+          req.body.managerAddress || building.managerAddress;
         newManager.buildingManaged = req.body.buildingName;
         newManager.buildingAddress = req.body.Street;
+
+        const defaultPassword = generateRandomPassword(12);
+        const hashedPassword = await hashPwd(defaultPassword);
+
+        req.body.managerPassword = hashedPassword;
+
+        newManager.password = req.body.managerPassword;
         await newManager.save();
+
+        managerEmailMessage(newManager.email, defaultPassword);
       }
     }
 
@@ -60,11 +94,14 @@ export const updateBuilding = catchAsyncError(async (req, res, next) => {
       Latitude: building.Latitude,
       profilePicture: profilePicture,
       Description: building.Description,
+      managerNames: building.managerNames,
       managerEmail: building.managerEmail,
+      managerPhone: building.managerPhone,
+      managerAddress: building.managerAddress,
     };
 
     res.status(200).json({
-      message: `Building with ID: ${id} updated successfully.`,
+      message: `Building ${building.buildingName} updated successfully.`,
       filteredData,
     });
   } catch (error) {

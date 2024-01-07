@@ -5,8 +5,7 @@ import { deleteBuilding } from "../controllers/Building/deleteBuilding";
 import { getAllBuildings } from "../controllers/Building/getAllBuildings";
 import { updateBuilding } from "../controllers/Building/updateBuilding";
 import profileImagesUpload from "../middleware/profileMulter";
-import { getManagerData } from "../controllers/Building";
-import { buildingStatistics } from "../controllers/Statistics";
+import { getOneBuildingData } from "../controllers/Building";
 const buildingRouter = express.Router();
 
 /**
@@ -250,11 +249,34 @@ buildingRouter.delete(
   deleteBuilding
 );
 
-buildingRouter.get("/getManagerData/:id", verifyToken, admin, getManagerData);
+/**
+ * @swagger
+ * /parking/buildings/getOneBuildingData:
+ *   get:
+ *     summary: Get a building's data
+ *     tags: [Buildings]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Buildings'
+ *       401:
+ *          description: A user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+buildingRouter.get("/getOneBuildingData", verifyToken, getOneBuildingData);
 
 /**
  * @swagger
- * /parking/buildings/updateBuilding/{id}:
+ * /parking/buildings/updateBuilding:
  *   put:
  *     summary: Update a building data by id
  *     tags: [Buildings]
@@ -266,13 +288,6 @@ buildingRouter.get("/getManagerData/:id", verifyToken, admin, getManagerData);
  *             multipart/form-data:
  *               schema:
  *                   $ref: '#/components/schemas/updateBuildings'
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The building id
  *     responses:
  *       200:
  *          description: The building's data modified successfully
@@ -289,10 +304,9 @@ buildingRouter.get("/getManagerData/:id", verifyToken, admin, getManagerData);
  */
 
 buildingRouter.put(
-  "/updateBuilding/:id",
+  "/updateBuilding",
   profileImagesUpload,
   verifyToken,
-  admin,
   updateBuilding
 );
 

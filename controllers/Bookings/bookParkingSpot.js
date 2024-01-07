@@ -1,23 +1,6 @@
 import { Cars, Parkings, Reservations } from "../../models";
-import { catchAsyncError } from "../../utility";
+import { catchAsyncError, validateParkingAccessForDate } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
-
-export function validateParkingAccessForDate(userDate, startHour, endHour) {
-  const accessDate = Date.parse(userDate + "T" + startHour);
-  const endDate = Date.parse(userDate + "T" + endHour);
-
-  const currentTime = Date.now();
-
-  if (
-    isNaN(accessDate) ||
-    isNaN(endDate) ||
-    currentTime >= accessDate ||
-    accessDate > endDate
-  ) {
-    return false;
-  }
-  return true;
-}
 
 export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   const userID = req.user._id;
@@ -27,10 +10,14 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   const parking = await Parkings.findById(parkingID).lean();
   if (!parking) {
     return next(
-      new errorHandler(`A parking slot with ID: ${parkingID} not found`, 404)
+      new errorHandler(`A parking slot: ${parking.Slot} not found`, 404)
     );
   }
-  console.log(parking);
+  if (parking.status === true) {
+    return next(
+      new errorHandler(`A parking slot: ${parking.Slot} parking`, 400)
+    );
+  }
 
   const carID = req.body.carID;
   const car = await Cars.findById({ _id: carID });
@@ -63,8 +50,17 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     dateSent: reserved.dateSent,
   };
 
+  const bookedTime = Date.parse(bookedDate + "T" + endHour);
+  const now = Date.now();
+
+  if (now === bookedTime) {
+    parking.status = false;
+
+    parking.save();
+  }
+
   res.status(201).json({
-    message: `A parking slot with ID: ${parkingID} booked successfully`,
+    message: `A parking slot ${parking.Slot} booked successfully`,
     reservedData,
   });
 });

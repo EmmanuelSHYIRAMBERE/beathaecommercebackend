@@ -1,6 +1,7 @@
 export * from "./bookParkingSpot";
 export * from "./getAllBooking";
 export * from "./getAllBookingOfUser";
+export * from "./getAllCompletedBookingOfUser";
 export * from "./deleteBooking";
 export * from "./updateBooking";
 export * from "./getOneBooking";

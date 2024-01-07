@@ -277,34 +277,4 @@ usersRouter.put("/userupdate", verifyToken, profileImagesUpload, updateUser);
 
 usersRouter.delete("/userdelete/:id", verifyToken, deleteUser);
 
-/**
- * @swagger
- * /parking/buildings/getManagerData/{id}:
- *   get:
- *     summary: Get manager's data
- *     tags: [Buildings]
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *        - in: path
- *          name: id
- *          schema:
- *             type: string
- *          required: true
- *          description: The manager id
- *     responses:
- *       200:
- *          description: Success
- *          content:
- *             application/json:
- *               schema:
- *                   $ref: '#/components/schemas/Buildings'
- *       401:
- *          description: A user not authorised
- *       404:
- *          description: Not found
- *       500:
- *          description: Internal Server Error
- */
-
 export default usersRouter;
