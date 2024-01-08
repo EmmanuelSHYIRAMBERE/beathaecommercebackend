@@ -11,3 +11,23 @@ PSJJU7FCFP
 
 app_password: wake fhej dzvb aoxm
 swa: https://smart-parking-api-3g3e.onrender.com/
+
+
+
+
+const checker = (bookedTime) => {
+  const now = Date.now();
+  if (now >= bookedTime) {
+    console.log("the booked time is-----", bookedTime);
+    console.log("the now is -------------------", now);
+    console.log(
+      `and the desicion on-----(now >= bookedTime)-----${now >= bookedTime}`
+    );
+  }
+};
+
+const bookedTime = Date.parse("2024-01-08T15:31");
+cron.schedule("* * * * * *", function () {
+  // checker(bookedTime);
+  // console.log("___________________________________________");
+});

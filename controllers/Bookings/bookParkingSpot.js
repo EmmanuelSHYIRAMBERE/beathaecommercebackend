@@ -15,7 +15,10 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   }
   if (parking.status === true) {
     return next(
-      new errorHandler(`A parking slot: ${parking.Slot} parking`, 400)
+      new errorHandler(
+        `A parking slot: ${parking.Slot} parking has been taken, try others.`,
+        400
+      )
     );
   }
 
@@ -49,15 +52,6 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     carID: reserved.carID,
     dateSent: reserved.dateSent,
   };
-
-  const bookedTime = Date.parse(bookedDate + "T" + endHour);
-  const now = Date.now();
-
-  if (now === bookedTime) {
-    parking.status = false;
-
-    parking.save();
-  }
 
   res.status(201).json({
     message: `A parking slot ${parking.Slot} booked successfully`,

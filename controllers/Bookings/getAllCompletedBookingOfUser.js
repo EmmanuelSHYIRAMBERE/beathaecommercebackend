@@ -6,7 +6,7 @@ export const getAllCompletedBookingOfUser = catchAsyncError(
   async (req, res, next) => {
     const userID = req.user._id;
 
-    const bookings = await Reservations.find({ userID, Status: "completed" });
+    const bookings = await Reservations.find({ userID, Status: "Completed" });
 
     if (!bookings || bookings.length === 0) {
       return next(

@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const parkingSchema = mongoose.Schema({
   Slot: {
     type: String,
-    required: true,
+    required: false,
   },
   Price: {
     type: String,
-    required: true,
+    required: false,
   },
   status: {
     type: Boolean,
@@ -15,7 +15,7 @@ const parkingSchema = mongoose.Schema({
   },
   floorID: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
