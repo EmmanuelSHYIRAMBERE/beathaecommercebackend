@@ -12,9 +12,7 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     Longitude,
     Latitude,
     Description,
-    managerNames,
     managerEmail,
-    managerPhone,
   } = req.body;
   const user = await User.findOne({ email: managerEmail });
 
@@ -34,9 +32,6 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     profilePicture = buildingImage.secure_url;
   }
 
-  managerNames = user.fullNames;
-  managerPhone = user.phoneNo;
-
   const newBuilding = await Building.create({
     buildingName,
     District,
@@ -46,16 +41,13 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
     Latitude,
     profilePicture,
     Description,
-    managerNames,
     managerEmail,
-    managerPhone,
   });
 
   const { availableSpots, bookedSlots, ...buildingData } =
     newBuilding.toObject();
 
   user.status = "active";
-  user.role = "manager";
   user.buildingManaged = newBuilding.buildingName;
   user.buildingAddress = newBuilding.Street;
   await user.save();

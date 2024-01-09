@@ -36,6 +36,8 @@ export const signUp = catchAsyncError(async (req, res, next) => {
 
   if (managerPassword) {
     newUser.status = "inactive";
+    newUser.role = "manager";
+
     await newUser.save();
   }
 

@@ -9,6 +9,7 @@ import {
   getAllUser,
   updateUser,
   deleteUser,
+  updateManagerData,
 } from "../controllers/Users";
 import { signUp, logIn } from "../controllers/Authentication";
 
@@ -87,6 +88,26 @@ import { signUp, logIn } from "../controllers/Authentication";
  *         profilePicture: https://example.com/new-profile-picture.jpg
  *         phoneNo: "+25070000001"
  *         location: Updated Address
+ *     managerUpdate:
+ *       type: object
+ *       properties:
+ *         fullNames:
+ *           type: string
+ *           description: The updated full names of the user
+ *         email:
+ *           type: string
+ *           description: The email of the user
+ *         phoneNo:
+ *           type: string
+ *           description: The updated phone number of the user
+ *         status:
+ *           type: string
+ *           description: The current status of the manager
+ *       example:
+ *         fullNames: Updated User Names
+ *         email: email@example.com
+ *         phoneNo: "+25070000001"
+ *         status: "status"
  */
 
 /**
@@ -242,6 +263,45 @@ usersRouter.post("/login", logIn);
  */
 
 usersRouter.put("/userupdate", verifyToken, profileImagesUpload, updateUser);
+
+/**
+ * @swagger
+ * /parking/users/updateManagerData:
+ *   put:
+ *     summary: Update the manager details
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The manager id
+ *     requestBody:
+ *          required: true
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/managerUpdate'
+ *
+ *     responses:
+ *       200:
+ *          description: The manager updated successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/managerUpdate'
+ *       401:
+ *          description: The user not authorised
+ *       404:
+ *          description: The user was not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+usersRouter.put("/updateManagerData", verifyToken, admin, updateManagerData);
 
 /**
  * @swagger

@@ -2,7 +2,6 @@ import { User } from "../../models";
 import cloudinary from "../../utility/cloudinary";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
-import profileImagesUpload from "../../middleware/profileMulter";
 
 export const updateUser = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ email: req.user.email });
