@@ -1,4 +1,5 @@
 import { Parkings, Reservations } from "../../models";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const checkSlotAvailability = async (
   id,
@@ -6,6 +7,8 @@ export const checkSlotAvailability = async (
   endHour,
   startHour
 ) => {
+  changeBookingStatus();
+
   const userEndTime = Date.parse(bookedDate + "T" + endHour);
   const userStartTime = Date.parse(bookedDate + "T" + startHour);
 
@@ -22,10 +25,9 @@ export const checkSlotAvailability = async (
       const now = Date.now();
 
       if (userStartTime > endBookedTime || userStartTime < startBookedTime) {
-
       }
-    //   if (userEndTime > endBookedTime || userEndTime < startBookedTime) {
-    //   }
+      //   if (userEndTime > endBookedTime || userEndTime < startBookedTime) {
+      //   }
     }
   }
 

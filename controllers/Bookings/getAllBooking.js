@@ -5,8 +5,11 @@
 import { Cars, Parkings, Reservations, User } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const getBookings = catchAsyncError(async (req, res, next) => {
+  changeBookingStatus();
+
   try {
     const bookings = await Reservations.find({});
 

@@ -1,6 +1,7 @@
 import { Building, Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 export const updateParking = catchAsyncError(async (req, res, next) => {
   const managerEmail = req.user.email;
@@ -12,6 +13,8 @@ export const updateParking = catchAsyncError(async (req, res, next) => {
       message: "You are not authorised!",
     });
   }
+
+  changeBookingStatus();
 
   const { id } = req.params;
 

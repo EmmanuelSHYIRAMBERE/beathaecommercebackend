@@ -1,9 +1,12 @@
 import { Cars, Parkings, Reservations, User } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const getAllCompletedBookingOfUser = catchAsyncError(
   async (req, res, next) => {
+    changeBookingStatus();
+
     const userID = req.user._id;
 
     const bookings = await Reservations.find({ userID, Status: "Completed" });

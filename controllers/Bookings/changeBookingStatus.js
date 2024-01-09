@@ -38,7 +38,3 @@ export const changeBookingStatus = catchAsyncError(async (req, res, next) => {
     }
   }
 });
-
-cron.schedule("* * * * * *", function () {
-  changeBookingStatus();
-});

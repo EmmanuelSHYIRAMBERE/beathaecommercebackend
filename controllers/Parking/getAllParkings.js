@@ -2,6 +2,7 @@ import { use } from "passport";
 import { Building, Floors, Parkings, User } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 const calculateTimeAgo = (timebooked) => {
   const current_time = new Date();
@@ -25,6 +26,8 @@ const calculateTimeAgo = (timebooked) => {
 
 export const getTotalParking = catchAsyncError(async (req, res, next) => {
   const email = req.user.email;
+
+  changeBookingStatus();
 
   const building = await Building.findOne({ managerEmail: email });
 

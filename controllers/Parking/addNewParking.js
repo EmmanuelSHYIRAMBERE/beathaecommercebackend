@@ -3,6 +3,7 @@ import { Building } from "../../models/parkingBuilding.js";
 import { Parkings } from "../../models/parkingModel.js";
 import { catchAsyncError } from "../../utility/catchSync.js";
 import errorHandler from "../../utility/errorHandlerClass.js";
+import { changeBookingStatus } from "../Bookings/changeBookingStatus.js";
 
 export const addNewParking = catchAsyncError(async (req, res, next) => {
   const managerEmail = req.user.email;
@@ -16,6 +17,8 @@ export const addNewParking = catchAsyncError(async (req, res, next) => {
   }
 
   const { id } = req.params;
+
+  changeBookingStatus();
 
   const floor = await Floors.findById(id);
 

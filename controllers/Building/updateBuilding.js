@@ -7,10 +7,13 @@ import {
 } from "../../utility";
 import cloudinary from "../../utility/cloudinary";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 export const updateBuilding = catchAsyncError(async (req, res, next) => {
   try {
     const managerEmail = req.user.email;
+
+    changeBookingStatus();
 
     const building = await Building.findOne({ managerEmail: managerEmail });
 

@@ -1,5 +1,5 @@
 import { comparePwd, generateRandomPassword, hashPwd } from "../../utility";
-import { User } from "../../models";
+import { Notification, User } from "../../models";
 import { managerEmailMessage, sendEmail } from "../../middleware";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
@@ -41,8 +41,18 @@ export const signUp = catchAsyncError(async (req, res, next) => {
     await newUser.save();
   }
 
-  if (newUser.password) {
-  }
+  const actionMade = `A new user has been registered with the following details:
+  Username: ${newUser.fullNames}
+  Email: ${newUser.email}
+  Phone Number: ${newUser.phoneNo}
+  Location: ${newUser.location}`;
+  const notificationData = {
+    user: newUser.fullNames,
+    type: "signup",
+    actionMade,
+  };
+
+  await Notification.create(notificationData);
 
   res.status(201).json({
     message: "user registerd successfully.",

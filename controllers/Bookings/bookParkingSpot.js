@@ -1,6 +1,7 @@
 import { Cars, Parkings, Reservations } from "../../models";
 import { catchAsyncError, validateParkingAccessForDate } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   const userID = req.user._id;
@@ -37,6 +38,8 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`Time entered not valid!`, 400));
   }
 
+  changeBookingStatus();
+
   const reserved = await Reservations.create(req.body);
 
   const reservedData = {
@@ -52,6 +55,23 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     carID: reserved.carID,
     dateSent: reserved.dateSent,
   };
+
+  const actionMade = `User successfully booked a parking slot with the following detais:
+  Parking Slot: ${parking.Slot}
+  Booked Date: ${reservedData.bookedDate}
+  Start Hour: ${reservedData.startHour}
+  End Hour: ${reservedData.endHour}
+  Total Price: ${reservedData.totalPrice}
+  Status: ${reservedData.Status}
+  Duration: ${reservedData.Duration}`;
+
+  const notificationData = {
+    user: req.user.fullNames,
+    type: "booking",
+    actionMade,
+  };
+
+  await Notification.create(notificationData);
 
   res.status(201).json({
     message: `A parking slot ${parking.Slot} booked successfully`,

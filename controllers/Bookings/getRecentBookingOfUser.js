@@ -1,10 +1,13 @@
 import { Building, Floors, Parkings, Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const getRecentBookingOfUser = catchAsyncError(
   async (req, res, next) => {
     const userID = req.user._id;
+
+    changeBookingStatus();
 
     const bookings = await Reservations.find({ userID }).sort({ dateSent: -1 });
 

@@ -1,9 +1,12 @@
 import { Booking } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export const updateBooking = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
+
+  changeBookingStatus();
 
   const booking = await Booking.findByIdAndUpdate({ _id: id });
 

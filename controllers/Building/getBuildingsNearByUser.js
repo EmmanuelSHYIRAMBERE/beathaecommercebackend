@@ -1,5 +1,6 @@
 import { Building } from "../../models";
 import { catchAsyncError } from "../../utility";
+import { changeBookingStatus } from "../Bookings";
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
   if (!lat1 || !lon1 || !lat2 || !lon2) {
@@ -31,6 +32,8 @@ export const getBuildingsNearByUser = catchAsyncError(
   async (req, res, next) => {
     const userLatitude = req.body.latitude;
     const userLongitude = req.body.longitude;
+
+    changeBookingStatus();
 
     const allBuildings = await Building.find({});
 

@@ -1,9 +1,12 @@
 import { Building, Floors, Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 export const deleteParkingSlot = catchAsyncError(async (req, res, next) => {
   const managerEmail = req.user.email;
+
+  changeBookingStatus();
 
   const building = await Building.findOne({ managerEmail: managerEmail });
 

@@ -1,9 +1,12 @@
 import { Parkings } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 export const getOneParking = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
+
+  changeBookingStatus();
 
   const parkingSlot = await Parkings.findOne({ _id: id });
 

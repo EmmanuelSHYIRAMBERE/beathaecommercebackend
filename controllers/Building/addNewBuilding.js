@@ -2,6 +2,7 @@ import { Building, User } from "../../models";
 import { catchAsyncError } from "../../utility";
 import cloudinary from "../../utility/cloudinary";
 import errorHandler from "../../utility/errorHandlerClass";
+import { changeBookingStatus } from "../Bookings";
 
 export const addNewBuilding = catchAsyncError(async (req, res, next) => {
   let {
@@ -46,6 +47,8 @@ export const addNewBuilding = catchAsyncError(async (req, res, next) => {
 
   const { availableSpots, bookedSlots, ...buildingData } =
     newBuilding.toObject();
+
+  changeBookingStatus();
 
   user.status = "active";
   user.buildingManaged = newBuilding.buildingName;
