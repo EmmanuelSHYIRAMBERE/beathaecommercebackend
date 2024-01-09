@@ -45,10 +45,6 @@ const buildingSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  managerAddress: {
-    type: String,
-    required: true,
-  },
   managerPassword: {
     type: String,
     required: false,

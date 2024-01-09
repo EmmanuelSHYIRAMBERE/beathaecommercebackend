@@ -20,6 +20,7 @@ const buildingRouter = express.Router();
  *     Buildings:
  *       type: object
  *       required:
+ *         - managerEmail
  *         - buildingName
  *         - District
  *         - Sector
@@ -28,11 +29,10 @@ const buildingRouter = express.Router();
  *         - Latitude
  *         - profilePicture
  *         - Description
- *         - managerNames
- *         - managerEmail
- *         - managerPhone
- *         - managerAddress
  *       properties:
+ *         managerEmail:
+ *           type: string
+ *           description: The manager's email
  *         buildingName:
  *           type: string
  *           description: The name of the building containing parkings
@@ -58,19 +58,8 @@ const buildingRouter = express.Router();
  *         Description:
  *           type: string
  *           description: The description of the building
- *         managerNames:
- *           type: string
- *           description: The manager's full names
- *         managerEmail:
- *           type: string
- *           description: The manager's email
- *         managerPhone:
- *           type: string
- *           description: The manager's phone number
- *         managerAddress:
- *           type: string
- *           description: The manager's address
  *       example:
+ *         managerEmail: "manager@building_park_zone.com"
  *         buildingName: "Park Zone"
  *         District: "Kicukiro"
  *         Sector: "Gahanga"
@@ -79,13 +68,12 @@ const buildingRouter = express.Router();
  *         Latitude: "-1.9706° S"
  *         profilePicture: "park_zone.jpg"
  *         Description: "Park Zone is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
- *         managerNames: "manager names"
- *         managerEmail: "manager@building_park_zone.com"
- *         managerPhone: "+123 456 7890"
- *         managerAddress: "KN 231 St"
  *     updateBuildings:
  *       type: object
  *       properties:
+ *         managerEmail:
+ *           type: string
+ *           description: The manager's email
  *         buildingName:
  *           type: string
  *           description: The name of the building containing parkings
@@ -111,19 +99,8 @@ const buildingRouter = express.Router();
  *         Description:
  *           type: string
  *           description: The description of the building
- *         managerNames:
- *           type: string
- *           description: The manager's email
- *         managerEmail:
- *           type: string
- *           description: The manager's full names
- *         managerPhone:
- *           type: string
- *           description: The manager's phone number
- *         managerAddress:
- *           type: string
- *           description: The manager's address
  *       example:
+ *         managerEmail: "manager@building_park_zone.com"
  *         buildingName: "Park Zone"
  *         District: "Kicukiro"
  *         Sector: "Gahanga"
@@ -134,10 +111,6 @@ const buildingRouter = express.Router();
  *         profilePicture: "kigali_tower_image.jpg"
  *         Floors: "15"
  *         Description: "Park Zone is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
- *         managerNames: "manager names"
- *         managerEmail: "manager@building_park_zone.com"
- *         managerPhone: "+123 456 7890"
- *         managerAddress: "KN 231 St"
  */
 
 /**

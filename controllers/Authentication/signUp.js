@@ -1,6 +1,6 @@
-import { hashPwd } from "../../utility";
+import { comparePwd, generateRandomPassword, hashPwd } from "../../utility";
 import { User } from "../../models";
-import { sendEmail } from "../../middleware";
+import { managerEmailMessage, sendEmail } from "../../middleware";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
@@ -15,14 +15,32 @@ export const signUp = catchAsyncError(async (req, res, next) => {
       )
     );
   }
+  let hashedPwd = "";
+  let defaultPassword = "";
 
-  let hashedPwd = await hashPwd(req.body.password);
+  if (!req.body.password) {
+    defaultPassword = generateRandomPassword(12);
+    hashedPwd = await hashPwd(defaultPassword);
+
+    managerEmailMessage(req.body.email, defaultPassword);
+  } else {
+    hashedPwd = await hashPwd(req.body.password);
+    sendEmail(req.body.email, req.body.fullNames);
+  }
 
   req.body.password = hashedPwd;
 
   let newUser = await User.create(req.body);
 
-  sendEmail(req.body.email, req.body.fullNames);
+  let managerPassword = await comparePwd(defaultPassword, newUser.password);
+
+  if (managerPassword) {
+    newUser.status = "inactive";
+    await newUser.save();
+  }
+
+  if (newUser.password) {
+  }
 
   res.status(201).json({
     message: "user registerd successfully.",
@@ -32,6 +50,7 @@ export const signUp = catchAsyncError(async (req, res, next) => {
       Email: newUser.email,
       phoneNo: newUser.phoneNo,
       location: newUser.location,
+      status: newUser.status,
       role: newUser.role,
     },
   });

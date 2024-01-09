@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    default: "active",
+  },
   role: {
     type: String,
     default: "user",

@@ -8,12 +8,25 @@ export const changeBookingStatus = catchAsyncError(async (req, res, next) => {
 
   if (bookings) {
     for (const booking of bookings) {
-      const bookedTime = Date.parse(booking.bookedDate + "T" + booking.endHour);
+      const endBookedTime = Date.parse(
+        booking.bookedDate + "T" + booking.endHour
+      );
+      const startBookedTime = Date.parse(
+        booking.bookedDate + "T" + booking.startHour
+      );
       const now = Date.now();
 
       const parkingSlot = await Parkings.findOne({ _id: booking.slotID });
 
-      if (now >= bookedTime) {
+      if (now >= startBookedTime && now < endBookedTime) {
+        booking.Status = "Ongoing";
+        await booking.save();
+
+        if (parkingSlot) {
+          parkingSlot.status = true;
+          await parkingSlot.save();
+        }
+      } else if (now >= endBookedTime) {
         booking.Status = "Completed";
         await booking.save();
 
