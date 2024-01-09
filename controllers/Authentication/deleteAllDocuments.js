@@ -1,4 +1,3 @@
-import cron from "node-cron";
 import {
   Building,
   Cars,
@@ -28,7 +27,3 @@ export async function deleteAllDocuments() {
     console.log("Error", error);
   }
 }
-
-cron.schedule("* * * * * *", function () {
-  deleteAllDocuments();
-});
