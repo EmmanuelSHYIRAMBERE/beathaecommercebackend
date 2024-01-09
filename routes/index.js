@@ -11,6 +11,7 @@ import packRouter from "./payPack";
 import parkingRouter from "./accessParkings";
 import stripeRoute from "./payRoute";
 import usersRouter from "./accessUsers";
+import notificationRouter from "./Notification";
 
 const systemRouter = express.Router();
 
@@ -20,6 +21,7 @@ systemRouter.use("/contacts", contactsRouter);
 systemRouter.use("/users", usersRouter);
 systemRouter.use("/floor", floorRouter);
 systemRouter.use("/cars", carRouter);
+systemRouter.use("/notification", notificationRouter);
 systemRouter.use("/reservations", bookingsRouter);
 systemRouter.use("/password", authenticate);
 systemRouter.use("/payment", stripeRoute);
