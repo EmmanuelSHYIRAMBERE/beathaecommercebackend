@@ -9,7 +9,7 @@ import {
   updateBooking,
   modifyBooking,
   getCheckOutSession,
-  getAllBookingOfUser,
+  getRecentBookingOfUser,
   getOneBooking,
   getAllCompletedBookingOfUser,
 } from "../controllers/Bookings";
@@ -133,7 +133,7 @@ bookingsRouter.get("/getreservations", verifyToken, getBookings);
 
 /**
  * @swagger
- * /parking/reservations/getAllReservedSlotOfUser:
+ * /parking/reservations/getRecentBookingOfUser:
  *   get:
  *     summary: Returns the all the parking slot reserved by user
  *     tags: [clientAccess]
@@ -157,9 +157,9 @@ bookingsRouter.get("/getreservations", verifyToken, getBookings);
  */
 
 bookingsRouter.get(
-  "/getAllReservedSlotOfUser",
+  "/getRecentBookingOfUser",
   verifyToken,
-  getAllBookingOfUser
+  getRecentBookingOfUser
 );
 
 /**
