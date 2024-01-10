@@ -1,20 +1,23 @@
-import { Parkings, Reservations } from "../../models";
-import { changeBookingStatus } from "./changeBookingStatus";
+import { Reservations } from "../../models";
 
-export const checkSlotAvailability = async (
+export async function checkSlotAvailability(
   id,
   bookedDate,
   endHour,
   startHour
-) => {
-  changeBookingStatus();
-
+) {
   const userEndTime = Date.parse(bookedDate + "T" + endHour);
   const userStartTime = Date.parse(bookedDate + "T" + startHour);
 
-  const reservedSlots = await Reservations.find({ slotID: id });
+  const totalReservedSlots = await Reservations.find({ slotID: id });
 
-  if (reservedSlots) {
+  const reservedSlots = totalReservedSlots.filter(
+    (reserved) => reserved.Status === "Completed"
+  );
+
+  console.log("reservedSlots", totalReservedSlots);
+
+  if (reservedSlots.length > 0) {
     for (const reserved of reservedSlots) {
       const endBookedTime = Date.parse(
         reserved.bookedDate + "T" + reserved.endHour
@@ -22,15 +25,29 @@ export const checkSlotAvailability = async (
       const startBookedTime = Date.parse(
         reserved.bookedDate + "T" + reserved.startHour
       );
-      const now = Date.now();
 
-      if (userStartTime > endBookedTime || userStartTime < startBookedTime) {
+      if (
+        (userStartTime >= startBookedTime && userStartTime < endBookedTime) ||
+        (userEndTime > startBookedTime && userEndTime <= endBookedTime) ||
+        (userStartTime <= startBookedTime && userEndTime >= endBookedTime)
+      ) {
+        const conflictingReservation = {
+          bookedDate: reserved.bookedDate,
+          startHour: reserved.startHour,
+          endHour: reserved.endHour,
+        };
+
+        console.log("Conflict Detected:", conflictingReservation);
+
+        return {
+          available: false,
+          reason: "Time slot is already booked",
+          conflictingReservation,
+        };
       }
-      //   if (userEndTime > endBookedTime || userEndTime < startBookedTime) {
-      //   }
     }
-  }
 
-  if (reserved) {
+    console.log("No conflict detected. Slot is available");
+    return true;
   }
-};
+}

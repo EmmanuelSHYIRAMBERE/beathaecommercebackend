@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 const notificationSchema = mongoose.Schema({
   user: {
     type: String,
-    required: true,
+    required: false,
   },
   type: {
     type: String,
-    required: true,
+    required: false,
   },
   actionMade: {
     type: String,
-    required: true,
+    required: false,
   },
   dateSent: {
     type: Date,

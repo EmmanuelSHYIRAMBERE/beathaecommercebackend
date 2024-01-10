@@ -2,6 +2,7 @@ import { Cars, Notification, Parkings, Reservations } from "../../models";
 import { catchAsyncError, validateParkingAccessForDate } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 import { changeBookingStatus } from "./changeBookingStatus";
+import { checkSlotAvailability } from "./checkSlotAvailability";
 
 export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   const userID = req.user._id;
@@ -12,14 +13,6 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   if (!parking) {
     return next(
       new errorHandler(`A parking slot: ${parking.Slot} not found`, 404)
-    );
-  }
-  if (parking.status === true) {
-    return next(
-      new errorHandler(
-        `A parking slot: ${parking.Slot} parking has been taken, try others.`,
-        400
-      )
     );
   }
 
@@ -38,14 +31,14 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`Time entered not valid!`, 400));
   }
 
-  changeBookingStatus();
+  await changeBookingStatus();
 
   const reserved = await Reservations.create(req.body);
 
   const reservedData = {
     _id: reserved._id,
     bookedDate: reserved.bookedDate,
-    startHour: reserved.replyMessage,
+    startHour: reserved.startHour,
     endHour: reserved.endHour,
     totalPrice: reserved.totalPrice,
     Status: reserved.Status,

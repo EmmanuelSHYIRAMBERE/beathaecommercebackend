@@ -3,6 +3,7 @@ export * from "./getAllBooking";
 export * from "./getRecentBookingOfUser";
 export * from "./getAllCompletedBookingOfUser";
 export * from "./changeBookingStatus";
+export * from "./checkSlotAvailability";
 export * from "./deleteBooking";
 export * from "./updateBooking";
 export * from "./getOneBooking";
