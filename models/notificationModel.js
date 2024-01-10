@@ -13,6 +13,10 @@ const notificationSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  buildingId: {
+    type: String,
+    required: false,
+  },
   dateSent: {
     type: Date,
     default: Date.now,

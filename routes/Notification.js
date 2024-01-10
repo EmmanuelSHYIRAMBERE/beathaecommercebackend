@@ -2,7 +2,11 @@ import express from "express";
 const notificationRouter = express.Router();
 
 import { admin, verifyToken } from "../middleware";
-import { getNotifications } from "../controllers/Notification";
+import {
+  getBuildingNotification,
+  getBuildingNotifications,
+  getNotifications,
+} from "../controllers/Notification";
 
 /**
  * @swagger
@@ -65,6 +69,35 @@ notificationRouter.get(
   verifyToken,
   admin,
   getNotifications
+);
+
+/**
+ * @swagger
+ * /parking/notification/getBuildingNotifications:
+ *   get:
+ *     summary: Returns building notifications
+ *     tags: [Notifications]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Notification'
+ *       204:
+ *          description: No content found.
+ *       500:
+ *          description: Internal Server Error
+ */
+
+notificationRouter.get(
+  "/getBuildingNotifications",
+  verifyToken,
+  getBuildingNotifications
 );
 
 export default notificationRouter;

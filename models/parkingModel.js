@@ -17,6 +17,10 @@ const parkingSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  buildingId: {
+    type: String,
+    required: false,
+  },
 });
 
 export const Parkings = mongoose.model("Parkings", parkingSchema);

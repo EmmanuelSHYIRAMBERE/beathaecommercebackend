@@ -5,11 +5,19 @@ const bookingSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  carID: {
+    type: String,
+    required: false,
+  },
   userID: {
     type: String,
     required: false,
   },
-  carID: {
+  floorID: {
+    type: String,
+    required: false,
+  },
+  buildingId: {
     type: String,
     required: false,
   },

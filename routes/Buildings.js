@@ -114,21 +114,6 @@ const buildingRouter = express.Router();
  *         profilePicture: "kigali_tower_image.jpg"
  *         Floors: "15"
  *         Description: "Park Zone is a modern commercial and residential building located in the heart of Gahanga. It offers state-of-the-art facilities, including office spaces, apartments, and retail spaces. The building provides a stunning view of the surrounding area and is equipped with the latest amenities for a comfortable and convenient lifestyle."
- *     buildingLocation:
- *       type: object
- *       required:
- *         - Longitude
- *         - Latitude
- *       properties:
- *         Longitude:
- *           type: string
- *           description: The longitude of the building
- *         Latitude:
- *           type: string
- *           description: The latitude of the building
- *       example:
- *         Longitude: "30.0474° E"
- *         Latitude: "-1.9706° S"
  */
 
 /**
@@ -206,29 +191,29 @@ buildingRouter.post(
 /**
  * @swagger
  * /parking/buildings/getBuildingsNearByUser:
- *   post:
- *     summary: Return building data near to the user
+ *   get:
+ *     summary: Return buildings near to the user
  *     tags: [clientAccess]
- *     requestBody:
- *          required: true
- *          content:
- *             application/json:
- *               schema:
- *                   $ref: '#/components/schemas/buildingLocation'
+ *     security:
+ *       - BearerAuth: []
  *     responses:
- *       201:
+ *       200:
  *          description: The success
  *          content:
  *             application/json:
  *               schema:
- *                   $ref: '#/components/schemas/buildingLocation'
+ *                   $ref: '#/components/schemas/updateBuildings'
  *       404:
  *          description: Not found
  *       500:
  *          description: Internal Server Error
  */
 
-buildingRouter.post("/getBuildingsNearByUser", getBuildingsNearByUser);
+buildingRouter.get(
+  "/getBuildingsNearByUser",
+  verifyToken,
+  getBuildingsNearByUser
+);
 
 /**
  * @swagger

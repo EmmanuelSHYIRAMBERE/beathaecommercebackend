@@ -68,3 +68,22 @@ const distance = calculateDistance(
 );
 
 console.log(`Distance between the two coordinates: ${distance.toFixed(2)} km`);
+
+/**
+ * @swagger
+ * /parking/buildings/getBuildingsNearByUser:
+ *   get:
+ *     summary: Return buildings near to the user
+ *     tags: [clientAccess]
+ *     responses:
+ *       200:
+ *          description: The success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/updateBuildings'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */

@@ -28,6 +28,7 @@ export const addNewParking = catchAsyncError(async (req, res, next) => {
 
   req.body.Price = floor.Price;
   req.body.floorID = floor._id;
+  req.body.buildingId = floor.buildingId;
 
   const slot = await Parkings.create(req.body);
 

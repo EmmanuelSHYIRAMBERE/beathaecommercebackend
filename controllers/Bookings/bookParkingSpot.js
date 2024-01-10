@@ -25,7 +25,11 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   const startHour = req.body.startHour;
   const endHour = req.body.endHour;
   req.body.slotID = parkingID;
+  req.body.floorID = parking.floorID;
+  req.body.buildingId = parking.buildingId;
   req.body.userID = userID;
+
+  console.log(parking.buildingId, parking.floorID);
 
   if (!validateParkingAccessForDate(bookedDate, startHour, endHour)) {
     return next(new errorHandler(`Time entered not valid!`, 400));
@@ -45,6 +49,8 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
     Duration: reserved.Duration,
     userID: reserved.userID,
     slotID: reserved.slotID,
+    floorID: reserved.floorID,
+    buildingId: reserved.buildingId,
     carID: reserved.carID,
     dateSent: reserved.dateSent,
   };
@@ -58,10 +64,13 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
   Status: ${reservedData.Status}
   Duration: ${reservedData.Duration}`;
 
+  const buildingId = reserved.buildingId;
+
   const notificationData = {
     user: req.user.fullNames,
     type: "booking",
     actionMade,
+    buildingId,
   };
 
   await Notification.create(notificationData);
