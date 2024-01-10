@@ -1,4 +1,4 @@
-import { Cars, Parkings, Reservations } from "../../models";
+import { Cars, Notification, Parkings, Reservations } from "../../models";
 import { catchAsyncError, validateParkingAccessForDate } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 import { changeBookingStatus } from "./changeBookingStatus";
