@@ -266,7 +266,7 @@ usersRouter.put("/userupdate", verifyToken, profileImagesUpload, updateUser);
 
 /**
  * @swagger
- * /parking/users/updateManagerData:
+ * /parking/users/updateManagerData/{id}:
  *   put:
  *     summary: Update the manager details
  *     tags: [Users]
@@ -301,7 +301,12 @@ usersRouter.put("/userupdate", verifyToken, profileImagesUpload, updateUser);
  *          description: Internal Server Error
  */
 
-usersRouter.put("/updateManagerData", verifyToken, admin, updateManagerData);
+usersRouter.put(
+  "/updateManagerData/:id",
+  verifyToken,
+  admin,
+  updateManagerData
+);
 
 /**
  * @swagger

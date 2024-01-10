@@ -1,16 +1,16 @@
+import { managerEmailMessage } from "../../middleware";
 import { User, Building } from "../../models";
 import {
   catchAsyncError,
   generateRandomPassword,
   hashPwd,
-  managerEmailMessage,
 } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const updateManagerData = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
 
-  let user = await User.findOne({ _id: id });
+  let user = await User.findById({ _id: id });
 
   if (!user) {
     return next(new errorHandler(`This user not found`, 404));
@@ -20,7 +20,7 @@ export const updateManagerData = catchAsyncError(async (req, res, next) => {
 
   if (!building) {
     return next(
-      new errorHandler(`This user is not assigned to any building.`, 404)
+      new errorHandler(`This manager is not assigned to any building.`, 404)
     );
   }
 
@@ -59,7 +59,7 @@ export const updateManagerData = catchAsyncError(async (req, res, next) => {
   };
 
   res.status(200).json({
-    message: "User updated successfully",
+    message: "Manager updated successfully",
     user: filteredUser,
   });
 });
