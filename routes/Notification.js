@@ -3,6 +3,8 @@ const notificationRouter = express.Router();
 
 import { admin, verifyToken } from "../middleware";
 import {
+  deleteAllNotifications,
+  deleteSingleNotification,
   getBuildingNotification,
   getBuildingNotifications,
   getNotifications,
@@ -98,6 +100,72 @@ notificationRouter.get(
   "/getBuildingNotifications",
   verifyToken,
   getBuildingNotifications
+);
+
+/**
+ * @swagger
+ * /parking/notification/deleteSingleNotification/{id}:
+ *   delete:
+ *     summary: Delete the notification data by id
+ *     tags: [Notifications]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The notification id
+ *     responses:
+ *       200:
+ *          description: A notification deleted successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Notification'
+ *       401:
+ *          description: A user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+notificationRouter.delete(
+  "/deleteSingleNotification/:id",
+  verifyToken,
+  deleteSingleNotification
+);
+
+/**
+ * @swagger
+ * /parking/notification/deleteAllNotifications:
+ *   delete:
+ *     summary: Delete all notification data
+ *     tags: [Notifications]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *          description: A notification deleted successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Notification'
+ *       401:
+ *          description: A user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+notificationRouter.delete(
+  "/deleteAllNotifications",
+  verifyToken,
+  admin,
+  deleteAllNotifications
 );
 
 export default notificationRouter;
