@@ -1,10 +1,6 @@
 import { managerEmailMessage } from "../../middleware";
 import { User, Building } from "../../models";
-import {
-  catchAsyncError,
-  generateRandomPassword,
-  hashPwd,
-} from "../../utility";
+import { catchAsyncError, hashPwd } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
 export const updateManagerPassword = catchAsyncError(async (req, res, next) => {
@@ -33,6 +29,12 @@ export const updateManagerPassword = catchAsyncError(async (req, res, next) => {
   user.password = password;
   user.buildingManaged = building.buildingName;
   user.buildingAddress = building.Street;
+
+  const hashedPwd = await hashPwd(password);
+
+  managerEmailMessage(user.email, password);
+
+  user.password = hashedPwd;
 
   await user.save();
 
