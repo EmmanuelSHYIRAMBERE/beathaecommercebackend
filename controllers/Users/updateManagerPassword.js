@@ -1,3 +1,4 @@
+import { managerEmailMessage } from "../../middleware";
 import { User, Building } from "../../models";
 import {
   catchAsyncError,
@@ -6,7 +7,7 @@ import {
 } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
-export const updateManagerData = catchAsyncError(async (req, res, next) => {
+export const updateManagerPassword = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
 
   let user = await User.findById({ _id: id });
@@ -23,20 +24,15 @@ export const updateManagerData = catchAsyncError(async (req, res, next) => {
     );
   }
 
-  const { email, fullNames, phoneNo, status, password } = req.body;
+  const { password } = req.body;
 
-  user.email = email || user.email;
-  user.fullNames = fullNames || user.fullNames;
-  user.phoneNo = phoneNo || user.phoneNo;
-  user.status = status || user.status;
-  user.password = password || user.password;
+  user.email = user.email;
+  user.fullNames = user.fullNames;
+  user.phoneNo = user.phoneNo;
+  user.status = user.status;
+  user.password = password;
   user.buildingManaged = building.buildingName;
   user.buildingAddress = building.Street;
-
-  if (req.body.email && req.body.email !== building.managerEmail) {
-    building.managerEmail = user.email;
-    await building.save();
-  }
 
   await user.save();
 

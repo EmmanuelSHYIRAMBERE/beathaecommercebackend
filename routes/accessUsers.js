@@ -10,6 +10,7 @@ import {
   updateUser,
   deleteUser,
   updateManagerData,
+  updateManagerPassword,
 } from "../controllers/Users";
 import { signUp, logIn } from "../controllers/Authentication";
 
@@ -93,21 +94,29 @@ import { signUp, logIn } from "../controllers/Authentication";
  *       properties:
  *         fullNames:
  *           type: string
- *           description: The updated full names of the user
+ *           description: The updated full names of the manager
  *         email:
  *           type: string
- *           description: The email of the user
+ *           description: The email of the manager
  *         phoneNo:
  *           type: string
- *           description: The updated phone number of the user
+ *           description: The updated phone number of the manager
  *         status:
  *           type: string
  *           description: The current status of the manager
  *       example:
- *         fullNames: Updated User Names
+ *         fullNames: Updated manager Names
  *         email: email@example.com
  *         phoneNo: "+25070000001"
  *         status: "status"
+ *     managerChangePassword:
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The new password of the manager
+ *       example:
+ *         password: "pass@123"
  */
 
 /**
@@ -306,6 +315,50 @@ usersRouter.put(
   verifyToken,
   admin,
   updateManagerData
+);
+
+/**
+ * @swagger
+ * /parking/users/updateManagerPassword/{id}:
+ *   put:
+ *     summary: Update the manager password
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The manager id
+ *     requestBody:
+ *          required: true
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/managerChangePassword'
+ *
+ *     responses:
+ *       200:
+ *          description: The manager updated successfully
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/managerChangePassword'
+ *       401:
+ *          description: The user not authorised
+ *       404:
+ *          description: The user was not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+usersRouter.put(
+  "/updateManagerPassword/:id",
+  verifyToken,
+  admin,
+  updateManagerPassword
 );
 
 /**
