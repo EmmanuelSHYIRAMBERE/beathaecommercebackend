@@ -22,10 +22,10 @@ export const signUp = catchAsyncError(async (req, res, next) => {
     defaultPassword = generateRandomPassword(12);
     hashedPwd = await hashPwd(defaultPassword);
 
-    managerEmailMessage(req.body.email, defaultPassword);
+    // managerEmailMessage(req.body.email, defaultPassword);
   } else {
     hashedPwd = await hashPwd(req.body.password);
-    sendEmail(req.body.email, req.body.fullNames);
+    // sendEmail(req.body.email, req.body.fullNames);
   }
 
   req.body.password = hashedPwd;
