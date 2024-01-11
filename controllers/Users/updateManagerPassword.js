@@ -42,6 +42,7 @@ export const updateManagerPassword = catchAsyncError(async (req, res, next) => {
     fullNames: user.fullNames,
     phoneNo: user.phoneNo,
     status: user.status,
+    password: user.password,
     role: user.role,
   };
 
