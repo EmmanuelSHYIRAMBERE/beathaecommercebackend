@@ -11,11 +11,13 @@ import { changeBookingStatus } from "../Bookings";
 
 export const updateBuilding = catchAsyncError(async (req, res, next) => {
   try {
-    const managerEmail = req.user.email;
+    const { id } = req.params;
+
+    const building = await Building.findOne({ _id: id });
+
+    const managerEmail = building.managerEmail;
 
     changeBookingStatus();
-
-    const building = await Building.findOne({ managerEmail: managerEmail });
 
     if (!building) {
       return next(

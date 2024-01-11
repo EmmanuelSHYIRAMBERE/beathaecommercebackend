@@ -308,12 +308,19 @@ buildingRouter.get("/getOneBuildingData", verifyToken, getOneBuildingData);
 
 /**
  * @swagger
- * /parking/buildings/updateBuilding:
+ * /parking/buildings/updateBuilding/{id}:
  *   put:
  *     summary: Update a building data by id
  *     tags: [Buildings]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The building id
  *     requestBody:
  *          required: true
  *          content:
@@ -336,9 +343,10 @@ buildingRouter.get("/getOneBuildingData", verifyToken, getOneBuildingData);
  */
 
 buildingRouter.put(
-  "/updateBuilding",
+  "/updateBuilding/:id",
   profileImagesUpload,
   verifyToken,
+  admin,
   updateBuilding
 );
 
