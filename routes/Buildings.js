@@ -8,6 +8,7 @@ import profileImagesUpload from "../middleware/profileMulter";
 import {
   getBuildingsNearByUser,
   getOneBuildingData,
+  searchBuildingImplemntation,
 } from "../controllers/Building";
 const buildingRouter = express.Router();
 
@@ -214,6 +215,34 @@ buildingRouter.get(
   verifyToken,
   getBuildingsNearByUser
 );
+
+/**
+ * @swagger
+ * /parking/buildings/searchBuildingImplemntation:
+ *   get:
+ *     summary: Return buildings near to the user
+ *     tags: [clientAccess]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The search query to filter buildings
+ *     responses:
+ *       200:
+ *          description: The success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/updateBuildings'
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+buildingRouter.get("/searchBuildingImplemntation", searchBuildingImplemntation);
 
 /**
  * @swagger

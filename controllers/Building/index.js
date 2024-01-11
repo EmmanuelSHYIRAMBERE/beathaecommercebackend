@@ -4,3 +4,4 @@ export * from "./deleteBuilding";
 export * from "./getAllBuildings";
 export * from "./updateBuilding";
 export * from "./getBuildingsNearByUser";
+export * from "./searchBuildingImplemntation";
