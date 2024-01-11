@@ -5,3 +5,4 @@ export * from "./getAllBuildings";
 export * from "./updateBuilding";
 export * from "./getBuildingsNearByUser";
 export * from "./searchBuildingImplemntation";
+export * from "./getBuildingById";

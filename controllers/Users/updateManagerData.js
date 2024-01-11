@@ -24,28 +24,19 @@ export const updateManagerData = catchAsyncError(async (req, res, next) => {
     );
   }
 
-  const { email, fullNames, phoneNo, status } = req.body;
+  const { email, fullNames, phoneNo, status, password } = req.body;
 
   user.email = email || user.email;
   user.fullNames = fullNames || user.fullNames;
   user.phoneNo = phoneNo || user.phoneNo;
   user.status = status || user.status;
+  user.password = password || user.password;
   user.buildingManaged = building.buildingName;
   user.buildingAddress = building.Street;
 
   if (req.body.email && req.body.email !== building.managerEmail) {
-    const defaultPassword = generateRandomPassword(12);
-    const hashedPassword = await hashPwd(defaultPassword);
-
-    req.body.managerPassword = hashedPassword;
-    user.password = req.body.managerPassword;
-
-    await user.save();
-
     building.managerEmail = user.email;
     await building.save();
-
-    managerEmailMessage(user.email, defaultPassword);
   }
 
   await user.save();
@@ -55,6 +46,7 @@ export const updateManagerData = catchAsyncError(async (req, res, next) => {
     email: user.email,
     fullNames: user.fullNames,
     phoneNo: user.phoneNo,
+    status: user.status,
     role: user.role,
   };
 

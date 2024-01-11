@@ -6,6 +6,7 @@ import { getAllBuildings } from "../controllers/Building/getAllBuildings";
 import { updateBuilding } from "../controllers/Building/updateBuilding";
 import profileImagesUpload from "../middleware/profileMulter";
 import {
+  getBuildingById,
   getBuildingsNearByUser,
   getOneBuildingData,
   searchBuildingImplemntation,
@@ -305,6 +306,38 @@ buildingRouter.delete(
  */
 
 buildingRouter.get("/getOneBuildingData", verifyToken, getOneBuildingData);
+
+/**
+ * @swagger
+ * /parking/buildings/getBuildingById/{id}:
+ *   get:
+ *     summary: Get a building's data by id
+ *     tags: [Buildings]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *          description: The building id
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                   $ref: '#/components/schemas/Buildings'
+ *       401:
+ *          description: A user not authorised
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+buildingRouter.get("/getBuildingById/:id", verifyToken, admin, getBuildingById);
 
 /**
  * @swagger
