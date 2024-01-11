@@ -8,6 +8,7 @@ import {
   acountTransactions,
   accountEvents,
   accountInfo,
+  callback,
 } from "../controllers/payment/paypack";
 import { admin, verifyToken } from "../middleware";
 
@@ -82,5 +83,7 @@ packRouter.get("/transactions", verifyToken, admin, acountTransactions);
 packRouter.get("/events", verifyToken, admin, accountEvents);
 
 packRouter.get("/account", verifyToken, admin, accountInfo);
+
+packRouter.post("/callback", callback);
 
 export default packRouter;

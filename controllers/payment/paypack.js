@@ -77,3 +77,102 @@ export const accountInfo = catchAsyncError(async (req, res) => {
     data: response.data,
   });
 });
+
+export const callback = async (req, res) => {
+  let info = req.body;
+  console.log(info);
+  // try {
+  //   let info = req.body;
+  //   console.log(info);
+
+  //   const transactionStatus = info && info.data && info.data.status;
+  //   let REF = info.data.ref;
+
+  //   const checkRef = await paymentModel.findOne({ ref: REF });
+  //   console.log(checkRef);
+
+  //   // Check if checkRef is not undefined and has a 'ref' property
+  //   if (info.data.ref) {
+  //     const DBref = checkRef.ref;
+
+  //     const updateUser = await userModel.findById({ _id: checkRef.UserID });
+  //     console.log("update user" + updateUser);
+  //     console.log("ref in db:", DBref);
+
+  //     console.log(`compare in --db--${DBref}= --data--${REF}`);
+
+  //     if (transactionStatus === "successful") {
+  //       console.log("___👍👍👍👍👍👍👍👍👍👍");
+
+  //       updateUser.accountStatus = "activated";
+  //       const changeStatus = await updateUser.save();
+
+  //       if (!changeStatus) {
+  //         console.log("update user failed 😘😘😘" + updateUser);
+  //       }
+  //       console.log("update user failed 😘😘😘" + changeStatus);
+
+  //       updateUser.paymentStatus = transactionStatus;
+  //       const changePaymentStatus = await updateUser.save();
+
+  //       if (!changePaymentStatus) {
+  //         console.log("update failed for  payment status " + transactionStatus);
+  //       }
+
+  //       checkRef.Status = transactionStatus;
+  //       const paymentStatus_model = await checkRef.save();
+
+  //       if (!paymentStatus_model) {
+  //         console.log("paymentStatus_model" + transactionStatus + " is not");
+  //       }
+  //       console.log("paymentStatus_model" + paymentStatus_model);
+  //       console.log("video id 💕💕💕" + checkRef.videoID);
+
+  //       if (checkRef.videoID) {
+  //         const getVideoToUpdate = await videos.findById(checkRef.videoID);
+  //         getVideoToUpdate.status = "Paid";
+  //         const VDupdate = await getVideoToUpdate.save();
+
+  //         console.log("video updated for video " + VDupdate);
+  //       }
+  //       return res.json(paymentStatus_model);
+  //     } else {
+  //       console.log(
+  //         "transaction failed-----😒😒😒😒😒😒😒" + updateUser.accountStatus
+  //       );
+
+  //       // const forpaymentStatus_fail = await userModel.findOneAndUpdate(
+  //       //   { _id: result.UserID },
+  //       //   { $set: { paymentStatus: transactionStatus } },
+  //       //   { new: true }
+  //       // );
+
+  //       updateUser.accountStatus = "not active";
+  //       const to_Not_active = await updateUser.save();
+
+  //       if (!to_Not_active) {
+  //         console.log("not changed to not active");
+  //       }
+
+  //       checkRef.Status = transactionStatus;
+  //       // checkRef.Status = "hinduka status";
+  //       const paymentStatus_model = await checkRef.save();
+
+  //       if (!paymentStatus_model) {
+  //         console.log("paymentStatus_model" + transactionStatus + " is not");
+  //       }
+  //       console.log(
+  //         "paymentStatus_model done successfully" + paymentStatus_model
+  //       );
+  //       return res.json(paymentStatus_model);
+  //     }
+  //   } else {
+  //     // Handle the case where checkRef or checkRef.ref is undefined
+  //     console.log("checkRef is undefined for userinfo");
+  //     return res.json({ msg: "checkRef is undefined for" });
+  //   }
+  // } catch (error) {
+  //   res.status(503).json({ error: error.message });
+  // }
+  res.status(200).json(info);
+};
