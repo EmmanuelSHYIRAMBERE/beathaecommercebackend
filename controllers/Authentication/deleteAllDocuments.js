@@ -27,5 +27,3 @@ export async function deleteAllDocuments() {
     console.log("Error", error);
   }
 }
-
-deleteAllDocuments();
