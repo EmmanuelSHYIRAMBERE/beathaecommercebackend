@@ -26,8 +26,9 @@ export const getRecentBookingOfUser = catchAsyncError(
         slotName: slot.Slot,
         carPlarteNo: car.platNumber,
         buildingName: building.buildingName,
-        buildingName: building.buildingName,
-        ...building,
+        bookedDate: booking.bookedDate,
+        Duration: booking.Duration,
+        Status: booking.Status,
       };
       reservationDataArray.push(reservationData);
     }
