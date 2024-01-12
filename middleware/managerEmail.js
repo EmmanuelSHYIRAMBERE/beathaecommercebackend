@@ -4,8 +4,8 @@ export const managerEmailMessage = (managerEmail, managerPassword) => {
   let config = {
     service: "gmail",
     auth: {
-      user: "smartparkingsystem7@gmail.com",
-      pass: "wake fhej dzvb aoxm",
+      user: process.env.Email,
+      pass: process.env.Password,
     },
     tls: {
       rejectUnauthorized: false,
@@ -14,7 +14,7 @@ export const managerEmailMessage = (managerEmail, managerPassword) => {
   let transporter = nodemailer.createTransport(config);
 
   let message = {
-    from: "smartparkingsystem7@gmail.com",
+    from: process.env.Email,
     to: managerEmail,
     subject:
       "Welcome to Smart Parking System - Your Gateway to Effortless Parking Management Partner.",

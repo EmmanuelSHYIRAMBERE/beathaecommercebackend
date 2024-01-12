@@ -9,6 +9,7 @@ const paypack = PaypackJs.config({
   client_id: process.env.packID,
   client_secret: process.env.packScret,
 });
+
 export const cashIn = catchAsyncError(async (req, res) => {
   const id = req.params.id;
 
@@ -20,33 +21,41 @@ export const cashIn = catchAsyncError(async (req, res) => {
 
   const payableAmount = reservation.totalPrice;
 
-  const response = await paypack.cashin({
-    number: req.body.number,
-    amount: payableAmount,
-    environment: "production",
-  });
+  try {
+    const response = await paypack.cashin({
+      number: req.body.number,
+      amount: payableAmount,
+      environment: "development",
+    });
 
-  const slot = await Parkings.findOne({ _id: reservation.slotID });
+    if (response && response.data) {
+      reservation.paymentRef = response.data.ref;
+      await reservation.save();
 
-  if (!slot) {
-    return new errorHandler(`There's no slot found.`, 404);
+      console.log(response.data);
+
+      res.status(201).json({
+        status: "payment request sent to your phone number, please confirm it.",
+        data: response.data,
+        reserveDetails: reservation,
+      });
+    } else {
+      throw new Error("Unexpected response structure: missing data property");
+    }
+  } catch (error) {
+    console.log("Failure proceeding payment", error);
+    res.status(500).json({
+      status: "Internal Server Error",
+      message: error.message,
+    });
   }
-
-  slot.status = true;
-
-  slot.save();
-
-  res.status(200).json({
-    status: "payment request sent to your phone number, please confirm it.",
-    data: response.data,
-    reserveDetails: reservation,
-  });
 });
+
 export const cashOut = catchAsyncError(async (req, res) => {
   const response = await paypack.cashout({
     number: req.body.number,
     amount: req.body.amount,
-    environment: "production",
+    environment: "development",
   });
   res.status(200).json({
     status: "withdrawn successful",
@@ -78,101 +87,32 @@ export const accountInfo = catchAsyncError(async (req, res) => {
   });
 });
 
-export const callback = async (req, res) => {
+export const callback = catchAsyncError(async (req, res) => {
   let info = req.body;
+
   console.log(info);
-  // try {
-  //   let info = req.body;
-  //   console.log(info);
 
-  //   const transactionStatus = info && info.data && info.data.status;
-  //   let REF = info.data.ref;
+  const paymentStatus = info && info.data && info.data.status;
 
-  //   const checkRef = await paymentModel.findOne({ ref: REF });
-  //   console.log(checkRef);
+  console.log(paymentStatus);
+  let paymentRef = info.data.ref;
 
-  //   // Check if checkRef is not undefined and has a 'ref' property
-  //   if (info.data.ref) {
-  //     const DBref = checkRef.ref;
+  console.log(paymentRef);
+  const reservation = await Reservations.findOne({ paymentRef: paymentRef });
 
-  //     const updateUser = await userModel.findById({ _id: checkRef.UserID });
-  //     console.log("update user" + updateUser);
-  //     console.log("ref in db:", DBref);
+  if (info.data.ref) {
+    if (paymentStatus === "successful") {
+      reservation.Status = "Paid";
+      await reservation.save();
 
-  //     console.log(`compare in --db--${DBref}= --data--${REF}`);
+      const slotID = reservation.slotID;
 
-  //     if (transactionStatus === "successful") {
-  //       console.log("___👍👍👍👍👍👍👍👍👍👍");
-
-  //       updateUser.accountStatus = "activated";
-  //       const changeStatus = await updateUser.save();
-
-  //       if (!changeStatus) {
-  //         console.log("update user failed 😘😘😘" + updateUser);
-  //       }
-  //       console.log("update user failed 😘😘😘" + changeStatus);
-
-  //       updateUser.paymentStatus = transactionStatus;
-  //       const changePaymentStatus = await updateUser.save();
-
-  //       if (!changePaymentStatus) {
-  //         console.log("update failed for  payment status " + transactionStatus);
-  //       }
-
-  //       checkRef.Status = transactionStatus;
-  //       const paymentStatus_model = await checkRef.save();
-
-  //       if (!paymentStatus_model) {
-  //         console.log("paymentStatus_model" + transactionStatus + " is not");
-  //       }
-  //       console.log("paymentStatus_model" + paymentStatus_model);
-  //       console.log("video id 💕💕💕" + checkRef.videoID);
-
-  //       if (checkRef.videoID) {
-  //         const getVideoToUpdate = await videos.findById(checkRef.videoID);
-  //         getVideoToUpdate.status = "Paid";
-  //         const VDupdate = await getVideoToUpdate.save();
-
-  //         console.log("video updated for video " + VDupdate);
-  //       }
-  //       return res.json(paymentStatus_model);
-  //     } else {
-  //       console.log(
-  //         "transaction failed-----😒😒😒😒😒😒😒" + updateUser.accountStatus
-  //       );
-
-  //       // const forpaymentStatus_fail = await userModel.findOneAndUpdate(
-  //       //   { _id: result.UserID },
-  //       //   { $set: { paymentStatus: transactionStatus } },
-  //       //   { new: true }
-  //       // );
-
-  //       updateUser.accountStatus = "not active";
-  //       const to_Not_active = await updateUser.save();
-
-  //       if (!to_Not_active) {
-  //         console.log("not changed to not active");
-  //       }
-
-  //       checkRef.Status = transactionStatus;
-  //       // checkRef.Status = "hinduka status";
-  //       const paymentStatus_model = await checkRef.save();
-
-  //       if (!paymentStatus_model) {
-  //         console.log("paymentStatus_model" + transactionStatus + " is not");
-  //       }
-  //       console.log(
-  //         "paymentStatus_model done successfully" + paymentStatus_model
-  //       );
-  //       return res.json(paymentStatus_model);
-  //     }
-  //   } else {
-  //     // Handle the case where checkRef or checkRef.ref is undefined
-  //     console.log("checkRef is undefined for userinfo");
-  //     return res.json({ msg: "checkRef is undefined for" });
-  //   }
-  // } catch (error) {
-  //   res.status(503).json({ error: error.message });
-  // }
-  res.status(200).json(info);
-};
+      const slot = await Parkings.findOne({ _id: slotID });
+      if (!slot) {
+        return new errorHandler(`There's no slot reserved.`, 404);
+      }
+      slot.status = true;
+    }
+  }
+  return res.json(info);
+});

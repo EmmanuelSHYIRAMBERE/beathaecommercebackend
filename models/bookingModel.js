@@ -46,6 +46,10 @@ const bookingSchema = mongoose.Schema(
       type: String,
       default: "pending",
     },
+    paymentRef: {
+      type: String,
+      required: false,
+    },
     dateSent: {
       type: Date,
       default: Date.now,
