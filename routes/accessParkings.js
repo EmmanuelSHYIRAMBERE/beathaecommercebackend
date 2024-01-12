@@ -162,6 +162,8 @@ parkingRouter.get("/getAllSlots/:id", verifyToken, getTotalParking);
  *   get:
  *     summary: Returns total slots of a system
  *     tags: [Slots]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *          description: Success
