@@ -75,9 +75,6 @@ export const bookParkingSpot = catchAsyncError(async (req, res, next) => {
 
   await Notification.create(notificationData);
 
-  parking.status = true;
-  await parking.save();
-
   res.status(201).json({
     message: `A parking slot ${parking.Slot} booked successfully`,
     reservedData,
