@@ -6,8 +6,8 @@ export const getAllSlots = catchAsyncError(async (req, res, next) => {
 
   const totalSlotsNumber = allSlots.length;
 
-  const totalRemainingSlots = (slot) => allSlots.filter(slot.status !== true);
-  const totalReservedSlots = (slot) => allSlots.filter(slot.status !== false);
+  const totalRemainingSlots = allSlots.filter((slot) => !slot.status);
+  const totalReservedSlots = allSlots.filter((slot) => slot.status);
 
   const remainingSlots = totalRemainingSlots.length;
   const reservedSlots = totalReservedSlots.length;
