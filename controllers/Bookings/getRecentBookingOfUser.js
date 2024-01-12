@@ -15,23 +15,23 @@ export const getRecentBookingOfUser = catchAsyncError(
       return next(new errorHandler(`You do not have any reserved slot.`, 404));
     }
 
-    let reservationData = {};
+    const reservationDataArray = [];
 
     for (const booking of bookings) {
       const slot = await Parkings.findOne({ _id: booking.slotID });
       const car = await Cars.findOne({ _id: booking.carID });
       const building = await Building.findOne({ _id: booking.buildingId });
 
-      reservationData = {
+      const reservationData = {
         slotName: slot.Slot,
         carPlarteNo: car.platNumber,
         buildingName: building.buildingName,
         buildingName: building.buildingName,
         ...building,
       };
-      return reservationData;
+      reservationDataArray.push(reservationData);
     }
 
-    res.status(200).json(reservationData);
+    res.status(200).json(reservationDataArray);
   }
 );
