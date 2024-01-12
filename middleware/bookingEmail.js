@@ -4,8 +4,8 @@ export const receiveBookingEmail = (userEmail, userNames) => {
   let config = {
     service: "gmail",
     auth: {
-      user: process.env.Email,
-      pass: process.env.Password,
+      user: "aguramarket6@gmail.com",
+      pass: "yeka vnvz fxhc rods",
     },
     tls: {
       rejectUnauthorized: false,
@@ -14,7 +14,7 @@ export const receiveBookingEmail = (userEmail, userNames) => {
   let transporter = nodemailer.createTransport(config);
 
   let message = {
-    from: process.env.Email,
+    from: "aguramarket6@gmail.com",
     to: userEmail,
     subject:
       "Park with Confidence: Your Spot is Reserved Securely with Smart Parking System!",
