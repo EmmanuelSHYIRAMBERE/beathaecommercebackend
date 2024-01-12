@@ -1,4 +1,4 @@
-import { Parkings, Reservations } from "../../models";
+import { Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
 import errorHandler from "../../utility/errorHandlerClass";
 
@@ -104,14 +104,6 @@ export const callback = catchAsyncError(async (req, res) => {
     if (paymentStatus === "successful") {
       reservation.Status = "Paid";
       await reservation.save();
-
-      const slotID = reservation.slotID;
-
-      const slot = await Parkings.findOne({ _id: slotID });
-      if (!slot) {
-        return new errorHandler(`There's no slot reserved.`, 404);
-      }
-      slot.status = true;
     }
   }
   return res.json(info);

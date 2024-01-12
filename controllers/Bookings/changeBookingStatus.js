@@ -3,7 +3,7 @@ import cron from "node-cron";
 import { Parkings, Reservations } from "../../models";
 import { catchAsyncError } from "../../utility";
 
-export const changeBookingStatus = catchAsyncError(async (req, res, next) => {
+export const changeBookingStatus = catchAsyncError(async () => {
   const bookings = await Reservations.find({});
 
   if (bookings) {
