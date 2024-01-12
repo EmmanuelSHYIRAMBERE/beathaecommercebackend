@@ -27,6 +27,8 @@ export const getRecentBookingOfUser = catchAsyncError(
         carPlarteNo: car.platNumber,
         buildingName: building.buildingName,
         bookedDate: booking.bookedDate,
+        startHour: booking.startHour,
+        endHour: booking.endHour,
         Duration: booking.Duration,
         Status: booking.Status,
         totalPrice: booking.totalPrice,
