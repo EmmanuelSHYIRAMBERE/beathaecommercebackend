@@ -29,6 +29,7 @@ export const getRecentBookingOfUser = catchAsyncError(
         bookedDate: booking.bookedDate,
         Duration: booking.Duration,
         Status: booking.Status,
+        totalPrice: booking.totalPrice,
       };
       reservationDataArray.push(reservationData);
     }
