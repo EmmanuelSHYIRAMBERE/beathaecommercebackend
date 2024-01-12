@@ -9,6 +9,7 @@ import {
   getTotalParking,
   updateParking,
   getReservedSlots,
+  getAllSlots,
 } from "../controllers/Parking";
 import { admin, verifyToken } from "../middleware";
 import { buildingStatistics, sytemStatistics } from "../controllers/Statistics";
@@ -154,6 +155,31 @@ parkingRouter.post("/addNewSlot/:id", verifyToken, addNewParking);
  */
 
 parkingRouter.get("/getAllSlots/:id", verifyToken, getTotalParking);
+
+/**
+ * @swagger
+ * /parking/slots/getAllSlots:
+ *   get:
+ *     summary: Returns total slots of a system
+ *     tags: [Slots]
+ *     responses:
+ *       200:
+ *          description: Success
+ *          content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/parkings'
+ *       204:
+ *          description: No content found.
+ *       404:
+ *          description: Not found
+ *       500:
+ *          description: Internal Server Error
+ */
+
+parkingRouter.get("/getAllSlots", getAllSlots);
 
 /**
  * @swagger

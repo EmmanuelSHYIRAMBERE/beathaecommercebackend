@@ -6,3 +6,4 @@ export * from "./getOneParking";
 export * from "./modifyParking";
 export * from "./updateParkingData";
 export * from "./getReservedSlots";
+export * from "./getAllSlots";

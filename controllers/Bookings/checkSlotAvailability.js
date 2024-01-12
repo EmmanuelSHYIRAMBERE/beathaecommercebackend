@@ -1,4 +1,5 @@
 import { Reservations } from "../../models";
+import { changeBookingStatus } from "./changeBookingStatus";
 
 export async function checkSlotAvailability(
   id,
@@ -6,6 +7,8 @@ export async function checkSlotAvailability(
   endHour,
   startHour
 ) {
+  changeBookingStatus();
+
   const userEndTime = Date.parse(bookedDate + "T" + endHour);
   const userStartTime = Date.parse(bookedDate + "T" + startHour);
 
