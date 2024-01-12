@@ -30,6 +30,7 @@ export const getRecentBookingOfUser = catchAsyncError(
         Duration: booking.Duration,
         Status: booking.Status,
         totalPrice: booking.totalPrice,
+        paymentRef: booking.paymentRef,
       };
       reservationDataArray.push(reservationData);
     }

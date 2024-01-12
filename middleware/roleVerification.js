@@ -6,7 +6,7 @@ export const admin = async (req, res, next) => {
     const user = await User.findById(UserId);
     if (user?.role !== "admin") {
       return res.status(403).json({
-        message: "Access denied for basic users!",
+        message: "You are not authorised!",
       });
     }
     next();
