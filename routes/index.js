@@ -7,13 +7,15 @@ import productRouter from "./product.route";
 import billingRoute from "./billing.route";
 import contactUsRouter from "./contactus.route";
 import orderRouter from "./order.route";
+import { Cart } from "../models";
+import cartRouter from "./cart.route";
 
 const systemRouter = express.Router();
 
 systemRouter.use("/auth", authRoute);
 systemRouter.use("/users", usersRouter);
 systemRouter.use("/product", productRouter);
-systemRouter.use("/cart", contactUsRouter);
+systemRouter.use("/cart", cartRouter);
 systemRouter.use("/billing", billingRoute);
 systemRouter.use("/contactus", contactUsRouter);
 systemRouter.use("/orders", orderRouter);

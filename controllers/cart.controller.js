@@ -3,55 +3,120 @@ import { catchAsyncError } from "../utility/catchSync";
 import errorHandler from "../utility/errorhandler.utility";
 
 export const createCart = catchAsyncError(async (req, res, next) => {
-  const { productId, count } = req.body;
-  console.log("Request Body:", req.body); // Log request body for debugging
-
-  if (!productId || !count) {
+  if (!req.body) {
     return next(new errorHandler("Product ID and count are required.", 400));
   }
 
-  const userId = req.user._id;
+  try {
+    const { products } = req.body;
 
-  const user = await User.findById(userId);
-  if (!user) {
-    return next(new errorHandler("User not found.", 404));
+    if (!products || !products.length) {
+      return next(
+        new errorHandler("Cart must contain at least one product.", 400)
+      );
+    }
+
+    for (const product of products) {
+      const item = await Product.findById({ _id: product.productId });
+      if (!item) {
+        return next(
+          new errorHandler(`Product with ID: ${product} not found`, 400)
+        );
+      }
+    }
+
+    const userId = req.user._id;
+
+    const user = await User.findById({ _id: userId });
+
+    if (!user) {
+      return next(new errorHandler("User not found.", 400));
+    }
+
+    // Create a new cart object
+    const cart = new Cart({
+      products: products.map((product) => ({
+        product: product.product,
+        count: product.count,
+        totalPrice: product.product * product.count,
+      })),
+      cartBy: user._id,
+    });
+
+    // Save the cart to the database
+    await cart.save();
+
+    // Send successful response with the created cart
+    res.status(201).json({
+      success: true,
+      message: "Cart created successfully.",
+      cart,
+    });
+  } catch (error) {
+    next(new errorHandler(error.message, 500));
   }
+});
 
-  console.log("User...", user);
+export const getCartById = catchAsyncError(async (req, res, next) => {
+  const { cartId } = req.params;
 
-  const product = await Product.findById(productId);
-  if (!product) {
-    return next(new errorHandler("Product not found.", 404));
+  try {
+    const cart = await Cart.findById(cartId).populate(
+      "products.product cartBy"
+    );
+
+    if (!cart) {
+      return next(new errorHandler("Cart not found.", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: cart,
+    });
+  } catch (error) {
+    return next(new errorHandler(error.message, 500));
   }
+});
 
-  let cart = await Cart.findOne({ cartBy: userId });
+export const updateCart = catchAsyncError(async (req, res, next) => {
+  const { cartId } = req.params;
+  const { products, cartBy } = req.body;
 
-  console.log("cart...", cart);
-  if (!cart) {
-    cart = new Cart({ cartBy: userId, products: [] });
+  try {
+    const updatedCart = await Cart.findByIdAndUpdate(
+      cartId,
+      { products, cartBy },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCart) {
+      return next(new errorHandler("Cart not found.", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedCart,
+    });
+  } catch (error) {
+    return next(new errorHandler(error.message, 500));
   }
+});
 
-  const existingProductIndex = cart.products.findIndex((p) =>
-    p.product.equals(productId)
-  );
+export const deleteCart = catchAsyncError(async (req, res, next) => {
+  const { cartId } = req.params;
 
-  if (existingProductIndex !== -1) {
-    cart.products[existingProductIndex].count += count;
-  } else {
-    cart.products.push({ product: productId, count, price: product.price });
+  try {
+    const deletedCart = await Cart.findByIdAndDelete(cartId);
+
+    if (!deletedCart) {
+      return next(new errorHandler("Cart not found.", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Cart deleted successfully.",
+    });
+  } catch (error) {
+    return next(new errorHandler(error.message, 500));
   }
-
-  cart.price = cart.products.reduce(
-    (total, item) => total + item.count * item.price,
-    0
-  );
-
-  // Save the cart before sending the response
-  await cart.save();
-
-  console.log("new cart ...", cart);
-
-  res
-    .status(201)
-    .json({ message: "Product added to cart successfully.", cart });
 });
