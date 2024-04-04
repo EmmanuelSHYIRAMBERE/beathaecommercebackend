@@ -1,7 +1,7 @@
 {
-  "name": "holiday-planner-project",
+  "name": "beatha-ecommerce-project",
   "version": "1.0.0",
-  "description": "This Smart-Parking-Project API is designed to provide basics of how this system functions.",
+  "description": "This is Beatha-Ecommerce API designed to provide basics of how this system functions.",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon --exec babel-node server.js",

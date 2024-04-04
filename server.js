@@ -10,20 +10,20 @@ import systemRouter from "./routes";
 import morgan from "morgan";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 7000;
 
 const options = {
   swaggerDefinition: {
     openapi: "3.0.0",
     info: {
-      title: "Smart-Parking-Project API Documentation",
+      title: "BEATHA-ECOMMERCE-Project API Documentation",
       version: "1.0.0",
       description:
-        "This Smart-Parking-Project API Documentation is designed to provide basics of how this API functions.",
+        "This BEATHA-ECOMMERCE-Project API Documentation is designed to provide basics of how this API functions.",
     },
     servers: [
       {
-        url: "https://smart-parking-api-3g3e.onrender.com",
+        url: "http://localhost:7000",
       },
     ],
   },
@@ -37,17 +37,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan("dev"));
 
-app.use("/parking", systemRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/api/v1", systemRouter);
 app.use("/uploads", express.static("tour_images"));
 
 mongoose
   .connect(process.env.DB_connect_devs)
   .then((res) => {
-    console.log(`connected to mongo DB`);
+    console.log(`DB connected`);
     app.listen(port, () =>
       console.log(
-        `Smart Parking project is running on port http://localhost:${port}`
+        `BEATHA-ECOMMERCE-Project is running on port http://localhost:${port}`
       )
     );
   })
