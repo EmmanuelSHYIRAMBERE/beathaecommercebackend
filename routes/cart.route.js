@@ -33,35 +33,3 @@ export default cartRouter;
  *   name: Cart
  *   description: Operations related to the shopping cart
  */
-
-/**
- * @swagger
- * /api/v1/cart:
- *   post:
- *     summary: Add a product to the user's cart
- *     tags: [Cart]
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       description: Cart data to create
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Cart'
- *     responses:
- *       '201':
- *         description: Product added to cart successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Cart'
- *       '400':
- *         description: Bad request. Missing productId or count in the request body.
- *       '401':
- *         description: Unauthorized. Invalid or missing authentication token.
- *       '404':
- *         description: Product not found.
- *       '500':
- *         description: Internal server error. Please try again later.
- */

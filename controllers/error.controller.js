@@ -1,4 +1,4 @@
-import errorHandler from "../utility";
+import errorHandler from "../utility/errorhandler.utility";
 
 export const globalErrorController = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -14,23 +14,15 @@ export const globalErrorController = (err, req, res, next) => {
 };
 
 export const handCastError = (err) => {
-  console.log(err.value);
-  const message = `Invalid ${err.path}: ${
-    typeof err.value !== "object" ? err.value : err.value._id
-  }`;
-  return new errorHandler(message, 400);
-};
-
-export const handleDuplicateFieldsDB = (err) => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-
-  const message = `Duplicate field value: ${value}`;
-  return new errorHandler(message, 400);
+  const message = `Invalid ${err.stringValue} because of ${err.reason}`;
+  return new errorHandler({ message, statusCode: 400 });
 };
 
 export const handleValidationErrorDB = (err) => {
-  const errors = Object.values(err.errors).map((el) => el.message);
+  const errors = Object.values(err.errors).map((el) => {
+    return `Invalid input data: "${el.value}" at path "${el.path}"`;
+  });
 
-  const message = `Invalid input data. ${errors.join(". ")}`;
-  return new errorHandler(message, 400);
+  const message = errors.join(". ").replace(/\\"/g, '"');
+  return new errorHandler({ message, statusCode: 400 });
 };
