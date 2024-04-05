@@ -25,10 +25,13 @@ export const createCart = catchAsyncError(async (req, res, next) => {
       }
     }
 
+    console.log("items:", products);
+
     const userId = req.user._id;
 
     const user = await User.findById({ _id: userId });
 
+    console.log("user:", user);
     if (!user) {
       return next(new errorHandler("User not found.", 400));
     }
@@ -43,6 +46,7 @@ export const createCart = catchAsyncError(async (req, res, next) => {
       cartBy: user._id,
     });
 
+    console.log("cart:", cart);
     // Save the cart to the database
     await cart.save();
 
@@ -53,7 +57,8 @@ export const createCart = catchAsyncError(async (req, res, next) => {
       cart,
     });
   } catch (error) {
-    next(new errorHandler(error.message, 500));
+    console.log(error);
+    next(new errorHandler(error, 500));
   }
 });
 

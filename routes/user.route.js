@@ -21,18 +21,22 @@ const usersRouter = express.Router();
  *     signUp:
  *       type: object
  *       required:
- *         - email
  *         - fullNames
+ *         - email
+ *         - username
  *         - phoneNo
  *         - location
  *         - password
  *       properties:
- *         email:
- *           type: string
- *           description: The email of the user
  *         fullNames:
  *           type: string
  *           description: The fullNames of the user
+ *         email:
+ *           type: string
+ *           description: The email of the user
+ *         username:
+ *           type: string
+ *           description: The username of the user
  *         phoneNo:
  *           type: string
  *           description: The phoneNo of the user
@@ -43,8 +47,9 @@ const usersRouter = express.Router();
  *           type: string
  *           description: The password of the user
  *       example:
+ *         fullNames: full names
  *         email: email@example.com
- *         fullNames: user names
+ *         username: username
  *         phoneNo: "+25070000000"
  *         location: myAddress
  *         password: myPassword1
@@ -54,6 +59,9 @@ const usersRouter = express.Router();
  *         fullNames:
  *           type: string
  *           description: The updated full names of the user
+ *         username:
+ *           type: string
+ *           description: The updated username of the user
  *         profilePicture:
  *           type: string
  *           format: binary
@@ -65,10 +73,13 @@ const usersRouter = express.Router();
  *           type: string
  *           description: The updated address of the user
  *       example:
- *         fullNames: Updated User Names
- *         profilePicture: https://example.com/new-profile-picture.jpg
- *         phoneNo: "+25070000001"
- *         location: Updated Address
+ *         fullNames: full names
+ *         email: email@example.com
+ *         username: username
+ *         profilePicture: picture.jpg
+ *         phoneNo: "+25070000000"
+ *         location: myAddress
+ *         password: myPassword1
  *
  */
 

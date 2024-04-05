@@ -27,6 +27,7 @@ export const signUp = catchAsyncError(async (req, res, next) => {
       userId: newUser._id,
       Names: newUser.fullNames,
       Email: newUser.email,
+      Username: newUser.username,
       phoneNo: newUser.phoneNo,
       location: newUser.location,
       status: newUser.status,

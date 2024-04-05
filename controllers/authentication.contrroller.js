@@ -4,15 +4,18 @@ import { User } from "../models";
 import errorHandler from "../utility/errorhandler.utility";
 
 export const logIn = catchAsyncError(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ username: req.body.username });
 
-  if (!req.body.email || !req.body.password) {
-    return next(new errorHandler("Please provide email and password", 400));
+  if (!req.body.username || !req.body.password) {
+    return next(new errorHandler("Please provide username and password", 400));
   }
 
   if (!user) {
     return next(
-      new errorHandler(`user with this email not found, try others`, 404)
+      new errorHandler(
+        `User with this username not found, please try again.`,
+        404
+      )
     );
   }
 
@@ -29,8 +32,9 @@ export const logIn = catchAsyncError(async (req, res, next) => {
     access_token: token,
     user: {
       userId: user._id,
-      email: user.email,
       fullNames: user.fullNames,
+      email: user.email,
+      username: user.username,
       phoneNo: user.phoneNo,
       location: user.location,
       role: user.role,

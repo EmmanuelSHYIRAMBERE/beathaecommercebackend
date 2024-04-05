@@ -55,17 +55,17 @@ export default authRoute;
  *     login:
  *       type: object
  *       required:
- *         - email
+ *         - username
  *         - password
  *       properties:
- *         email:
+ *         username:
  *           type: string
- *           description: The email of the user
+ *           description: The username of the user
  *         password:
  *           type: string
  *           description: The password of the user
  *       example:
- *         email: email@example.com
+ *         username: username
  *         password: myPassword!
  *
  */
