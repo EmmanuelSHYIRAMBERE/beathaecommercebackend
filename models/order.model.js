@@ -6,11 +6,6 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    orderDate: {
-      type: Date,
-      default: Date.now,
-      required: true,
-    },
     amount: {
       type: Number,
       required: true,
@@ -29,6 +24,29 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    products: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: false,
+        },
+      },
+    ],
+    paymentMethod: {
+      type: String,
+      enum: ["Cash on Delivery", "Credit Card", "Debit Card", "Online Banking"],
+      default: "Cash on Delivery",
+      required: false,
     },
     status: {
       type: String,

@@ -1,14 +1,25 @@
 import express from "express";
+
+import { verifyToken } from "../middleware/tokenVerification";
 import {
-  makeOrder,
   deleteOrder,
-  getAllOrder,
+  getAllOrders,
   getSingleOrder,
+  makeOrder,
   modifyOrder,
 } from "../controllers/order.controller";
-import { verifyToken } from "../middleware/tokenVerification";
 
 const orderRouter = express.Router();
+
+orderRouter.post("/", verifyToken, makeOrder);
+
+orderRouter.get("/", verifyToken, getAllOrders);
+
+orderRouter.get("/:id", verifyToken, getSingleOrder);
+
+orderRouter.put("/:id", verifyToken, modifyOrder);
+
+orderRouter.delete("/:id", verifyToken, deleteOrder);
 
 /**
  * @swagger
@@ -24,21 +35,7 @@ const orderRouter = express.Router();
  *     Order:
  *       type: object
  *       properties:
- *         products:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               product:
- *                 type: string
- *                 description: Product ID
- *               quantity:
- *                 type: number
- *                 description: Quantity of the product
- *               price:
- *                 type: number
- *                 description: Price of the product
- *         shippingAddress:
+ *         address:
  *           type: string
  *           description: Shipping address for the order
  *         paymentMethod:
@@ -75,6 +72,8 @@ const orderRouter = express.Router();
  *   get:
  *     summary: Get all orders
  *     tags: [Orders]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -87,9 +86,6 @@ const orderRouter = express.Router();
  *       '500':
  *         description: Internal server error. Please try again later.
  */
-
-orderRouter.post("/", verifyToken, makeOrder);
-orderRouter.get("/", getAllOrder);
 
 /**
  * @swagger
@@ -153,9 +149,5 @@ orderRouter.get("/", getAllOrder);
  *       '500':
  *         description: Internal server error. Please try again later.
  */
-
-orderRouter.get("/:id", getSingleOrder);
-orderRouter.put("/:id", modifyOrder);
-orderRouter.delete("/:id", deleteOrder);
 
 export default orderRouter;
