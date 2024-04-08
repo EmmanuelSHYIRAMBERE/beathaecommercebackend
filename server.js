@@ -23,6 +23,9 @@ const options = {
     },
     servers: [
       {
+        url: "https://beathaecommerceback-end.onrender.com/",
+      },
+      {
         url: "http://localhost:7000",
       },
     ],

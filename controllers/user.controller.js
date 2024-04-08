@@ -3,7 +3,9 @@ import { catchAsyncError, hashPwd } from "../utility";
 import errorHandler from "../utility/errorhandler.utility";
 
 export const signUp = catchAsyncError(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const { email, username } = req.body;
+
+  const user = await User.findOne({ email: email });
 
   if (user) {
     return next(
@@ -13,6 +15,15 @@ export const signUp = catchAsyncError(async (req, res, next) => {
       )
     );
   }
+
+  const userNameExists = await User.find({ username: username });
+
+  if (userNameExists) {
+    return next(
+      new errorHandler(`username: ${username} already exists, try others`, 409)
+    );
+  }
+
   let hashedPwd = "";
 
   hashedPwd = await hashPwd(req.body.password);

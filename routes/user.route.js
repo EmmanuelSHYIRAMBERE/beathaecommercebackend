@@ -160,6 +160,8 @@ usersRouter.get("/:id", getSingleUser);
  *             application/json:
  *               schema:
  *                   $ref: '#/components/schemas/signUp'
+ *       409:
+ *          description: Data conflict
  *       500:
  *          description: Internal Server Error
  */
