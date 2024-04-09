@@ -9,6 +9,7 @@ import contactUsRouter from "./contactus.route";
 import orderRouter from "./order.route";
 import { Cart } from "../models";
 import cartRouter from "./cart.route";
+import paymentRouter from "./payment.route";
 
 const systemRouter = express.Router();
 
@@ -19,6 +20,7 @@ systemRouter.use("/cart", cartRouter);
 systemRouter.use("/billing", billingRoute);
 systemRouter.use("/contactus", contactUsRouter);
 systemRouter.use("/orders", orderRouter);
+systemRouter.use("/payment", paymentRouter);
 
 systemRouter.all("*", (req, res, next) => {
   next(new errorHandler(`Failure connecting to the server!`, 404));

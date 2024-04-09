@@ -5,6 +5,7 @@ import {
   signUp,
   deleteUser,
   modifyUser,
+  getAllCustomers,
 } from "../controllers";
 
 const usersRouter = express.Router();
@@ -239,5 +240,7 @@ usersRouter.delete("/:id", deleteUser);
  */
 
 usersRouter.put("/:id", modifyUser);
+
+usersRouter.get("/customers", getAllCustomers);
 
 export default usersRouter;

@@ -114,3 +114,13 @@ export const modifyUser = catchAsyncError(async (req, res, next) => {
     modifiedUser: modifiedUser,
   });
 });
+
+export const getAllCustomers = catchAsyncError(async (req, res, next) => {
+  const customers = await User.find({ role: "customer" });
+
+  if (!customers || customers.length === 0) {
+    return next(new errorHandler("No customers found.", 404));
+  }
+
+  res.status(200).json({ success: true, customers });
+});

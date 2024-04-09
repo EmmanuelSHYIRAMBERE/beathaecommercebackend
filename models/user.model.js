@@ -32,6 +32,18 @@ const userSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    customer_id: {
+      type: String,
+      required: false,
+    },
+    card_id: {
+      type: String,
+      required: false,
+    },
+    receipt_id: {
+      type: String,
+      required: false,
+    },
     role: {
       type: String,
       default: "user",
