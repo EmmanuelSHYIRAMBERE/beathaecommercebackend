@@ -97,7 +97,7 @@ export const modifyUser = catchAsyncError(async (req, res, next) => {
     return next(new errorHandler(`A user with ID: ${id} not found`, 404));
   }
 
-  const modifiedUser = await User.findById({ email });
+  const modifiedUser = await User.findById({ _id: id });
 
   // You might need to modify the response based on your data structure
 
