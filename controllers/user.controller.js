@@ -18,7 +18,7 @@ export const signUp = catchAsyncError(async (req, res, next) => {
 
   const userNameExists = await User.find({ username: username });
 
-  if (userNameExists) {
+  if (userNameExists.length !== 0) {
     return next(
       new errorHandler(`username: ${username} already exists, try others`, 409)
     );
@@ -77,14 +77,7 @@ export const getSingleUser = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ _id: id });
 
   if (!user) {
-    const admin = await Admin.findOne({ _id: id });
-
-    if (!admin) {
-      return next(new errorHandler(`A user with ID: ${id} not found`, 404));
-    }
-
-    res.status(200).json({ admin });
-    return;
+    return next(new errorHandler(`A user with ID: ${id} not found`, 404));
   }
 
   res.status(200).json({ user });
