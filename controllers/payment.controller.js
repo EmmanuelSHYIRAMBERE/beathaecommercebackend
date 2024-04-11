@@ -9,7 +9,7 @@ dotenv.config();
 
 const stripe = new Stripe(process.env.stripeSecret);
 
-export const makepayment = catchAsyncError(async (req, res) => {
+export const makepayment = catchAsyncError(async (req, res, next) => {
   const email = req.user.email;
 
   const user = await User.findOne({ email: email });
