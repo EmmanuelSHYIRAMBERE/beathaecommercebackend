@@ -92,6 +92,15 @@ export const makepayment = catchAsyncError(async (req, res, next) => {
       },
     };
 
+    const paymentDetails = {
+      items: itemCount,
+      amount: paymentMade.amount,
+      currency: paymentMade.currency,
+      payment_method: paymentMade.payment_method_details.type,
+    };
+
+    paymentRequestConfirmationEmail(email, user.fullNames, paymentDetails);
+
     res.status(201).json(paymentData);
   } catch (error) {
     console.error(error);

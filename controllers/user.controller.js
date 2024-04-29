@@ -1,9 +1,10 @@
+import { registerEmail } from "../middleware";
 import { User } from "../models";
 import { catchAsyncError, hashPwd } from "../utility";
 import errorHandler from "../utility/errorhandler.utility";
 
 export const signUp = catchAsyncError(async (req, res, next) => {
-  const { email, username } = req.body;
+  const { email, username, fullNames } = req.body;
 
   const user = await User.findOne({ email: email });
 
@@ -31,6 +32,8 @@ export const signUp = catchAsyncError(async (req, res, next) => {
   req.body.password = hashedPwd;
 
   let newUser = await User.create(req.body);
+
+  registerEmail(email, fullNames);
 
   res.status(201).json({
     message: "user registerd successfully.",
